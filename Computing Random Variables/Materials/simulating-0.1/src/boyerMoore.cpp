@@ -140,7 +140,7 @@ void init_RL2(int* rl_query_t, const char* pttn, int pttn_len){
 
 }
 
-size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len){
+size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len, bool debug){
     int rl1_t[ALPHABET_LEN];
     int* rl2_t = NULL;
     int j,i=pttn_len - 1;
@@ -154,8 +154,11 @@ size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len)
     init_RL1(rl1_t, pttn, pttn_len);
     init_RL2(rl2_t, pttn, pttn_len);
     
+    if (debug)
+    {
     printf("string to be matched:\n %s\n", txt);
     printf("begin:\n %s\n %*s\n", pttn, pttn_len, "^");
+    }
     
     while (i < l) {
         j = pttn_len - 1;
@@ -164,11 +167,20 @@ size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len)
             free(rl2_t);
             return i;
         }
+        
+        if (debug)
+        {
         ALGO_cursor(i, 0, pttn_len, "-")
         printf("\n");
+        }
+        
         i += MAX(rl1_t[txt[i]], rl2_t[j]);
+        
+        if (debug)
+        {
         ALGO_DEMO(i, pttn_len - 1 - j, pttn, pttn_len, "^")
         printf("\n");
+        }
     }
     free(rl2_t);
     return NOT_FOUND;

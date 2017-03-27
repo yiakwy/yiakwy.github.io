@@ -7,21 +7,28 @@
 //
 
 #include "probtests.hpp"
-#include "boyerMoore.h"
 
-#include <cmath>
-#include <iostream>
-#include <boost/format.hpp>
+#define WINDOWS_WIDTH 30
+// think about it, if you use `this` pointer in C++. This is a trick. Hence we want
+#define get_address(objref) (&(*objref))
+#define memory_move(ref, bytes) (reinterpret_cast<char*>(ref) + (bytes))
+
 using std::accumulate;
 
-template <class _Ar, class _Tp, class _BinaryOperation>
-_Tp
-reduce_array(_Ar __array, int len, _Tp __init, _BinaryOperation __binary_op)
+#define weights_pos offsetof(alphabet_distribution, m_weights)
+
+// causion, memory manipulation
+template <typename _Tp, typename _Ar, class _BinaryOperation>
+_Tp*
+map_array(_Ar __array, int len, _BinaryOperation __binary_op)
 {
-    int curr=0;
-    for (; curr < len; curr++)
-        __init = __binary_op(__init, *__array++);
-    return __init;
+    _Tp* ret = Malloc(_Tp, len);
+    int i;
+    FOR(i, len)
+        ret[i] = __binary_op(__array[i]);
+    END
+    
+    return ret;
 }
 
 
@@ -61,28 +68,76 @@ alphabet_distribution::operator()(void)
         }
     } else {
         // another algorithm
-        std::uniform_int_distribution<unsigned int> random_range(0, this->m_vals_range);
+        int ch_dec_id = -1;
+        std::uniform_int_distribution<unsigned int> random_range(0, this->m_vals_range - 1);
         // linear mapping
-        ch_dec = random_range(gen);
-        ch_dec = compact_seq[ch_dec];
+        ch_dec_id = random_range(gen);
+        ch_dec = compact_seq[ch_dec_id];
     }
-
+    
     ch = bytes(ch_dec);
     return ch;
 }
 
+template <typename _Tp>
+const char*
+alphabet_distribution::histogram(_Tp hist, const char* fmt, char32_t symbol)
+{
+    // http://stackoverflow.com/questions/7211923/adding-an-offset-to-a-pointer
+    // you might refer to this poster to verify the process of offset to a pointer
+    // HERE is my memo for your reference:
+    //  lldb debug method:
+    //  "read some memory as an array of N elements of type T":
+    //  1) memory read -t `type` -c `size` v
+    //  2) pointer casting
+    //  3) adding a python scripting module http://stackoverflow.com/questions/7062173/view-array-in-lldb-equivalent-of-gdbs-operator-in-xcode-4-1
+    //  4) for Xcode 8.0+: parray <COUNT> <EXPRESSION>
+    //  5) (lldb) type summary add -s "${var[0-256]}" "int *"
+    //      (lldb) frame variable hist
+    double* temp = nullptr;
+    if (hist == nullptr)
+    {
+        temp = map_array<double>((int*)(reinterpret_cast<char*>(&(*this)) + weights_pos), m_weights != nullptr ? allocated : ALPHABET_LEN, [this](double curr) {return (double)curr / this->m_vals_range;});
+        hist = temp;
+    }
+    
+    string out = "\n **** alphadistribution toolkit -- histogram, copyright © 2017 Wang Yi (yiak.wy@gmail.com) **** \n\n";
+    std::stringstream split;
+    int i;
+
+    FOR(i, ALPHABET_LEN)
+    string temp;
+    if (hist[i] <= 0)
+        continue;
+    out += (boost::format(fmt) % (char)i).str();
+    
+    std::string row = std::string(hist[i] < 1 ? hist[i] * WINDOWS_WIDTH: hist[i], symbol);
+    split << std::setfill(' ') << std::left << std::setw(WINDOWS_WIDTH) << row << hist[i] << std::endl;
+    out += split.str();
+    // clean the stream reader
+    split.str("")
+    END
+
+    if (temp != nullptr)
+        free(temp);
+    
+    return out.c_str();
+}
 
 // checking whether it is a uniform sampling
 // google test for unity testing
 bool
-alphabet_distribution::test_uniform_checking()
+alphabet_distribution::test_uniform_checking(int test_cases)
 {
     bytes ch;
-    int test_cases = 10000, i;
-    double avg=0.0, _stds=0.0;
-    int* symbol_Table = Malloc(int, this->m_vals_range);
+    int i;
+    double avg, utd;
+    double* uniform_ret = nullptr;
+    
+    int* symbol_Table = Malloc(int, ALPHABET_LEN);
     if (symbol_Table == NULL)
         ;
+    
     FOR(i, this->m_vals_range)
     symbol_Table[ch] = 0;
     END
@@ -92,98 +147,22 @@ alphabet_distribution::test_uniform_checking()
         symbol_Table[ch] += 1;
     }
     
-    // computing variance and average to verify whether they are uniform numerically.
-    avg = reduce_array(symbol_Table, this->m_vals_range, 0,
-                    [](int pre, int curr){return pre + curr;}) / this->m_vals_range;
-    
-    // or you can write in this way
-//    std::vector<int> _symbol_Table(symbol_Table, symbol_Table + this->m_vals_range);
-//    avg = sum_array(_symbol_Table, [](int pre, int curr){return pre + curr;}) / this->m_vals_range;
-    
-    _stds = reduce_array(symbol_Table, this->m_vals_range, 0,
-                         [](int pre, int curr){return pre*pre + curr*curr;}) / this->m_vals_range;
-    _stds = sqrt(_stds);
+    avg = (double)test_cases / m_vals_range;
+    utd = sqrt(reduce_array<int*, double>(symbol_Table, ALPHABET_LEN, 0.0,
+                            [avg](double pre, int curr){return pre + (curr > 0 ? (curr-avg)*(curr-avg) : 0);}) / double(this->m_vals_range) );
 
-    
-//    std::cout << "running test cases <" << test_cases << "> : "
-//                               << "avg:" << avg << " , " << "std:" << _stds
-//                               << std::endl;
-//    LOG(INFO) << boost::format("running test cases <%1%> :"
-//                               "avg: %1%, "
-//                               "std: %1%, "
-//                               ) % test_cases % avg % _stds << std::endl;
+    uniform_ret = map_array<double>(symbol_Table, ALPHABET_LEN,
+                            [test_cases](int curr) -> double {return double(curr) / test_cases;});
+    LOG(INFO) << "running test cases <" << test_cases << "> : "
+                               << "avg:" << avg << " , " << "utd:" << utd << " , " << "ratio of utd over avg" << utd / avg << std::endl
+                               << "probability histogram:" << std::endl
+                               << histogram<double*>(uniform_ret)
+                               << std::endl;
     
     // google test , asserts ...
     free(symbol_Table);
+    free(uniform_ret);
     symbol_Table = nullptr;
     return true;
 }
-
-
-template<class distribution>
-const char*
-random_experiment_engine<distribution>::templestr_gen(int l)
-{
-    string templestr = "";
-    int i = 0;
-    
-/*
- *
-#define ALPHABET_LEN 256
- int weights[ALPHABET_LEN] = {1};
- alphabet_distribution random_alphabet(weights, 256, 52);
- *
- */
-    
-    while (i < l){
-        bytes ch_dec = this->m_random_alphabet();
-        templestr +=((char)ch_dec);
-    }
-    return templestr.c_str();
-}
-
-
-// aka given a template string, calc the possibility to find the string in the template
-// e.g: AAB, ABB
-
-/*
- *
-#define ALPHABET_LEN 256
- int weights[ALPHABET_LEN] = {0};
- weights['A'] = 1;
- weights['B'] = 1;
- alphabet_distribution random_alphabet(weights, 256, 2);
- *
- */
-
-template<class distribution>
-bool
-random_experiment_engine<distribution>::single_experiment(char const * pttn,
-                                                          int pttn_len,
-                                                          int l) {
-    const char* templestr = this->templestr_gen(l);
-    size_t ret = boyer_moore(templestr, l, pttn, pttn_len); // or use KMP instead
-    if (ret != NOT_FOUND)
-        return true;
-    return false;
-}
-
-
-template<class distribution>
-double
-random_experiment_engine<distribution>::run_ex(const char * pttn,
-                                               int pttn_len,
-                                               int l,
-                                               int ex_num)
-{
-    int i = 0;
-    int success = 0;
-    FOR(i, ex_num)
-        if (this->single_experiment(pttn, pttn_len, l))
-            success++;
-    END
-    return success / (double) ex_num;
-}
-
-
 

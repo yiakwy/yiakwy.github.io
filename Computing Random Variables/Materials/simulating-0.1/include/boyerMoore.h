@@ -10,6 +10,6 @@
 #define __boyerMoore__boyerMoore__
 
 #include <stdio.h>
-size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len);
+size_t boyer_moore(const char* txt, size_t l, const char* pttn, size_t pttn_len, bool debug=true);
 
 #endif /* defined(__boyerMoore__boyerMoore__) */
