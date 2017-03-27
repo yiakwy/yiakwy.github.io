@@ -20,13 +20,4 @@
     for(i=0; i < s; i++) {
 #define END ;}
 
-#define sum(a, b) \
-[](int a, int b) int {return a + b}
-
-#define sum_array(array, func) \
-    accumulate(array.begin(), array.end(), \
-                0, \
-                (func)) \
-
-
 #endif /* api_hpp */

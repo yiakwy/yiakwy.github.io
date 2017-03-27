@@ -10,11 +10,15 @@ exec=./bin
 include=./include
 lib=./lib
 
-LIBS=-lm -I/usr/local/include/ \
-	 -I/usr/local/Cellar/boost157/1.57.0/include/ \
-	 -L/usr/local/lib \
+LIBS=-lm -L/usr/local/Cellar/glog/0.3.4_1/lib \
+	 -L/usr/local/Cellar/boost157/1.57.0/lib \
+	 -L/usr/local/lib\
 	 -lglog
-CPPFLAGS= -g -Wall -Wno-unused -Wno-write-strings
+
+CPPFLAGS= -g -Wall -Wno-unused -Wno-write-strings \
+		  -I/usr/local/Cellar/boost157/1.57.0/include/ \
+		  -I/usr/local/Cellar/glog/0.3.4_1/include/ \
+		  -I/usr/local/include/
 
 SRCS=$(wildcard *.cpp) \
      $(wildcard $(SRCS_DIR)/*.cpp)
@@ -26,12 +30,12 @@ HEADERS=$(wildcard *.h) \
 
 # LINK WITH link flags
 $(TARGET): $(OBJ)
-	$(CC) $(CPPFLAGS) -I$(include) $(LIBS) -stdlib=libc++ -o $@ $^
+	$(CC) -v $(CPPFLAGS) -I$(include) -std=c++11 -stdlib=libc++ $^ $(LIBS) -o $@
 	mv $@ $(exec)/
 
 # COMPILE with compile flags
 %.o : %.cpp
-	$(CC) -std=c++11 -stdlib=libc++ -I$(include) $(LIBS) -c $< -o $@
+	$(CC) -v -std=c++11 -stdlib=libc++ -I$(include) $(CPPFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:

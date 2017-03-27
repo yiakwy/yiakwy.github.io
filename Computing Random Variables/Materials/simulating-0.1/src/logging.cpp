@@ -10,6 +10,9 @@
 
 void globalInit(int argc, const char* argv[])
 {
-    //::google::InitGoogleLogging(argv[0]);
+    FLAGS_logtostderr = true;
+    FLAGS_log_dir = "/Users/wangyi";
+    google::SetLogDestination(google::GLOG_INFO,"/Users/wangyi"); //GitHub/Leetcode/Samples/KMP/logs/
+    google::InitGoogleLogging(argv[0]);
     
 }
