@@ -11,7 +11,19 @@
 | # | Module | Member | Functionality | members | purpose |
 |:--|:-------|:-------|:--------------|:--------|:--------|
 | 1 | probtests.hpp | alphabet\_distribution | similar to other distribution defined in C++111 \<random\> | bool (\*test\_uniform\_checking)(int) | checking the distribution sampled from a stream generated using linux seeds |
-| - | bytes (\*operator)() | a generator; in this distribution a chacter generated per time |
+| - | - | - | - | bytes (\*operator)() | a generator; in this distribution a chacter generated per time |
 | - | - | - | - | const char\* (\*historgram)(\_Tp, const char\*, char32\_t) | basic drawing for server users |
 | 2 | probtests.hpp | random\_experiment\_engine | test cases runner interface | (bool)(\*single\_experiment)(char const\*, int, int) | execute once |
-| - | - | - | - | string (\*templestr\_gen)(int) | random string generator || - | - | - | - | double (\*run\_ex)(const char\*, int, int, int) | random testing |  
+| - | - | - | - | string (\*templestr\_gen)(int) | random string generator || - | - | - | - | double (\*run\_ex)(const char\*, int, int, int) | random testing | 
+
+## *Installation*
+
+### dependencies
+* glog
+* gflags
+* boost
+
+The project compiled in Clang++ using standard library libc++11. Run the following command in terminal
+> make init && make all
+This should give you binary /bin/stimulating\_rv. To integrate the codes in other progammes, simply include <probtests.hpp> by adding the correct compile, linking searching path flags.
+
