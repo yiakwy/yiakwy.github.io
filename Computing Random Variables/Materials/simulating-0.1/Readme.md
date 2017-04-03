@@ -9,7 +9,7 @@
 * probtests.hpp contains the skeleton of the programmes.
 
 | # | Module | Member | Functionality | members | purpose |
-|---|--------|--------|---------------|---------|---------|
+|:--|:-------|:-------|:--------------|:--------|:--------|
 | 1 | probtests.hpp | alphabet\_distribution | similar to other distribution defined in C++111 \<random\> | bool (\*test\_uniform\_checking)(int) | checking the distribution sampled from a stream generated using linux seeds |
 | - | - | - | - | bytes (\*operator)() | a generator; in this distribution a chacter generated per time |
 | - | - | - | - | const char\* (\*historgram)(\_Tp, const char\*, char32\_t) | basic drawing for server users |
