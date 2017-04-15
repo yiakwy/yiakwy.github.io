@@ -1,0 +1,25 @@
+---
+layout: feed
+---
+<?xml version="1.0" encoding="utf-8">
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Lei`s blog</title>
+    <link href="http://yiakwy.github.io/atom.xml" ref="self"/>
+    <link href="http://yiakwy.github.io/"/>
+    <updated> {{ site.time | date_to_xmlschema }} </updated>
+    <id>http://yiakwy.github.io/</id>
+    <author>
+        <name> Wang Yi</name>
+        <email>yiak.wy@gmail.com</email>
+    </author>
+
+    {% for post in site.posts %}
+        <entry>
+            <title> {{post.title}} </title>
+            <link href="http://yiakwy.github.io{{ post.url }}"/>
+            <updated> {{post.date | date_to_xmlschema }} </updated>
+            <id>http://yiakwy.github.io{{post.id}}</id>
+            <content type="html">{{post.content}}</content>
+        </entry>
+    {% endfor %}
+</feed>
