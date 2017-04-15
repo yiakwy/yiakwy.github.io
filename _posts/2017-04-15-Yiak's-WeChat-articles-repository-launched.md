@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Yiak's WeChat articles repository launched.md"
+title: "Yiak's WeChat articles repository launched"
 date: 2017-04-15
 ---
 
