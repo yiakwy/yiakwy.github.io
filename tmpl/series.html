@@ -1,0 +1,18 @@
+        /**
+		 * @tag: boolean
+		 * @badge: lib/version/font-awesome.css variable
+		 * @body: content to show, nested template name
+		 * @title: string
+		 * @content: string
+		 **/
+		
+		<li {{if tag}}class="timeline-inverted"{{/if}}>
+            <div class="timeline-badge"><i class="{{:badge}}"></i></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    <h4 class="timeline-Title">{{:title}}</h4>
+                    <p>{{:content}}<small class="text-muted"><i class="fa fa-clock-o">{{:time}}</i></small></p>
+                </div>
+                <div class="timeline-body"><p>{{:body}}</p></div>
+            </div>
+        </li>
