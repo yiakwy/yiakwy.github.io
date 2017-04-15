@@ -1,0 +1,95 @@
+/* Custom CSS
+ * --------------------------------------- */
+body{
+	font-family: arial, helvetica, sans-serif;
+	font-size: 10px;
+}
+/* Relative Position X .wrap */
+.wrap{
+	margin-left:  auto;
+	margin-right: auto;
+	width: 960px;
+	position: relative;
+}
+
+.intro p{
+	width: 50%;
+	margin: 0 auto;
+	font-size: 1.5em;
+}
+.section{
+	text-align:center;
+}
+/* ---------------------- navigation bar ------------------------*/
+/* Fixed Position Y .navbar */
+#navbar {
+	position:fixed;
+	top: 24px;
+	height: 60px;
+	z-index: 70;
+	width: 100%;
+    margin: auto;
+    padding: 0px;
+/* This is just for test */
+    background-color: rgba(0,0,0,1);
+}
+
+.navbar-container {
+    width: 1024px;
+    margin: auto;
+    position: relative;
+}
+
+#brand-logo {
+    background: url("../images/Guuud-logo-white.png") no-repeat;
+    position: absolute;
+    width: 200px;
+    height: 60px;
+/* top has been changed */
+    top: 0px;
+    left: 0px;
+}
+
+#menu{
+    position:relative;
+    top: 22px;
+    left: 200px;
+}
+
+#menu li {
+	display:inline-block;
+    font-size: 12px;
+    height: 15px;
+    width: 100px;
+    margin: auto;
+    padding: 7px 5px;
+    text-align: center;
+}
+
+.menu-container li a{
+  text-decoration:none;
+  color: #FFFFFF;
+}
+
+
+#menu li.active, #menu li.parent-active{
+	color: #fff;
+  border: 1px solid;
+  border-radius: 22px;
+}
+
+.hide-menu {
+	display: none!important;
+	width:   0;
+	height:  0;
+	padding: 0;
+	margin:  0;
+}
+
+.clear {
+  clear: both;
+}
+
+#menu li {
+	height: 51px;
+}
