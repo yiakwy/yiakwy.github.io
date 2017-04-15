@@ -1,3 +1,4 @@
 name: The Garden of Eden, Yiak
 mardown: kramdown
 permalink: /blog/:year/:month/:day/:title
+theme: jekyll-theme-slate
