@@ -1,0 +1,28 @@
+@import "default.css"
+@media (min-width: 768px){
+	.navbar-header {
+		position: absolute;
+		top: 0;
+  		border-width: 0 0 1px;
+	}
+	.navbar-brand img {
+		dispaly: block;	
+	}
+	ul.navbar {
+		list-style-type:none;
+		float: left;
+		margin: 0;
+		background-color: hsl(0,0%,20%); /* black in 20% lightness */
+	}
+	ul.navbar > li {
+		float: left;
+	}
+	ul.navbar > li a {
+		display: block;
+	}
+	ul.navbar > li a: hover {
+		background-color: black;
+	}
+}
+
+

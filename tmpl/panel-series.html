@@ -1,0 +1,22 @@
+    /**
+	 * @badge: lib/version/font-awesome.css variable
+	 * @Title: string 
+	 * @tmpl: template name
+	 * @htmlFooter_Hint: string
+	 **/
+
+	<div class="panel panel-default">
+    	<div class="panel-heading">
+    		{{:badge}}<span>{{:Title}}</span><!--fa-flash-->
+    	</div>
+
+    	<div class="panel-body">
+    		<!--graphics-displaying-->
+    		<ul class="timeline">{{for items tmpl="#seriesTmpl" /}}</ul>
+    	</div>
+    	
+    	<div class="panel-footer">
+    		{{:htmlFooter_Hint}}
+    	</div>
+		<!--/.panel-->
+    </div>
