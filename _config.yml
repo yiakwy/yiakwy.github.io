@@ -1,1 +1,3 @@
-theme: jekyll-theme-slate
+name: The Garden of Eden, Yiak
+mardown: kramdown
+permalink: /blog/:year/:month/:day/:title
