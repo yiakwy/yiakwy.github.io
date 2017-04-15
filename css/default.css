@@ -1,0 +1,22 @@
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+body {
+	font-family:"Lucida Grande","LiSu","KaiTi","Helvetica Neue","Helvetica","Arial","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei","Comic Sans MS", cursive, sans-serif;
+	width: 100%;
+	background-size: cover;
+	background-attachment: fixed;
+	-webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+}
+footer,
+header,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
