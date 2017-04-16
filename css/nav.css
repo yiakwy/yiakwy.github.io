@@ -9,10 +9,6 @@
 		position: absolute;
 		top: 0;
   		border-width: 0 0 1px;
-		display: block;
-	}
-	.navbar-brand img {
-		dispaly: block;	
 	}
 	ul.navbar {
 		list-style-type:none;
