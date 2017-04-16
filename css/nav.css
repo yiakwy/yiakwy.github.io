@@ -1,24 +1,52 @@
 /*@import "default.css"*/
-@media (min-width: 768px){
-	.navbar-toggle .icon-bar {
-		display: block;
-		width: 22px;
-		height: 2px;
-		border-radius: 1px;
-	}
-	.navbar-toggle .icon-bar + .icon-bar {
-	  	margin-top: 4px;
-	}
-	
-	nav img.logo_seo {
-		background-image: url("/images/logo_seo.png");
-		background-color: inherit;
-		background-repeat: no-repeat;
-	}
+nav li{
+	list-style-type: none;
+	float: left
+}
+nav li a{
+	display: block;
+	color: white;
+	padding: 14px, 16px;
+	text-align: center;
+	text-decoration: none;
+}
+
+nav li a:hover{
+	background-color: black;
+}
+
+.navbar-toggle .icon-bar {
+	display: block;
+	width: 22px;
+	height: 2px;
+	border-radius: 1px;
+	background-color: black;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+	margin-top: 4px;
+}
+
+nav:after
+ul.navbar:after
+navbar-header:after {
+	clear: both;
+}
+
+nav img.logo_seo {
+	background-image: url("/images/logo_seo.png");
+	background-color: inherit;
+	background-repeat: no-repeat;
+}
+
+@media (min-width: 768px){	
 	.navbar-header {
 		position: absolute;
 		top: 0;
   		border-width: 0 0 1px;
+	}
+	.navbar-header a{
+		display: block;
+		text-decoration: none;
 	}
 	ul.navbar {
 		list-style-type:none;
