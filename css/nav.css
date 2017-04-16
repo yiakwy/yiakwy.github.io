@@ -1,5 +1,10 @@
 @import "default.css"
 @media (min-width: 768px){
+	nav img.logo_seo {
+		background-image: url("/images/logo_seo.png");
+		background-color: inherit;
+		background-repeat: no-repeat;
+	}
 	.navbar-header {
 		position: absolute;
 		top: 0;
@@ -24,5 +29,3 @@
 		background-color: black;
 	}
 }
-
-
