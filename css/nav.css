@@ -1,4 +1,3 @@
-/*@import "default.css"*/
 nav li{
 	list-style-type: none;
 	float: left
@@ -10,7 +9,6 @@ nav li a{
 	text-align: center;
 	text-decoration: none;
 }
-
 nav li a:hover{
 	background-color: black;
 }
@@ -36,9 +34,9 @@ nav li a:hover{
 	margin-top: 4px;
 }
 
-nav:after
+.nav:after
 ul.navbar:after
-navbar-header:after {
+.navbar-header:after {
 	clear: both;
 }
 
@@ -73,7 +71,6 @@ nav img.logo_seo {
 	ul.navbar > li a {
 		display: block;
 		color: white;
-		padding: 14px, 16px;
 		text-align: center;
 		text-decoration: none;
 	}
@@ -81,3 +78,5 @@ nav img.logo_seo {
 		background-color: black;
 	}
 }
+
+@media (max-width:)
