@@ -2,11 +2,11 @@
 nav li{
 	list-style-type: none;
 	float: left
+	padding: 15px, 15px;	
 }
 nav li a{
 	display: block;
-	color: white;
-	padding: 14px, 16px;
+	color: red;
 	text-align: center;
 	text-decoration: none;
 }
@@ -68,6 +68,7 @@ nav img.logo_seo {
 	}
 	ul.navbar > li {
 		float: left;
+		padding: 15px 15px;
 	}
 	ul.navbar > li a {
 		display: block;
