@@ -1,7 +1,7 @@
 nav li{
 	list-style-type: none;
 	float: left
-	padding: 15px, 15px;	
+	padding: 15px 15px;	
 }
 nav li a{
 	display: block;
