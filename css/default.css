@@ -8,8 +8,6 @@ body {
 	width: 100%;
 	background-size: cover;
 	background-attachment: fixed;
-	-webkit-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
 }
 footer,
 header,
