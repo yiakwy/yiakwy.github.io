@@ -15,6 +15,10 @@ nav li a:hover{
 	background-color: black;
 }
 
+.navbar-toggle {
+  position: relative;
+  float: right;
+}
 .navbar-toggle .sr-only {
   position: absolute;
   overflow: hidden;
