@@ -36,6 +36,7 @@ nav img.logo_seo {
 	background-image: url("/images/logo_seo.png");
 	background-color: inherit;
 	background-repeat: no-repeat;
+	width: 10px;
 }
 
 @media (min-width: 768px){	
