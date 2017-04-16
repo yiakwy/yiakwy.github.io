@@ -10,7 +10,8 @@ body {
 	background-attachment: fixed;
 }
 
-.container
+.container,
+#fullpage,
 footer,
 header,
 menu,
@@ -19,5 +20,9 @@ section,
 summary {
   display: block;
   position: relative;
+}
+
+#fullpage {
+	clear: both;
 }
 
