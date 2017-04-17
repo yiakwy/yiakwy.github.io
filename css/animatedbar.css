@@ -1,8 +1,10 @@
-ul > li a {
+ul> li a {
 	position: relative;
 	display: inline-block;
-	top: 2px;
 	overflow: hidden;
+}
+ul.posts> li a {
+	top: 2px;
 }
 ul > li a:hover {
 	-webkit-transition: background-color 0.3s, color .15s, box-shadow .3s, opacity .3s;
