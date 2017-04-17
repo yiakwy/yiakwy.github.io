@@ -6,7 +6,7 @@ ul> li a {
 ul.posts> li a {
 	top: 2px;
 }
-ul > li a:hover {
+ul > li a:hover, ul > li a:active {
 	-webkit-transition: background-color 0.3s, color .15s, box-shadow .3s, opacity .3s;
 	transition: background-color 0.3s, color .15s, box-shadow .3s, opacity .3s ;
 	background-color: rgba(0,0,0,0.3);
@@ -33,7 +33,7 @@ ul > li a:before {
 	transition-timing-function: ease-out;
 }
 
-ul > li a:hover:before {
+ul > li a:hover:before, ul > li a:active:before {
 	left: 0;
 	right: 0;
 }
