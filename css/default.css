@@ -18,11 +18,33 @@ menu,
 nav,
 section,
 summary {
-  display: block;
-  position: relative;
+  	display: block;
+  	position: relative;
+}
+
+a {
+	text-decoration: none;
 }
 
 #fullpage {
 	clear: both;
 }
 
+footer {
+	clear: both;
+}
+footer ul {
+	list-style-type:none;
+	overflow: hidden;
+	background-color: grey; /* black in 20% lightness */
+}
+footer li {
+	float: left;
+	padding: 15px 15px;
+}
+footer a {
+	display: block;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+}
