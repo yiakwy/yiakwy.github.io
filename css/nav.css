@@ -5,12 +5,13 @@ nav li{
 }
 nav li a{
 	display: block;
+	position: relative;
 	color: red;
 	text-align: center;
 	text-decoration: none;
 }
 nav li a:hover{
-	background-color: black;
+
 }
 
 .navbar-toggle {
@@ -68,12 +69,13 @@ nav img.logo_seo {
 	}
 	ul.navbar > li a {
 		display: block;
+		position: relative;
 		color: white;
 		text-align: center;
 		text-decoration: none;
 	}
 	ul.navbar > li a:hover {
-		background-color: black;
+
 	}
 }
 
