@@ -1,6 +1,10 @@
-.col
+---
+---
+.row
   display: block
+  box-sizing: border-box
   @for $i from 1 through 12
-    .col-#${i}
-      flex: none;
-      width: (${i} / 12) * 100%;
+    .col-#{$i}
+      flex: none
+      float: left
+      width: ($i / 12) * 100%
