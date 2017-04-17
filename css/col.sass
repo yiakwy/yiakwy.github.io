@@ -7,9 +7,10 @@ $small: 430px
   box-sizing: border-box
   @for $i from 1 through 12
     .col-#{$i}
-      flex: none
-      float: left
-      width: ($i / 12) * 100%
-      @meida screen and (max-width: 400px)
+      @media screen and (min-width: 900px)
+        flex: none
+        float: left
+        width: ($i / 12) * 100%
+      @meida screen and (max-width: 430px)
         float: none
         width: 100%
