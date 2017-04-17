@@ -1,5 +1,7 @@
 ---
 ---
+$small: 430px
+	
 .row
   display: block
   box-sizing: border-box
@@ -8,3 +10,6 @@
       flex: none
       float: left
       width: ($i / 12) * 100%
+      @meida screen and (max-width: 400px)
+        float: none
+        width: 100%
