@@ -35,6 +35,11 @@ p {
 	hyphens: manual;
 }
 
+p::first-letter {
+	font-size: 200%
+	padding-left: 0.5em;
+}
+
 hr {
   border: 0;
   width:80%;
