@@ -14,3 +14,14 @@ $small: 430px
       @meida screen and (max-width: 430px)
         float: none
         width: 100%
+
+.row:before,
+.row:after
+  content: ""
+  display: table
+
+.row:after
+  clear: both
+
+.row
+  zoom: 1/* For IE 6/7 (trigger hasLayout) */

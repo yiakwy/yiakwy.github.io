@@ -4,11 +4,11 @@ ul> li a {
 	overflow: hidden;
 }
 ul.posts> li a {
-	top: 2px;
+	top: 0.5em;
 }
 ul > li a:hover, ul > li a:active {
-	-webkit-transition: background-color 0.3s, color .15s, box-shadow .3s, opacity .3s;
-	transition: background-color 0.3s, color .15s, box-shadow .3s, opacity .3s ;
+	-webkit-transition: background-color 0.6s, color .6s, box-shadow .6s, opacity .6s;
+	transition: background-color 0.6s, color .6s, box-shadow .6s, opacity .6s ;
 	background-color: rgba(0,0,0,0.3);
 	color: white;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);

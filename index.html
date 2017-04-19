@@ -2,6 +2,12 @@
 layout: default
 title: Garden of Edian, yiak
 ---
+<style type="text/css">
+#fullpage {
+    max-width: 100%;
+    }
+</style>
+
 <div class="col-4" style="padding: 10px;"><img class="circular" src="/images/photo.png"></div>
 
 <div class="col-6">
@@ -9,11 +15,41 @@ title: Garden of Edian, yiak
     <p> Here is the Tutorial About algorithms commonly used in interview. I am going to kick off project based learning</p>
 	
 	<div class="sidebar">
-    <h1>{{ page.title }}</h1>
-    <ul class="posts">
-        {% for post in site.posts  %}
-            <li><span>{{ post.date | date_to_string }}</span> » <a href="{{post.url}}" title="{{post.title}}" style="left:30px;">{{post.title}}</a></li>
-        {% endfor %}
-    </ul>
+		<h1>{{ page.title }}</h1>
+		<ul class="posts">
+			{% for post in paginator.posts  %}
+				<li class="panel"><span class="meta" style="color: black;"> <i class='fa fa-calendar'></i> {{ post.date | date_to_string }}</span>
+					<a href="{{post.url}}" title="{{post.title}}" style="left:10px;">{{post.title}}</a>
+					<div class="panel">{{ post.excerpt }}</div>
+				</li>
+			{% endfor %}
+		</ul>
 	</div>
+	
+
+{% if paginator.total_pages > 1 %}
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+  {% else %}
+    <span>&laquo; Prev</span>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+      <em>{{ page }}</em>
+    {% elsif page == 1 %}
+      <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+    {% else %}
+      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+  {% else %}
+    <span>Next &raquo;</span>
+  {% endif %}
+</div>
+{% endif %}
 </div>

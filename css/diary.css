@@ -1,0 +1,55 @@
+
+#fullpage {
+	position: relative;
+	background-color:white;
+	margin: auto;
+	max-width: 640px;
+}
+
+@meida screen and (max-width: 430px) {
+	max-width: 75%;
+}
+
+blockquote {
+	font-style:italic;
+	padding-top:0.5em;
+	padding-bottom:0.5em;
+	color: white;
+	padding-left: 1em;
+	padding-right: 1em;
+	background: grey;
+	border-radius: 4px;
+}
+
+.meta {
+	padding-left:1em;
+	font-size: small;
+	color: lightgrey;
+	font-family: "sans-serif";
+}
+
+p {
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-bottom: 1.2em;
+	hyphens: manual;
+}
+
+hr {
+  border: 0;
+  width:80%;
+  margin: auto;
+  height:2px;
+  background: radial-gradient(ellipse at 50% 50%,  rgba(0,0,0,0.6) 0,rgba(255,255,255,0) 70%); /* W3C */ 
+}
+
+code {
+	font-size: x-small;
+	border: 1px solid lightgrey;
+	border-radius: 4px;
+	background-color: #eff;
+}
+
+body, button, input, select, textarea {
+  font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+}

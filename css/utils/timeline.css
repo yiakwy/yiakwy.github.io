@@ -52,7 +52,7 @@
 }
 
 .timeline > li > .timeline-panel:before {
-    content: " ";
+    content: "";
     display: inline-block;
     position: absolute;
     top: 26px;
@@ -64,7 +64,7 @@
 }
 
 .timeline > li > .timeline-panel:after {
-    content: " ";
+    content: "";
     display: inline-block;
     position: absolute;
     top: 27px;

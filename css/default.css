@@ -2,6 +2,7 @@ html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+  box-sizing: border-box;
 }
 body {
 	font-family:"Lucida Grande","LiSu","KaiTi","Helvetica Neue","Helvetica","Arial","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei","Comic Sans MS", cursive, sans-serif;
@@ -26,10 +27,11 @@ a {
 	text-decoration: none;
 }
 
-#fullpage {
-	clear: both;
+ul, ol {
+	list-style:none;
 }
 
+#fullpage
 footer {
 	clear: both;
 }
@@ -47,4 +49,13 @@ footer a {
 	color: white;
 	text-align: center;
 	text-decoration: none;
+}
+
+.text-muted {
+	color: gery;
+	background: white;
+}
+
+p.standard {
+	margin: 0;
 }
