@@ -3,3 +3,6 @@ mardown: kramdown
 permalink: /blog/:year/:month/:day/:title
 theme: jekyll-theme-slate
 exclude: [lib]
+gems: [jekyll-paginate, jekyll-feed]
+paginate: 10
+paginate_path: "/blog/page:num/"
