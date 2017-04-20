@@ -82,6 +82,9 @@ nav img.logo_seo {
   		border-width: 0 0 1px;
 		background: grey;
 	}
+	.navbar-toggle .icon-bar{
+		display: none;
+	}
 	.navbar-header a{
 		display: block;
 		text-decoration: none;
@@ -115,13 +118,15 @@ nav img.logo_seo {
     	z-index: 1030;
     	top: 0;
 	}
-	
 	.navbar-header {
 		position: relative;
 		z-index: 10;
 		top: 0;
   		border-width: 0 0 1px;
 		background: grey;
+	}
+	.navbar-toggle .icon-bar{
+		display: show;
 	}
 	.navbar-header a{
 		display: block;

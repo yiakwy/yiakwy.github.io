@@ -40,6 +40,22 @@ p::first-letter {
 	padding-left: 0.5em;
 }
 
+section {
+	display: inline-block;
+	vertical-align: top;
+	margin: auto;
+	margin-top: 1.2em;
+	margin-bottom: 0.6em;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.box {
+	margin: auto;
+	border: 1px solid rgb(102, 204, 197);
+	color: rgb(102, 204, 197);
+}
+
 hr {
   border: 0;
   width:80%;
