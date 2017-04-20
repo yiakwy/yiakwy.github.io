@@ -9,6 +9,7 @@ body {
 	width: 100%;
 	background-size: cover;
 	background-attachment: fixed;
+	overflow-x: hidden;
 }
 
 .container,
@@ -52,10 +53,29 @@ footer a {
 }
 
 .text-muted {
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 20px;
+    padding-top: 0px;
 	color: gery;
 	background: white;
 }
 
 p.standard {
 	margin: 0;
+}
+
+@media (max-width: 430px) {
+	div#fullpage.row {
+		margin-top: 58px;
+		margin-left: 0;
+		overflow-x: hidden;
+		transition: 0.6s;
+		width: 100%;
+	}
+	
+	div#fullpage.row.collapsed {
+		margin-left: 80%;
+		width: 100%;
+	}
 }
