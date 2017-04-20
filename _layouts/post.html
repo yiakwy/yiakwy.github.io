@@ -6,7 +6,23 @@ layout: default
 <h1>{{page.title}}</h1>
 <p class="meta"> <i class='fa fa-calendar'></i> {{ page.date | date_to_string }}</p>
 <hr>
-
+<div>
+<section class="tags" style="border-right:1px solid rgb(102, 204, 197);color:rgb(102, 204, 197);width:50%;height:141px;padding-top:60px;"> Tony Wong <img class="avatar" style="float:right"> </section>
+<section class="tags" style="width:40%;">
+	<div class="box" style="width:120px;">
+		<p class="standard">
+			读完本文
+			<br>
+			大约需要
+			<br>
+			<span style="font-size: 2em;color;color:grey;"> x </span>
+			<br>
+			分钟
+		</p>
+	</div>
+</section>
+</div>
+<hr>
 <div class="post">
     {{content}}
 </div>
