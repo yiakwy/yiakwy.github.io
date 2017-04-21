@@ -83,5 +83,7 @@ p.standard::first-letter {
 	div#fullpage.row.collapsed {
 		margin-left: 80%;
 		width: 100%;
+		transition: 0.6s;
+		backface-visibility: hidden;
 	}
 }
