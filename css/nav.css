@@ -110,7 +110,7 @@ nav img.logo_seo {
 	}
 }
 
-@media (max-width: 430px){
+@media (max-width: 767px){
 	nav {
 	    position: fixed;
     	right: 0;
