@@ -56,6 +56,10 @@ section {
 	color: rgb(102, 204, 197);
 }
 
+div.post {
+	padding: 15px;
+}
+
 hr {
   border: 0;
   width:80%;
