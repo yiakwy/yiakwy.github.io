@@ -138,6 +138,7 @@ nav img.logo_seo {
 		background-color: hsl(0,0%,20%); /* black in 20% lightness */
 		margin-top: 0;
 		transition: 0.6s;
+		backface-visibility: hidden;
 		padding-left: 0;
 		float: left;
 		background: grey;
