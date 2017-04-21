@@ -9,7 +9,10 @@
   border-radius: 4px
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
   box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
-  
+
+body
+  counter-reset: index1
+
 @for $i from 1 through 12
   h#{$i}
     background: lightblue
@@ -19,3 +22,22 @@
     margin-botton: 0.6em
     font-family: "PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif"
     font-weight: 100
+  div.post h#{$i}
+    counter-increment: index#{$i}
+    counter-reset: index#{$i + 1}
+  div.post h#{$i}:before
+    @if $i == 2
+      content: counter(index#{$i})
+    @else 
+      content: counter(index#{$i - 1}) "." counter(index#{$i})
+    display: table
+    float: left
+    background: green
+    margin-left: -40px
+    margin-right: 10px
+    font-weight: bold
+    width: 50px
+    color: white
+    text-align: center
+    line-height: 1.1em
+    margin-top: 0.3em
