@@ -75,6 +75,7 @@ p.standard::first-letter {
 		margin-left: 0;
 		overflow-x: hidden;
 		transition: 0.6s;
+		backface-visibility: hidden;
 		width: 100%;
 	}
 	
