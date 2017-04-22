@@ -150,6 +150,15 @@ nav img.logo_seo {
 		padding: 15px 15px;
 		-webkit-padding-start: 0px;
 	}
+	ul.navbar > li:after {
+		content: "";
+		display: block;
+		border: 0;
+		width:40%;
+		margin: auto;
+		height:2px;
+		background: radial-gradient(ellipse at 50% 50%,  rgba(0,0,0,0.6) 0,rgba(255,255,255,0) 70%); /* W3C */ 
+	}
 	ul.navbar > li a {
 		display: block;
 		position: relative;
