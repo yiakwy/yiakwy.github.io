@@ -14,12 +14,14 @@ body
   counter-reset: index1
 
 @for $i from 1 through 12
+  h#{$i} + p
+    margin-top: 0.3em
   h#{$i}
     background: lightblue
     border-radius: 10px
     padding-left: 1em
     margin-top: 1.2em
-    margin-botton: 0.6em
+    margin-bottom: 0.3em
     font-family: "PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif"
     font-weight: 100
   div.post h#{$i}

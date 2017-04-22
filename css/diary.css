@@ -35,11 +35,6 @@ p {
 	hyphens: manual;
 }
 
-p::first-letter {
-	font-size: 200%;
-	padding-left: 0.5em;
-}
-
 section {
 	display: inline-block;
 	vertical-align: top;
@@ -50,6 +45,18 @@ section {
 	box-sizing: border-box;
 }
 
+section p,
+section span {
+	line-height: 1.2em;
+}
+
+section p.standard:first-letter {
+	font-size: 150%;
+	margin-right: -1em;
+	float: left;
+	text-transform: uppercase;
+}
+
 .box {
 	margin: auto;
 	border: 1px solid rgb(102, 204, 197);
@@ -58,6 +65,31 @@ section {
 
 div.post {
 	padding: 15px;
+}
+
+div.post ul, 
+div.post ol {
+	list-style:lower-greek;
+	color: aliceblue;
+	font-style:italic;
+}
+
+div.post p + ul,
+div.post p + ol {
+	margin-left: 1em;
+	border-left: 4px solid mediumslateblue;
+}
+
+div.post p::first-letter {
+	font-size: 200%;
+	font-weight: bold;
+	padding-left: 0.5em;
+	margin-top: -15px;
+	float: left;
+}
+
+div.post p::first-line {
+	text-transform: uppercase;
 }
 
 hr {
