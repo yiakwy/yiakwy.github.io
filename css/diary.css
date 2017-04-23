@@ -69,13 +69,17 @@ div.post {
 
 div.post ul, 
 div.post ol {
+}
+
+div.post li>ul,
+div.post li>ol {
+	list-style: disc;
+}
+div.post p+ul,
+div.post p+ol {
 	list-style:lower-greek;
 	color: aliceblue;
 	font-style:italic;
-}
-
-div.post p + ul,
-div.post p + ol {
 	margin-left: 1em;
 	border-left: 4px solid mediumslateblue;
 }
