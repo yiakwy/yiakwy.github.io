@@ -45,7 +45,7 @@ The current popular CSS standard is CSS3. It is used for defining visual effects
 2. key-value attributes: including box-model, layouts, colors or any other attributes even dynamic anmiation functions which affects visual effects.
 3. media query: targeted on devices type used to expressing html documents, like tv, mobile, screens and their width and height.
 
-It is not a cure to all formatting tasks. Usually, we use it together with javascript, a simple, hash style weak dynamic typed language. But, know more about **css** will do you a great favor in diesigning a appealing web pages effectively.
+It is not a cure to all formatting tasks. Usually, we use it together with javascript, a simple, hash style weak dynamic typed language. But, knowing more about **css** will do you a great favor in diesigning appealing web pages effectively.
 
 With more and more complex pages, like, sing page app entering into people's eyes. Designers find that it is very hard to main **css** files because it is too verbose. **sass/scss** is developed to tackle that problem. The similar tools include **less**. CSS is not designed for programming, while sass/scss is a programming language which compiles to target language **css**. It is a little like [**Flex**](https://github.com/yiakwy/COOL-language-Compiler-Coolc/blob/master/Lexical_Analysis/cool.flex) we usually use for compiler development in C++.
 
