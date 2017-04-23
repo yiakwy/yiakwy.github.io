@@ -30,8 +30,12 @@ body
   div.post h#{$i}:before
     @if $i == 2
       content: counter(index#{$i})
-    @else 
+    @else if $i == 3
       content: counter(index#{$i - 1}) "." counter(index#{$i})
+    @else if $i == 4
+      content: counter(index#{$i - 2}) "." counter(index#{$i - 1}) "." counter(index#{$i})
+    @else
+      content: "sub" counter(index#{$i}) 
     display: table
     float: left
     background: green
