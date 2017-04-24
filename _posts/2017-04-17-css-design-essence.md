@@ -404,7 +404,7 @@ In javascript, you can implement you gl codes in pure javascript can casting the
 
 ### bibliography & latex
 #### bibliography
-Bibliography is used to maintain Research Integraty so that other researchers can trace back your ideas sources and formulate new ideas. It also gives credits to every authors who contributed to the knowledge represented in an ambiguous manner. Widely used in latex based papers, it should support references rendering and reference.
+Bibliography is used to maintain Research Integraty so that other researchers can trace back your ideas sources and formulate new ideas. It also gives credits to every author who contributed to the knowledge represented in an unambiguous manner. Widely used in latex based papers, it should support references rendering and reference.
 
 To design bibliography, we have to learn about standard BibTex manner
 
