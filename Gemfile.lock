@@ -3,18 +3,7 @@ GEM
   specs:
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    bibtex-ruby (4.4.3)
-      latex-decode (~> 0.0)
-    citeproc (1.0.5)
-      namae (~> 0.8)
-    citeproc-ruby (1.1.6)
-      citeproc (>= 1.0.4, < 2.0)
-      csl (~> 1.4)
     colorator (1.1.0)
-    csl (1.4.5)
-      namae (~> 0.7)
-    csl-styles (1.0.1.7)
-      csl (~> 1.0)
     faraday (0.12.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
@@ -35,19 +24,12 @@ GEM
     jekyll-paginate (1.1.0)
     jekyll-sass-converter (1.5.0)
       sass (~> 3.4)
-    jekyll-scholar (5.9.1)
-      bibtex-ruby (~> 4.0, >= 4.0.13)
-      citeproc-ruby (~> 1.0)
-      csl-styles (~> 1.0)
-      jekyll (~> 3.0)
     jekyll-theme-slate (0.0.4)
       jekyll (~> 3.3)
     jekyll-watch (1.5.0)
       listen (~> 3.0, < 3.1)
     json (1.8.6)
     kramdown (1.13.2)
-    latex-decode (0.2.2)
-      unicode (~> 0.4)
     liquid (3.0.6)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -56,7 +38,6 @@ GEM
     minima (2.1.1)
       jekyll (~> 3.3)
     multipart-post (2.0.0)
-    namae (0.11.3)
     pathutil (0.14.0)
       forwardable-extended (~> 2.6)
     polyglot (0.3.5)
@@ -73,7 +54,6 @@ GEM
       treetop (~> 1.4)
     treetop (1.6.8)
       polyglot (~> 0.3)
-    unicode (0.4.4.4)
 
 PLATFORMS
   ruby
@@ -82,7 +62,6 @@ DEPENDENCIES
   jekyll (= 3.4.3)
   jekyll-feed
   jekyll-paginate
-  jekyll-scholar
   jekyll-theme-slate
   kramdown
   minima (~> 2.0)
