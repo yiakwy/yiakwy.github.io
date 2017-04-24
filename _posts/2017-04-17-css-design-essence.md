@@ -161,7 +161,7 @@ The codes above will insert a pseudo element with style specified.
 #### pseudo selector
 ```css
 selector::after {
-	change styles here
+	/* change styles here */
 }
 ```
 The codes above will change pseudo elements with style specified. 
