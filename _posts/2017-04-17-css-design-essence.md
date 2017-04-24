@@ -456,7 +456,7 @@ Jekyll has already done a very good job! To put them together, you have to insta
 Pending
 
 ## thanks to
-1. [gladuo](gladuo.com)
+1. [gladuo](https://gladuo.com)
 2. 泡夫子 (front end expert in Didichuxing）
 
 ## one more thing to add ...
