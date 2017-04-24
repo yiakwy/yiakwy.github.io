@@ -1,4 +1,5 @@
 # using jekyll style static structures
 _site/
+lib/bootstrap-table
 面试算法.xml
 课程设计.xml
