@@ -64,6 +64,7 @@ section p.standard:first-letter {
 }
 
 div.post img {
+	width: 100%;
 	display: block;
 	margin: auto;
 }
@@ -83,7 +84,9 @@ div.figure:after {
 div.post {
 	padding: 15px;
 	counter-reset: figures;
-	counter-rest: tables
+	counter-rest: tables;
+	word-wrap: break-word;
+	overflow: hidden;
 }
 
 div.post ul, 
@@ -137,6 +140,7 @@ code {
 	line-height: 1.0em;
 	margin-top: 0.5em;
     margin-bottom: 0.5em;
+	overflow: scroll;
 }
 
 body, button, input, select, textarea {
