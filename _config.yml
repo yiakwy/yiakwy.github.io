@@ -1,8 +1,20 @@
 name: The Garden of Eden, Yiak
 mardown: kramdown
+kramdown:
+    input: GFM
+    syntax_highlighter: rouge
+    # https://github.com/jekyll/jekyll/issues/4619
+    syntax_highlighter_ops:
+        css_class: 'highlight'
+        span:
+            line_numbers: false
+        block:
+            line_numbers: true
+            start_line: 1
+highlighter: rouge
 permalink: /blog/:year/:month/:day/:title
 theme: jekyll-theme-slate
-exclude: [lib]
+exclude: [lib/bootstrap-table/docs/]
 gems: [jekyll-paginate, jekyll-feed]
 paginate: 10
 paginate_path: "/blog/page:num/"

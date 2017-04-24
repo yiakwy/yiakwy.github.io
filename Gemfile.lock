@@ -63,6 +63,7 @@ DEPENDENCIES
   jekyll-feed
   jekyll-paginate
   jekyll-theme-slate
+  kramdown
   minima (~> 2.0)
   slate
   tzinfo-data

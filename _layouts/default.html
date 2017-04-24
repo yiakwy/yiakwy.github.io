@@ -18,8 +18,9 @@
 		<link href="/css/col.css" rel="stylesheet" type="text/css">
 		<link href="/css/portfolio.css" rel="stylesheet" type="text/css">
 		<link href="/css/animatedbar.css" rel="stylesheet" type="text/css">
-		<link href="/css/panel.css" rel="stylesheet" type="text/css">
-		<link href="/css/diary.css" rel="stylesheet" type="text/css">
+		<link href="/css/panel.css"  rel="stylesheet" type="text/css">
+		<link href="/css/diary.css"  rel="stylesheet" type="text/css">
+		<link href="/lib/syntax.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -58,18 +59,27 @@
             </footer>     
         </div>
 		
+		<script type="text/javascript" src="/lib/jQuery/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="/js/dom_filter.js"></script>
+		
 		<script type="text/javascript">
+			function _init() {
+				$.fn.jsInj.prototype.wrap('img', 'figure')
+			}
+			
 			function toggle() {
-				var klass = "collapsed";
+				var cls = "collapsed";
 				var doc = document;
 				var el1 = doc.querySelector("div#fullpage");
 				var el2 = doc.querySelector(".navbar-toggle");
 				var el3 = doc.querySelector("nav ul");
-				if (! el1 || ! el2 || ! el3 || !klass) {return;}
-				el1.classList.toggle(klass);
-				el2.classList.toggle(klass);
-				el3.classList.toggle(klass);
+				if (! el1 || ! el2 || ! el3) {return;}
+				el1.classList.toggle(cls);
+				el2.classList.toggle(cls);
+				el3.classList.toggle(cls);
 			}
+		
+			_init()
 		</script>
     </body>
 
