@@ -143,11 +143,12 @@ nav img.logo_seo {
 		float: left;
 		background: grey;
 		margin-left: -80%;
-		width: 80%;
+		width: 44%;
 	}
 	ul.navbar > li {
 		float: none;
 		padding: 15px 15px;
+		padding-right: 0px;
 		-webkit-padding-start: 0px;
 	}
 	ul.navbar > li:after {
