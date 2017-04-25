@@ -6,7 +6,6 @@ html {
 }
 body {
 	font-family:"Lucida Grande","LiSu","KaiTi","Helvetica Neue","Helvetica","Arial","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei","Comic Sans MS", cursive, sans-serif;
-	width: 100%;
 	background-size: cover;
 	background-attachment: fixed;
 	overflow-x: hidden;
@@ -90,5 +89,14 @@ p.standard::first-letter {
 		transform: translate3d(0,0,0);
 		-webkit-transform: translate3d(0,0,0);
 		position: relative;
+	}
+	
+	h1 {
+		margin-left: 0.2em;
+		margin-right: 0.2em;
+	}
+	
+	ul.posts {
+		-webkit-padding-start: 0px;
 	}
 }
