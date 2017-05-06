@@ -162,7 +162,7 @@ In 2016, I proposed a method and implement a prototype to deal with above proble
 
 在2016年小组讨论中，我提出以下方案尝试解决，并初步实现了工程模拟：
 > 工程师i提交任务t<sub>i</sub>，需要访问Hadoop集群 \{h<sub>i</sub>\}，任务Manager收集任务，对于任务预估时间大于 threshold 的任务，执行以下操作：
->> 每隔一段时间，Manager对具有相同访问需求的实验，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) 然后分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
+> 每隔一段时间，Manager对具有相同访问需求的实验，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) 然后分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
 
 This problem is hardly discussed both with people from ML group or from Architectures because developing is expensive and unfortunately, most engineers are expensive than devices.
 
