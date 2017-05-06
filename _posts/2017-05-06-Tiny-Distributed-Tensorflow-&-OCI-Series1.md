@@ -167,3 +167,5 @@ In 2016, I proposed a method and implement a prototype to deal with above proble
 This problem is hardly discussed both with people from ML group or from Architectures because developing is expensive and unfortunately, most engineers are expensive than devices.
 
 机器学习是针对大数据的处理技术（data consumption），所有模型从算法到实现，是无法绕开“计算”这个概念本身。那么架构组会帮助ML组解决以上问题吗？从收益上看，难以见效，而成本必定是昂贵的。
+
+下一小节 ...
