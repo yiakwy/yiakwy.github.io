@@ -158,7 +158,7 @@ They eventually face competition under **information symmetry**, with price redu
 
 In 2016, I proposed a method and implement a prototype to deal with above problem:
 > We have a manager to schedule tasks. Each task has a expected computing time t. The manager checking periodly by excuting the following commands:
->> If t > threshold, executed immediately otherwise merged with other tasks w.r.t hadoop visiting services. The manager create a reading point like \(unit test setup method\), then distribute the results to tasks related.
+> If t > threshold, executed immediately otherwise merged with other tasks w.r.t hadoop visiting services. The manager create a reading point like \(unit test setup method\), then distribute the results to tasks related.
 
 在2016年小组讨论中，我提出以下方案尝试解决，并初步实现了工程模拟：
 > 工程师i提交任务t<sub>i</sub>，需要访问Hadoop集群 \{h<sub>i</sub>\}，任务Manager收集任务，对于任务预估时间大于 threshold 的任务，执行以下操作：
