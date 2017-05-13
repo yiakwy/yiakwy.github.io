@@ -45,8 +45,13 @@
 		get_env: get_env,
 		walk_dom: walk_dom,
 		remove_scripts: remove_scripts,
-		wrap: wrap
+		wrap: wrap,
+		bibitexParse: bibitexParse
 	}
+	
+	// update interface
+	
+	// register to $ name space
 	
 	var defaultSettings = {};
 	
@@ -65,7 +70,7 @@
 		var nav = global.navigation;
 		return {appName: nav.appName, version: nav.appVersion}
 	}
-
+	
 	function check_support() {
 		var tips = '<p class="ieTips">for better experience, please use chrome!<a href="javascript:;" class="close"><img src="/assets/images/icon/ie_tips_close.png"/></a></p>';
 		var userAgent = window.navigator.userAgent.toLowerCase();
@@ -157,7 +162,7 @@
 			for (child of children) {
 				if (child.tagName == tag.toUpperCase()) {
 					var ori = child.outerHTML
-					child.outerHTML = '<div class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
+					child.outerHTML = '<div' + 'id=#"' + child.alt+ '" class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
 					
 				} else {
 					selected.push(child)
@@ -165,6 +170,11 @@
 			}
 			return selected
 		})
+	}
+	
+	function bibitexParse() {
+		var fmt = "";
+		return fmt;
 	}
 	
 	return $jsInj;

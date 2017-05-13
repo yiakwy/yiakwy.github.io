@@ -39,3 +39,34 @@ ul > li a:hover:before, ul > li a:active:before {
 	left: 0;
 	right: 0;
 }
+
+div.post section {
+	perspective: 100px;
+	transition: all 0.8s ease;
+}
+div.post li>ul,
+div.post li>ol {
+	opacity: 0;
+	max-height: 0;
+	visibility: hidden;
+	transform: translateX(130%);
+  	transition: all 0.8s ease;
+	background: inherit;
+	color: inherit;
+}
+
+
+
+div.post section>ol>li:hover ol,
+div.post section>ul>li:active ul {
+	opacity: 1;
+	max-height: 500px;
+	visibility: visible;
+	transform: none;
+	transition: all 0.8s ease;
+	background: lightgrey;
+	color: black;
+}
+
+.collapse {
+}

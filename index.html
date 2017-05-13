@@ -18,9 +18,27 @@ title: Garden of Edian, yiak
 		<h1>{{ page.title }}</h1>
 		<ul class="posts">
 			{% for post in paginator.posts  %}
-				<li class="panel"><span class="meta" style="color: black;"> <i class='fa fa-calendar'></i> {{ post.date | date_to_string }}</span>
+				<li class="panel">
+					<div class="row">
+						<div style="width:25%;float:left;flex:none">
+					{% if post.thumb_img %} 
+					<img src="{{post.thumb_img}}" style="width:80%;margin:10%"> 
+					{% endif %}
+						</div>
+					{% if post.thumb_img %}
+						<div style="width:74%;float:left;flex:none:border-left:2px solid #ccc!important">
+					{% else %}
+						<div style="width:100%">
+					{% endif %}
+					<span class="meta" style="color: black;"> <i class='fa fa-calendar'></i> {{ post.date | date_to_string }}</span>
 					<a href="{{post.url}}" title="{{post.title}}" style="left:10px;">{{post.title}}</a>
+					{% if post.thumb_img %}
+					<div class="panel">{{ post.excerpt }}</div>	
+					{% else %}
 					<div class="panel">{{ post.excerpt }}</div>
+					{% endif %}
+						</div>
+					</div>
 				</li>
 			{% endfor %}
 		</ul>

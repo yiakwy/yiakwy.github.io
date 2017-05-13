@@ -10,6 +10,18 @@
 	max-width: 75%;
 }
 
+.drop_zone {
+	border: 2px dashed lightgrey;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 25px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	color: lightgrey;
+}
+
 blockquote {
 	font-style:italic;
 	padding-top:0.5em;
@@ -19,6 +31,7 @@ blockquote {
 	padding-right: 1em;
 	background: grey;
 	border-radius: 4px;
+	border: 1px dashed white;
 }
 
 .meta {
@@ -36,12 +49,10 @@ p {
 }
 
 section {
-	display: inline-block;
 	vertical-align: top;
 	margin: auto;
 	margin-top: 1.2em;
 	margin-bottom: 0.6em;
-	text-align: center;
 	box-sizing: border-box;
 }
 
@@ -83,28 +94,38 @@ div.figure:after {
 div.post {
 	padding: 15px;
 	counter-reset: figures;
-	counter-rest: tables;
+	counter-reset: tables;
 	word-wrap: break-word;
 	overflow: hidden;
 }
 
 div.post ul, 
 div.post ol {
+	counter-reset: item;
 }
 
 div.post li>ul,
 div.post li>ol {
-	list-style: disc;
+	list-style: none;
 }
-div.post p+ul,
-div.post p+ol {
-	list-style:lower-greek;
+div.post ul>li:before,
+div.post ol>li:before {
+	content: counters(item, ".") " ";
+	counter-increment: item;
+	margin-right: 10px;
+	color: blue;
+}
+
+div.post section>ul,
+div.post section>ol {
+	list-style: none;
 	color: aliceblue;
 	background: grey;
 	font-style:italic;
 	margin-left: 1em;
 	border-left: 4px solid mediumslateblue;
 }
+
 
 div.post p::first-letter {
 	font-size: 200%;
