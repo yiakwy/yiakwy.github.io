@@ -1,4 +1,8 @@
+li {
+	cursor: pointer;
+}
 ul> li a {
+	cursor: pointer;
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
@@ -55,12 +59,10 @@ div.post li>ol {
 	color: inherit;
 }
 
-
-
-div.post section>ol>li:hover ol,
-div.post section>ul>li:active ul {
+div.post section>ol>li:hover ol, div.post section>ol>li:active,
+div.post section>ul>li:active ul, div.post section>ul>li:active {
 	opacity: 1;
-	max-height: 500px;
+	max-height: 1000px;
 	visibility: visible;
 	transform: none;
 	transition: all 0.8s ease;
