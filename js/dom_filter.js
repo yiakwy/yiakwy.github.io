@@ -175,22 +175,25 @@
 	
 	function add_click_me() {
 		var doc = document,
-			root = doc.querySelector("div.post section>ol")
-		var node = walk_dom(root, function(parent,
-										   children) {
-			var selected = [];
-			for (child of children) {
-				if (child.tagName == "OL" || child.tagName == "UL") {
-					var template = doc.createElement('TEMPLATE')
-					template.innerHTML = "<span style=text-decoration:underline;font-size:small;color:red;>click me</span>"
-					var click_me = template.content.firstChild
-					parent.insertBefore(click_me, child)
-					break;
-				} else 
-				if (child.tagName == "LI") {selected.push(child)}
-			}
-			return selected				
-		})
+			roots = doc.querySelectorAll("div.post section>ol")
+		
+		for (root of roots) {
+			var node = walk_dom(root, function(parent,
+											   children) {
+				var selected = [];
+				for (child of children) {
+					if (child.tagName == "OL" || child.tagName == "UL") {
+						var template = doc.createElement('TEMPLATE')
+						template.innerHTML = "<span style=text-decoration:underline;font-size:small;color:red;>click me</span>"
+						var click_me = template.content.firstChild
+						parent.insertBefore(click_me, child)
+						break;
+					} else 
+					if (child.tagName == "LI") {selected.push(child)}
+				}
+				return selected				
+			})
+		}
 	}
 	
 	function bibitexParse() {
