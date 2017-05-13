@@ -148,7 +148,7 @@ Thanks to Mr Chen, and other leaders in industries. Talking with them, I hereby 
 	5. 快速检索：learning to hash
 3. 高效计算
 
-Yet expected from the first one, professionals , experts are everywhere. The first mission can also only be prefect resolved by converting to the existing problems. The number of people studying on general ML approach is rare. To solve such problems, they must rely on a lot of people with background of distributed computing, system development, web development.
+Yet except from the first one, professionals , experts are everywhere. The first mission also can only be prefect resolved by converting them to the existing problems. The number of people studying on general ML approach is small. To solve such problems, they must rely on a lot of people of background in distributed computing, system development or even web development.
 
 除了第一项，后面都可以在术业专攻的博士专家和历史传承。第一项工作需要将一个未知的问题转换成已知的问题，从而提出求解方案。真正研究ML的人是非常少的，大家都是在各自的领域研究合适的ML方法论。围绕ML所涉及的大数据问题，往往并不是由从事ML研究人员来解决。他们都需要依托于在网络，服务器，分布式计算，等领域沉浸多年的工程人员来予以解决。
 
@@ -176,12 +176,18 @@ They eventually face competition under **information symmetry**, with price redu
 > 假定公司D有以下m个项目组，每个组每天有k<sub>m</sub>个任务，需要访问Hadoop集群n<sub>m</sub>, 每个工程师抱怨访问时间慢，是否有一种方案可以简化以上平均访问时间？
 
 In 2016, I proposed a method and implement a prototype to deal with the above problem:
-> We have a manager to schedule tasks. Each task has a expected computing time t. The manager checking periodly by excuting the following commands:
+> We have a manager to schedule tasks. Each task has an expected computing time t. The manager checking periodically by excuting the following commands:
+
+---------
+
 > If t > threshold, executed immediately otherwise merged with other tasks w.r.t hadoop visiting services. The manager create a reading point like \(unit test setup method\), then distribute the results to tasks related.
 
-在2016年小组讨论中，我提出以下方案尝试解决，并初步实现了工程模拟：
+在2016年小组讨论中，我提出一个方案尝试解决上述问题，并实现一个工程原型：
 > 工程师i提交任务t<sub>i</sub>，需要访问Hadoop集群 \{h<sub>i</sub>\}，任务Manager收集任务，对于任务预估时间大于 threshold 的任务，执行以下操作：
-> 每隔一段时间，Manager对具有相同访问需求的实验，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) 然后分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+> 每隔一段时间，Manager对具有相同访问需求的实验，合并请求，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) ；然后，分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
 
 This kind of problem is hardly thoroughly discussed both within ML group or Architectures because the development is expensive and unfortunately, most engineers are expensive than devices.
 
