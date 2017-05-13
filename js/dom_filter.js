@@ -165,6 +165,9 @@
 					var ori = child.outerHTML
 					child.outerHTML = '<div class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
 					parent.children[0].id = child.alt
+					if (parent.tagName == "P") { 
+						parent.parentElement.insertBefore(parent.children[0], parent) 
+					}
 				} else {
 					selected.push(child)
 				}
