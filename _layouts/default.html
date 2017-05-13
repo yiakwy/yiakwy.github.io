@@ -65,6 +65,11 @@
 		<script type="text/javascript">
 			function _init() {
 				$.fn.jsInj.prototype.wrap('img', 'figure')
+				$("div.post p+ol").wrap("<section>")
+				$.fn.jsInj.prototype.bibitexParse()
+				$("div.post p+ol>li").click(function(){
+					$("div.post li > ol").toggleClass("collapse")
+				})
 			}
 			
 			function toggle() {
