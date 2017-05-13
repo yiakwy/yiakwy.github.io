@@ -53,8 +53,9 @@ div.post li>ol {
 	opacity: 0;
 	max-height: 0;
 	visibility: hidden;
-	transform: translateX(130%);
-  	transition: all 0.8s ease;
+	/*transform: translateX(130%);*/
+	transform: scale3d(0)
+  	transition: all 1.8s ease;
 	background: inherit;
 	color: inherit;
 }
@@ -64,8 +65,8 @@ div.post section>ul>li:active ul, div.post section>ul>li:active {
 	opacity: 1;
 	max-height: 1000px;
 	visibility: visible;
-	transform: none;
-	transition: all 0.8s ease;
+	transform: scale3d(110%);
+	transition: all 1.8s ease;
 	background: lightgrey;
 	color: black;
 }

@@ -16,5 +16,5 @@ permalink: /blog/:year/:month/:day/:title
 theme: jekyll-theme-slate
 exclude: [lib/bootstrap-table/]
 gems: [jekyll-paginate, jekyll-feed]
-paginate: 10
+paginate: 5
 paginate_path: "/blog/page:num/"
