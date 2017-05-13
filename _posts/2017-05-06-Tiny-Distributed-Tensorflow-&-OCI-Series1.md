@@ -26,7 +26,7 @@ Lei's one year long term survey from 2016 to 2017 in Peking China, more than 100
 
 针对于整个过程的系统地优化，其本身，\-\- **从数据的获取**，**数据消化**（比如机器学习中模型，以及大数据技术中的分布式计算技术MapReduce等，**数据存贮** (比如大数据技术中分布式存贮技术对象存贮等和随机访问)， **数据的可视化**\-\-，远远和实际工作不符合。实际上，这种公司内部的优化极大的消化人力成本和公司寄托于于业务的机会成本，以至于对于相当数量的企业家或者高级经理人VP等，没有勇气拍板做出决定去放手开发，从而使他们对技术选型更加谨慎，寄托于使用更加优良的开源技术 (或者准确地说寄托于别人的成功) 来解决这些问题。
 
-Tensorflow，就是一个成功的产品，在短短数月，全世界流行开来，帮助谷歌。相反，若果公司战略管理层，决定了，采取针对智力密集型工作的大规模优化任务，必然会寄托于转让，开放给外部企业法人，机构等 的**销售策略**，实现更大化的战略赢利。这是内在逻辑所决定的。
+Tensorflow，就是一个成功的产品，在短短数月，全世界流行开来，帮助谷歌成为最备受欢迎的ML技术领导的企业。相反，若果公司战略管理层，决定了，采取针对智力密集型工作的大规模优化任务，必然会寄托于转让，开放给外部企业法人，机构等 的**销售策略**，实现更大化的战略赢利。这是内在逻辑所决定的。
 
 Lei的一年长期调查访谈，从2016年到2017年，在中国北京地区的实地调查，可以支撑他的以下, 但却被不少人所不了解的观点（欢迎一起和我讨论这个问题）：
 
@@ -92,6 +92,9 @@ The rest of the series will consist of technical analysis and be organised as fo
 	5. 从公司的某种角度，数学家不管用的
 3. “小型分布式Tensorflow”：常用的技术，想象下，假如我们需要从头搭建一个简易分布式tensorflow
 	1. 整体架构
+		1. Suported Devices & Replica types
+		2. Tensorflow-Serving
+		3. gRPC protocle
 	2. 计算图
 		1. 抽象语法树
 		2. 一个简单的图划分问题
@@ -106,6 +109,7 @@ The rest of the series will consist of technical analysis and be organised as fo
 	1. 开发云的都是那些人？
 	2. OCI标准
 	3. 将tensorflow集群部署在私有云上
+	4. Map-Reduce framework
 5. 相关的工作
 6. 结论
 7. 未来的工作
@@ -119,7 +123,7 @@ The rest of the series will consist of technical analysis and be organised as fo
 Thanks to Mr Chen, and other leaders in industries. Talking with them, I hereby obtain some information which I am not able to get from my working experience. For AI industry, I have the following judgement:
 
 1. Operation dirven: as [figure organization](#organization.png) illustrates, we establish a high efficently ML driven Operation closed loop. Here are three ML examples to support it:
-1. Logistic Regression \(We use svm INSTEAD if 'good' samples predominate and the total samples used are not necessarily large\): the model can learn parameters w<sub>1</sub>=10, w<sub>2</sub>=100, w<sub>3</sub>=-10, w<sub>4</sub>=-1000... BI then report to managers that feature **A** has strong positive effect, while feature **B** has strong negitive effect. Finally, our managers command Operation Group to enhance the operation 1, while decrease operation 2 
+	1. Logistic Regression \(We use svm INSTEAD if 'good' samples predominate and the total samples used are not necessarily large\): the model can learn parameters w<sub>1</sub>=10, w<sub>2</sub>=100, w<sub>3</sub>=-10, w<sub>4</sub>=-1000... BI then report to managers that feature **A** has strong positive effect, while feature **B** has strong negitive effect. Finally, our managers command Operation Group to enhance the operation 1, while decrease operation 2 
 	2. Extremely Gradient Boosting Decision Tree(exGBDT): the model verifies that feature 12 in decision tree visited by 1000 times! BI then report to VP; VP make decision to make business with VM officers that we can provide you with a lot of valuable data to help you sell cars!
 	3. Deep learning: While we have a good model, but nothing to report because too much layers and downpours involved!
 2. Concrete ML problems: ML is studying a mapping F: X -> Y. In the most cases, we want to obtain a mapping F with high preceion and resolution so that we can analyze the problem in multi sacles. The following subjects give problems have been kept studying by people deeply:
@@ -171,7 +175,7 @@ They eventually face competition under **information symmetry**, with price redu
 
 > 假定公司D有以下m个项目组，每个组每天有k<sub>m</sub>个任务，需要访问Hadoop集群n<sub>m</sub>, 每个工程师抱怨访问时间慢，是否有一种方案可以简化以上平均访问时间？
 
-In 2016, I proposed a method and implement a prototype to deal with above problem:
+In 2016, I proposed a method and implement a prototype to deal with the above problem:
 > We have a manager to schedule tasks. Each task has a expected computing time t. The manager checking periodly by excuting the following commands:
 > If t > threshold, executed immediately otherwise merged with other tasks w.r.t hadoop visiting services. The manager create a reading point like \(unit test setup method\), then distribute the results to tasks related.
 
@@ -179,7 +183,7 @@ In 2016, I proposed a method and implement a prototype to deal with above proble
 > 工程师i提交任务t<sub>i</sub>，需要访问Hadoop集群 \{h<sub>i</sub>\}，任务Manager收集任务，对于任务预估时间大于 threshold 的任务，执行以下操作：
 > 每隔一段时间，Manager对具有相同访问需求的实验，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) 然后分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
 
-This problem is hardly discussed both with people from ML group or from Architectures because developing is expensive and unfortunately, most engineers are expensive than devices.
+This kind of problem is hardly thoroughly discussed both within ML group or Architectures because the development is expensive and unfortunately, most engineers are expensive than devices.
 
 机器学习是针对大数据的处理技术（data consumption），所有模型从算法到实现，是无法绕开“计算”这个概念本身。那么架构组会帮助ML组解决以上问题吗？从收益上看，难以见效，而成本必定是昂贵的。
 
