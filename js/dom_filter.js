@@ -46,6 +46,7 @@
 		walk_dom: walk_dom,
 		remove_scripts: remove_scripts,
 		wrap: wrap,
+		add_click_me: add_click_me,
 		bibitexParse: bibitexParse
 	}
 	
@@ -162,13 +163,33 @@
 			for (child of children) {
 				if (child.tagName == tag.toUpperCase()) {
 					var ori = child.outerHTML
-					child.outerHTML = '<div' + 'id=#"' + child.alt+ '" class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
-					
+					child.outerHTML = '<div class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
+					parent.children[0].id = child.alt
 				} else {
 					selected.push(child)
 				}
 			}
 			return selected
+		})
+	}
+	
+	function add_click_me() {
+		var doc = document,
+			root = doc.querySelector("div.post section>ol")
+		var node = walk_dom(root, function(parent,
+										   children) {
+			var selected = [];
+			for (child of children) {
+				if (child.tagName == "OL" || child.tagName == "UL") {
+					var template = doc.createElement('TEMPLATE')
+					template.innerHTML = "<span style=text-decoration:underline;font-size:small;color:red;>click me</span>"
+					var click_me = template.content.firstChild
+					parent.insertBefore(click_me, child)
+					break;
+				} else 
+				if (child.tagName == "LI") {selected.push(child)}
+			}
+			return selected				
 		})
 	}
 	
