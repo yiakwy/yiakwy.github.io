@@ -67,6 +67,10 @@ p.standard::first-letter {
 	padding-left: 0;
 }
 
+.thumb-col blockquote {
+	margin-left: -21%;
+	min-width: 200px;
+}
 
 @media (max-width: 767px) {
 	div#fullpage.row {

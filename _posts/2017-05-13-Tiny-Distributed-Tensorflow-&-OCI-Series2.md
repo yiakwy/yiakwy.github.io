@@ -8,8 +8,11 @@ excerpt_separator: <!--more-->
 thumb_img: /images/Kubernetes.png
 ---
 
-> "We have found having a separate systems for large scale training and small scale deployment leads to significant maintenance burdens and leaky abstraction. ..." -- Jeffrey Dean, Rajat Mongo et al
+> “我们发现拥有一个单独系统来大规模训练，小范围部署会导致非常显眼的维护负担和漏洞” -- Jeffrey Dean等人
 <!--more-->
+<hr>
+
+> "We have found having a separate systems for large scale training and small scale deployment leads to significant maintenance burdens and leaky abstraction. ..." -- Jeffrey Dean, Rajat Mongo et al
 
 <style>
 div.post h2 {
