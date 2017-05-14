@@ -71,6 +71,14 @@
 				$("div.post p+ol>li").click(function(){
 					$("div.post li > ol").toggleClass("collapse")
 				})
+				
+				chrome_re = /Chrome|chrome/
+				if (chrome_re.test(navigator.userAgent)) {
+					var doc = document,
+						s = doc.querySelector("nav ul")
+					s.style.width = "44.9%"
+					
+				}
 			}
 			
 			function toggle() {

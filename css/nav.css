@@ -175,12 +175,12 @@ nav img.logo_seo {
 	
 	nav ul {
 		margin-left: -80%;
+		width: 79%;/* sarafi width */
+		   /* 44.9%; Chrome Browser*/
 	}
 	
 	nav ul.collapsed {
 		margin-left: 0;
-		width: 79%;/* sarafi width */
-				   /* 44.9%; Chrome Browser*/
 	}
 	
 }
