@@ -73,7 +73,8 @@
 				})
 				
 				chrome_re = /Chrome|chrome/
-				if (chrome_re.test(navigator.userAgent)) {
+				if (chrome_re.test(navigator.userAgent) &&
+				    $.fn.jsInj.prototype.isMobile()) {
 					var doc = document,
 						s = doc.querySelector("nav ul")
 					s.style.width = "44.9%"

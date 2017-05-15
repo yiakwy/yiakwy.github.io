@@ -42,6 +42,7 @@
 		_init: _init,
 		_classCallCheck: _classCallCheck,
 		check_support: check_support,
+		isMobile: isMobile,
 		get_env: get_env,
 		walk_dom: walk_dom,
 		remove_scripts: remove_scripts,
@@ -128,6 +129,17 @@
 	}
 	Array.prototype.extend = extend
 
+	function isMobile() {
+		var mobile = /iPhone|Android|iPad|iPod/i
+		if( mobile.test(navigator.userAgent))
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	// ================================ application ================================
 	function remove_scripts(){
 		var node = walk_dom(document, function(parent, 
