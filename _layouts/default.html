@@ -64,6 +64,11 @@
 		
 		<script type="text/javascript">
 			function _init() {
+				document.addEventListener('DOMContentLoaded', function() {
+					var doc = document
+					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
+				})
+				
 				$.fn.jsInj.prototype.wrap('img', 'figure')
 				$("div.post p+ol").wrap("<section>")
 				$.fn.jsInj.prototype.bibitexParse()
@@ -80,11 +85,6 @@
 					s.style.width = "44.9%"
 					
 				}
-				
-				document.addEventListener('DOMContentLoaded', function() {
-					var doc = document
-					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
-				})
 
 			}
 			
