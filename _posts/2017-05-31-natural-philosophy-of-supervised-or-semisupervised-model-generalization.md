@@ -567,6 +567,10 @@ This is a very important work I am currently working on based on my work in 2014
 
 Should we design a model m1 mapping X to Sapce U, and model m2 mapping Y to space V? We don't requre U, V are from the same samping space. We just require they being of similar demisions and supvise the learning using Correlation. And if m2 is invertible, we can built mapping from X to Y using **m1(m2)<sup>-1</sup>**. Shall we see.
 
+## Codes or theory
+## Experiments
+## Conclusion
+
 ## Bibliography
 
 1. Vapnic, V.N & Chervonenkis, A. Y. (1971), "On the uniform convergence of relative ferequncies of events to their probabilities," Theory of Probability and Its Application XVI(2), 264-280
