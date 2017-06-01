@@ -2,7 +2,7 @@
 layout: post
 title: "Natual Philosophy of Supervised or Semisupervised Model Generalization"
 date: 2017-05-31
-updated: 2017-05-31
+updated: 2017-06-01
 reading_expenditure: 10
 excerpt_separator: <!--more-->
 thumb_img: /images/aristotle.png
