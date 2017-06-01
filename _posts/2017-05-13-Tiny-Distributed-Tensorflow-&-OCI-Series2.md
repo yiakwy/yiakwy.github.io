@@ -148,6 +148,8 @@ The series of articles is self-contained, which means you can get bacground in t
 3. Core techniques for a minimum distributed tensorflow
 4. How make full use of Container Technology?
 
+<hr>
+
 1. 在私有云上，利用已有工具，特别是Docker，部署分布式的tensorflow
 	1. 选择或者撰写Dockerfile
 	2. 问题解决

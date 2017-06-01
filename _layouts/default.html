@@ -9,8 +9,33 @@
         
         <title>{{page.title}}</title>
         <!-- Global Fonts-->
-        <!-- link href="/lib/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet" type="text/css" -->
-
+        <!--link href="/lib/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet" type="text/css"-->
+       	<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+		
+		<!--script type="text/javascript" src="/lib/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML"-->
+			window.MathJax = MathJax
+			MathJax.Hub.Config({						
+				displayAlign: "middle",
+				extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+				TeX: {
+    				extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"],
+					equationNumbers: { autoNumber: "all" }
+  				},
+				tex2jax: {
+					inlineMath: [['$','$'],['\\[','\\]']], 
+					displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+					processEscapes: false
+				},
+				CommonHTML: { linebreaks: { automatic: true } },
+				"HTML-CSS": { linebreaks: { automatic: true } },
+				SVG: { linebreaks: { automatic: true } }
+			})
+			MathJax.Hub.Register.MessageHook("End Process", function(msg) {
+					console.log(msg)
+					console.log("begin post processing")
+					resize_math()
+				})
+		</script>
         <!-- Customer CSS-->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="/css/default.css" rel="stylesheet" type="text/css">
@@ -59,9 +84,9 @@
             </footer>     
         </div>
 		
-		<script type="text/javascript" src="/lib/jQuery/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="/lib/jQuery/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="/js/dom_filter.js"></script>
-		
+		.
 		<script type="text/javascript">
 			function _init() {
 				window.addEventListener('load', function() {
@@ -99,8 +124,51 @@
 				el2.classList.toggle(cls);
 				el3.classList.toggle(cls);
 			}
+			
+			var resize_math = function () {
+				var doc = document
+				var formula = doc.querySelectorAll(".formula")
+				for (f of formula) {
+					var pset = f.getElementsByClassName("MathJax_Preview")
+					
+					for (var p of pset) {
+						p = p.nextSibling.firstChild
+						console.log("isMultiline", MathJax.Hub.getAllJax(f)[0].root.isMultiline)
+						console.log("f offsetWidth", 	f.offsetWidth)
+						console.log("p offsetWidth", 	p.offsetWidth)
+						var ratio = f.offsetWidth / p.offsetWidth
+						console.log("ratio", ratio)
+						p.style.fontSize = String(ratio * 100 * 0.8) + "%";
+					}
+						
+				}
+			}
 		
 			_init()
+		</script>
+		
+		<script>
+		//
+		//  Use a closure to hide the local variables from the
+		//  global namespace
+		//
+		(function () {
+			var QUEUE = MathJax.Hub.queue;  // shorthand for the queue
+			var math = null;                // the element jax for the math output.
+			//
+			//  Get the element jax when MathJax has produced it.
+			//
+			QUEUE.Push(function () {
+				math = MathJax.Hub.getAllJax("formula")[0];
+		  });
+		 //
+		 //  The onchange event handler that typesets the
+		 //  math entered by the user
+		 //
+			window.UpdateMath = function (TeX) {
+				QUEUE.Push(["Text",math,"\\displaystyle{"+TeX+"}"]);<!--,"\\displaystyle{"+TeX+"}"-->
+				}
+		 })();
 		</script>
     </body>
 
