@@ -15,6 +15,8 @@ Data-Model joint distribution is exactly process that we engineers find a model 
 <!--more-->
 “数据-模型”的联合分布，恰恰使我们工程师寻找, 一个不仅仅是, 能够拟合采样数据的模型。
 
+[Figure1](#bayesian-as-graph) shows hwo marginal distribution and joint distribution affected our sampling data and corresponding learned modle. Our first approach is to discuss basis of generalization of a supervised or semisupervised model from bayesian perpectives. The bayesian perpective estimates hwo good a model we should get from a sampled data. Then we dive into a specific approach widely employed by researchers and engineers in daily work \-\- Batched SGD. We uncover the true properties of randomness that weaken our generalization. To this end, we present a future model concept we are working on which might achieves state of the art in the future.
+
 ## Basics of generalization of a model along data set
 Researchers use "VC demension model" in [Vladimir Vapnik and Alexey Chervonenkis's paper](#bibliography) published in 1971 to describe the relationship between hepothetic function and maximum sampling instances. This is becoming dramatically important especially when we have gorwing number of data. However, the concept of VC demensioni is weakened to some extend by the fact that modern hepothetic function is complex enough to leverage its both variation eror and bias error for extremely large set of data.
 
