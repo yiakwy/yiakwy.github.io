@@ -560,7 +560,7 @@ The above programme is actaully a hierarchical tree. It was initially intentionl
 
 We also noticed that, at some level, the randomness tend to be eliminated at some tree depth. That means we are always doing Var prediction not Exact Value prediction. Some people challenged the idea by using a black box model for leaf nodes, while use a more explainable model in shallow depth of the data tree. 
   
-我们还注意到，在某个深度时，随机性消失了！这意味着，我们始终做基于趋势的，方差估计，而非点值估计。某公司工作人员试图用，底层黑箱模型+上层可解释模型，挑战上述模型的有效性时，我体温，你的模型是不是在大的数据类别准，底层细节不准，对方回答是。这就是一个随机性的很好例子。
+我们还注意到，在某个深度时，随机性消失了！这意味着，我们始终做基于趋势的，方差估计，而非点值估计。某公司工作人员试图用，底层黑箱模型+上层可解释模型，挑战上述模型的有效性时，我提问，“您的模型是不是在大的数据分类时，泛化能力准；在细节数据上泛化能力不准？”。对方答“是”。这就是一个随机性的很好例子。
  
 ## Mapping Direction -- What if bidirectional mapping?
 This is a very important work I am currently working on based on my work in 2014 when I was doing an internship in I2R supervised by Senior Scientist Huang Dongyan. Simply put, typically researchers working on a mapping F from samping space X to target space Y, and use error to supvise learning. We are comparing data in the similar target sampling space.
