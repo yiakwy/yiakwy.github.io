@@ -67,6 +67,15 @@ p.standard::first-letter {
 	padding-left: 0;
 }
 
+img {
+	width: 100%;
+}
+
+.formula {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
 @media (max-width: 767px) {
 	
 	.thumb-col blockquote {
