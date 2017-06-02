@@ -100,7 +100,7 @@ The normal process is sampling the best classifier m we computed over a sampled 
 一般过程是对，在采样数据上得到局部最优模型，进行采样。如果参数模型的各项参数变换非常大，我就增加采样数据规模。人们常常使用，数据桶化的随机梯度下降法，使得模型可以在有限的计算资源接触到更广泛的模型样本。但他并没有解决问题的本质：
 
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
-$$Var(m) = \frac{\sigma }{N},Bias(m) = E(m) - {m^*}$$
+$$Var(m) = \frac{\sigma^{2}}{N},Bias(m) = E(m) - {m^*}$$
 </div>
 
 > The variance could be large when feeding different data into a same model
@@ -195,8 +195,8 @@ $$\chi (x \in samping\;space\;U) = \left\{ {{c_i}|x \in {D_i},\;U = \bigcup\limi
 
 > well, if you analyze in street level, the result is unpredictable and of hight variance in cross validation process, even though they could get a very small bias in training dataset because their model is complex enough. 
 
-<div class="panel" style="background-color:green;color:white;">
-<i class="fa fa-question-circle-o fa-4" aria-hidden="true"></i> Question, what happened to the data and model?
+<div class="panel" style="background-color:red;color:white;">
+<i class="fa fa-question fa-6" aria-hidden="true"></i> Question, what happened to the data and model?
 </div>
 
 In 2014 I wrote a simple data structure called "SeriesNode" in python to tackle above problem raised from an IoT project supported by NTU and government. As an active project manager, I was supervised by Professor Teddy from Geogia Tech.
