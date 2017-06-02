@@ -16,11 +16,11 @@ Data-Model joint distribution is exactly process that we engineers find a model 
 
 “数据-模型”的联合分布，恰恰使我们工程师寻找, 一个不仅仅是, 能够拟合采样数据的模型。
 
-[Figure1](#bayesian-as-graph) shows how marginal distribution and joint distribution affected our sampling data and corresponding learned modle. Our first approach is to discuss basis of generalization of a supervised or semisupervised model from bayesian perpectives. The bayesian perpective estimates how good a model should be achieved from a sampled data. Then we dive into a specific approach widely employed by researchers and engineers in daily work \-\- Batched SGD. We use randomness metrics to uncover the true properties of randomness that potentially weaken our generalization. 
+[Figure1](#bayesian-as-graph) shows how marginal distribution and joint distribution affected our sampling data and corresponding learned model. Our first approach is to discuss bases of generalization of a supervised or semisupervised model from bayesian perpectives. The bayesian perpective estimates how good a model achieved from ampled data should be. Then we dive into a specific approach widely employed by researchers and engineers in daily work \-\- Batched SGD. We use randomness metrics to uncover the true properties of randomness that potentially weaken our generalization. 
 
 [图1](#bayesian-as-graph) 展示了边界分布，和联合分布如何影响我们的采样数据，以及从采样数据中学到的模型。本文第一个方法是，从贝叶斯角度，讨论影响监督和半监督模型的泛化因子。从贝叶斯的角度告，得知，针对采样数据学习得到的模型，到底应该多好才可以。然后我们具体的研究一个广泛采用的泛化方法，\-\-数据桶化的随机梯度下降法。我们采用了随机性指标，揭示
 
-To this end, we present a future model construction methodology we are working on which might achieves state of the art in the future.
+To this end, we present a future model construction methodology we are working on which might achieve state of the art in the future.
 
 末尾，我们提了下，我们正在研究一个未来的构建方法，它极有可能成为领先的模型构造方法
 
