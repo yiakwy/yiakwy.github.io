@@ -173,21 +173,21 @@ They eventually face competition under **information symmetry**, with price redu
 
 > Suppose we have the following problem: there are m groups in a company D; each group has k<sub>m</sub> missions to visit hadoop n<sub>m</sub> times. Should we have method to reduce every group visiting times?
 
-------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 > 假定公司D有以下m个项目组，每个组每天有k<sub>m</sub>个任务，需要访问Hadoop集群n<sub>m</sub>, 每个工程师抱怨访问时间慢，是否有一种方案可以简化以上平均访问时间？
 
 In 2016, I proposed a method and implement a prototype to deal with the above problem:
 > We have a manager to schedule tasks. Each task has an expected computing time t. The manager checking periodically by excuting the following commands:
 
----------
+-------------------
 
 > If t > threshold, executed immediately otherwise merged with other tasks w.r.t hadoop visiting services. The manager create a reading point like \(unit test setup method\), then distribute the results to tasks related.
 
 在2016年小组讨论中，我提出一个方案尝试解决上述问题，并实现一个工程原型：
 > 工程师i提交任务t<sub>i</sub>，需要访问Hadoop集群 \{h<sub>i</sub>\}，任务Manager收集任务，对于任务预估时间大于 threshold 的任务，执行以下操作：
 
-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
 
 > 每隔一段时间，Manager对具有相同访问需求的实验，合并请求，创建公共读取数据的节点，缓存查询结果 \(类似单元测试框架中的TestClass setup method\) ；然后，分发到有需要求的节点上。通过这种方式，原来对于一个服务器的多次冲击，有可能被显著减少。
 
