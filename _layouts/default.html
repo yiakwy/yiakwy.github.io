@@ -128,17 +128,25 @@
 			var resize_math = function () {
 				var doc = document
 				var formula = doc.querySelectorAll(".formula")
-				for (f of formula) {
+				for (let f of formula) {
 					var pset = f.getElementsByClassName("MathJax_Preview")
 					
-					for (var p of pset) {
+					for (let p of Array.from(pset)) {
 						p = p.nextSibling.firstChild
 						console.log("isMultiline", MathJax.Hub.getAllJax(f)[0].root.isMultiline)
 						console.log("f offsetWidth", 	f.offsetWidth)
 						console.log("p offsetWidth", 	p.offsetWidth)
 						var ratio = f.offsetWidth / p.offsetWidth
 						console.log("ratio", ratio)
-						p.style.fontSize = String(ratio * 100 * 0.8) + "%";
+						var factor
+						
+						if ($.fn.jsInj.prototype.isMobile()) {
+							factor = 0.8
+						} else {
+							factor = 0.8
+						}
+						
+						p.style.fontSize = String(ratio * 100 * factor) + "%";
 					}
 						
 				}
