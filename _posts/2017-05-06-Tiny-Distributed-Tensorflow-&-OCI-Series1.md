@@ -16,7 +16,7 @@ Modern AI driven companies suffer from Human Resource Management because AI is n
 现代AI驱动的公司遭遇着人力资源管理的沉重负担，不仅仅因为AI本身意味着解放劳动力（人力资源密集型产业），意味着智力密集型产业。
 <!--more-->
 
-[下一小节](http://yiakwy.github.io/blog/2017/05/13/Tiny-Distributed-Tensorflow-&-OCI-Series2)
+[下一小节](/blog/2017/05/13/Tiny-Distributed-Tensorflow-&-OCI-Series2)
 
 Optimization for whole pipeline of data processing, \-\- ranging from **data acquisition**, **data consuming**\(Machine Learning for models construction, Distributed Computing for Big Data\), **data storage**\(storage and randomly fast accessing for big data\), **data visualization**\-\-, systemantically, goes far away from the fact that expenditure of such optimization used only for in-groups purpose whithin companies can be too great for entrepreneurs or VP to make decision to do it. 
 
@@ -195,4 +195,4 @@ This kind of problem is hardly thoroughly discussed both within ML group or Arch
 
 机器学习是针对大数据的处理技术（data consumption），所有模型从算法到实现，是无法绕开“计算”这个概念本身。那么架构组会帮助ML组解决以上问题吗？从收益上看，难以见效，而成本必定是昂贵的。
 
-[下一小节](http://yiakwy.github.io/blog/2017/05/13/Tiny-Distributed-Tensorflow-&-OCI-Series2)
+[下一小节](/blog/2017/05/13/Tiny-Distributed-Tensorflow-&-OCI-Series2)
