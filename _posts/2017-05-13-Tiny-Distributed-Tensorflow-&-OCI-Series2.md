@@ -23,8 +23,9 @@ div.post {
 
 </style>
 
-[上一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series1) ...
-[下一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series3) ...
+[上一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series1)
+
+[下一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series3)
 
 ## Introdcution
 ### Tensorflow
@@ -158,5 +159,6 @@ The series of articles is self-contained, which means you can get bacground in t
 3. 分布式环境下Tensorflow的核心技术
 4. 如何充分使用容器技术？
 
-[上一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series1) ...
-[下一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series3) ...
+[上一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series1)
+
+[下一节](http://yiakwy.github.io/blog/2017/05/06/Tiny-Distributed-Tensorflow-&-OCI-Series3)
