@@ -92,15 +92,17 @@ When m is a random variable \(we are in the learning process\), the formula abov
 
 Suppose we have two models, an estimated model m on dataset d, a true model m<sup>*</sup> we never touched, to measure our estimation m with respect to the sampling dataset D of size N, we have **sampling variance Var(m)** and **sampling error Bias\(m<sup>*</sup>, m\)**. These two concepts already being well documented in a normal statistic textbook [Introduction to Machine Learning](#bibliography).
 
-现在我们有两个模型，一个是数据集d估计的模型m; 一个是我们从来没有见过的数据背后的模型m<sup>*</sup>
+现在我们有两个模型，一个是数据集d估计的模型m; 一个是我们从来没有见过的数据背后的模型m<sup>*</sup>。为了衡量在大小为N的采样数据集D的估计模型，我们拥有**采样方差 Var(m)** 以及，**采样偏差\(m<sup>*</sup>, m\)**。 这两个概念已经很好地在统计学教科书里面介绍了 [Introduction to Machine Learning](#bibliography)。
 
 ## Batched sgd & data expansion
 The normal process is sampling the best classifier m we computed over a sampled data set. If the variance of parameters of the m is large, we increase sampling size. People usually use bached sgd, if they use gradient descent strategy, making a model touch as large data as possible computationaly cheaper. But this mehthod didn't solve the problem faced when we carry out validation process:
 
-一般过程是对，在采样数据上得到局部最优模型，进行采样。如果参数模型的各项参数变换非常大，我就增加采样数据规模。人们常常使用，数据桶化的随机梯度下降法，使得模型可以在有限的计算资源接触到更广泛的模型样本。但他并没有解决问题的本质：
+一般过程是对，在采样数据上得到局部最优模型，进行采样。如果参数模型的各项参数变换非常大，我就增加采样数据规模。人们常常使用，数据桶化的随机梯度下降法，使得模型可以在有限的计算资源接触到更广泛的模型样本。但它并没有解决问题的本质：
 
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
 $$Var(m) = \frac{\sigma^{2}}{N},Bias(m) = E(m) - {m^*}$$
+{% endraw %}
 </div>
 
 > The variance could be large when feeding different data into a same model
@@ -112,6 +114,61 @@ $$Var(m) = \frac{\sigma^{2}}{N},Bias(m) = E(m) - {m^*}$$
 The reason why it has typically good generalization might be the learned model are not the best estimation for each data set as we talked in the last chapter and data with less randomness.
 
 但是为什么，它在一般情况下又好的，泛化，可能是因为，它针对每个数据集，都不是最好的结果；同时，数据的随机性比较少。
+
+### Regulization in history
+Traditional regulization like Subset Selection, Ridge Regression and [Lasso](#bibiography) work as [either solution scalar or feature selector](https://en.wikipedia.org/wiki/Lasso_(statistics)#cite_note-Tibshirani_1996-1).
+
+In a matter of fact, previous papers use regulizaton both as panelty and opimizer scaler in a large scale machine learning, didn't pay much attention to the fact that the regulization first employed by mathematicans in history when they were studying **ploynomial hypothetic functions** based on **geometrical observation**:
+
+Suppose:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$response {\text{ }}{\text{ }}{f_i} = {w^T}{x^i}$$
+{% endraw %}
+</div>
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$curve {\text{ }}c( \cdot ,t) = < {f_i},{x^0},{x^1}, \cdots ,{x^p} > $$
+{% endraw %}
+</div>
+
+then, curve should not twist too much along data change direction \(overfitting\). This can be achieved by minimize the arc length of curve or overall unit tangent vector residual:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\min \;\int\limits_s {\left\| {\frac{{\partial c( \cdot ,t)}}{{\partial s}}} \right\|ds} ,\;s\;is\;arc\;length\;parameter$$
+{% endraw %}
+</div>
+
+While, 
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\left\| {\frac{{\partial c( \cdot ,step)}}{{\partial s}}ds} \right\| = \left\| {\sum\limits_i {\left\{ { < \frac{{\partial f}}{{\partial {x_i}}},0,...,0 >  + {{\rm I}_i}} \right\}d{x_i}} } \right\|$$
+{% endraw %}
+</div>
+
+Considering 
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\eqalign{
+  & \left\| {\sum\limits_i {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} } \right\| \leqslant \sum\limits_i {\left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} \right\|}   \cr 
+  & \quad \quad \quad \quad \quad \quad \, \leqslant \sum\limits_i {\left| {{\beta _i}} \right| \cdot \left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}} \right\|}   \cr 
+  & \quad \quad \quad \quad \quad \quad \, \leqslant {\left| \beta  \right|_{\max }}\sum\limits_i {\left\| {{{\vec a}_i}} \right\|}  + \left\| {{{\rm I}_i}} \right\| \cr} $$
+{% endraw %}
+</div>
+
+Since equality can be achieved, we just minimize the maximum value:
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\min \;\sum\limits_i {\left\| {{w_i}} \right\| + p} $$
+{% endraw %}
+</div>
+
+We conclude regulization effects achived by reduce curve length. 
 
 ## Stacked model and one true model
 Before we talk about Randomness of data, let us disscuss first model architecture. In industry we can employ "stacked model" to resolve our problems in a more natural manner, while a large group people, believe that if a single deep learning model complex enough, it eventually equivalent to a stacked model. Then the model will be suitable for different senarios.
@@ -154,7 +211,7 @@ $$\min \{ {x_i},local optimal\;{\text{points}}\;searched\;by\;sgd\} $$
 
 These exotic points will be discarded in a large model becuase by no means they become exotic again. If consider in a general differentiable case, I am exited found that they might deeply embeded into an underlying unsupervised learning -- density estimation. They participate in algorithms by no means one phase but multiple phases.
 
-这些奇异点，在一个更大的模型里面没有理由不被抛弃，可行域不一样。 考虑一个更一般的微分问题，非常可以惊奇地发现，它们深深地嵌入底层的无监督学习 -- 密度估计。
+这些奇异点，在一个更大的模型里面没有理由不被抛弃，可行域不一样。 考虑一个更一般的微分问题，非常可以惊奇地发现，它们深深地嵌入底层的无监督学习 -- [密度估计](https://en.wikipedia.org/wiki/Linear_discriminant_analysis)。
 
 <hr> 
 
@@ -496,62 +553,7 @@ class Hour(SeriesNode):
 
     def __str__(self):
         return 'Hour ' + self.id + ':'
-
-## -- extension nodes --
-class Weeks(SeriesNode):
-    span = delta(weeks = 1)
-    
-    def __init__(self, startdatetime, enddatetime, data, type='json', treeIndex={}):
-        super(Weeks,self).__init__(startdatetime, enddatetime, data, type=type)
-        
-        if  treeIndex != {}:
-            self.treeIndex = treeIndex 
-            
-        self.id = self.startdatetime.strftime("%y%V") + "-" + self.enddatetime.strftime("%y%V") 
-        
-    def __str__(self):
-        return 'Weeks from ' + self.startdatetime.strftime("%Y%m%d%H%M") + ' to ' + self.enddatetime.strftime("%Y%m%d%H%M") + ":" 
-    
-    def buildtree(self):
-        self.aggregate(Week, self.up2down, self.left2right)
-        
-        return self
-    
-    # vertical grouping
-    @staticmethod
-    def up2down(self, child):
-        self.add_child(child)
-        ## up2down
-        child.statistic()
-        child.buildtree()
-    
-    # horizontal groupign
-    @staticmethod
-    def left2right(self, child):
-        self.treeIndex['weekly'].append(child)     
-   
-## event trigger function 
-        
-def onTest(start_date, end_date, series, *args, **keywords):
-    print('series-tree test: begin')
-    seriesnode = SeriesNode(start_date, end_date, series)
-    # test set up
-    seriesnode.setup()
-    # test statistic
-    print(
-          str(
-              seriesnode.statistic()
-              )
-          )
-    # test build tree for month
-    print('\t build hirarchical tree, begin ... ...')
-    Month(start_date, end_date, series).setup().buildtree()#.get_children()
-    print('\t buld hirarchical tree, end!')
-
-    # test leaf confi
-    Day(start_date, end_date, series).setup().buildtree().get_children()
-    
-    print('series-tree test: End')
+		
 ~~~
 
 The above programme is actaully a hierarchical tree. It was initially intentionly designed as a longterm object residence in redis server to provide services of hierarchical query. As illustrated in the above pictures, we found that, data nodes in the bottom of three is of high randomness \(our group collected them from meters purchased from Japan\). After negotiating with the headers from Japan, we realize that the data is not instantaneous data but a data computed using mathematics from sampled data in a delta time.
@@ -563,9 +565,58 @@ We also noticed that, at some level, the randomness tend to be eliminated at som
 我们还注意到，在某个深度时，随机性消失了！这意味着，我们始终做基于趋势的，方差估计，而非点值估计。某公司工作人员试图用，底层黑箱模型+上层可解释模型，挑战上述模型的有效性时，我提问，“您的模型是不是在大的数据分类时，泛化能力准；在细节数据上泛化能力不准？”。对方答“是”。这就是一个随机性的很好例子。
  
 ## Mapping Direction -- What if bidirectional mapping?
-This is a very important work I am currently working on based on my work in 2014 when I was doing an internship in I2R supervised by Senior Scientist Huang Dongyan. Simply put, typically researchers working on a mapping F from samping space X to target space Y, and use error to supvise learning. We are comparing data in the similar target sampling space.
+This is a very important work I am currently working on based on my work in 2014 when I was doing an internship in I2R supervised by Senior Scientist Huang Dongyan. Simply put, typically researchers working on a mapping F from samping space X to target space Y, and use **minimun error** or **minimumdistance** to supvise learning. We are comparing data in the similar target sampling space.
 
-Should we design a model m1 mapping X to Sapce U, and model m2 mapping Y to space V? We don't requre U, V are from the same samping space. We just require they being of similar demisions and supvise the learning using Correlation. And if m2 is invertible, we can built mapping from X to Y using **m1(m2)<sup>-1</sup>**. Shall we see.
+Should we design a model m1 mapping X to Sapce U, and model m2 mapping Y to space V? We don't requre U, V are from the same samping space. We just require they being of similar demisions and supvise the learning using **Maximum Correlation**. And if m2 is invertible, we can built mapping from X to Y using **m1(m2)<sup>-1</sup>**. Shall we see.
+
+![mapping](/images/mapping.png)
+
+The purpose we discusss the methedology here is to support Generalization in Randomness Perpectives analysis because randomness in independant component is much easier to observe.
+
+Traditional form of ml cost is:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\min \;\frac{1}{N}\sum\nolimits_i {L({h_w}({x^i}),{y^i})}  + \lambda ||w||$$
+{% endraw %}
+</div>
+
+If L\(•,•\) defined as an inner product over two sample spaces, we can also write it as
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\min \;\frac{1}{N}L({h_w}(X),y) + \lambda ||w||$$
+{% endraw %}
+</div>
+
+Where, 
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$${h_w}(X) = {\left[ {{h_w}({x^i})} \right]_{n \times 1}},{x^i}\;is\;a\;query$$
+{% endraw %}
+</div>
+
+The general form of ml cost function can be hereby written in another form:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$$\max \;Corr({h_w}(X),V(y))$$
+{% endraw %}
+</div>
+
+A concrete example which already existing in ML using such method are CCA and PLSR. But they are limited to a linear regression model to connect to multiple responses with simple and  error assumption:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$${y^i} = {h_w}({x^i}) + \varepsilon ,\varepsilon  \sim N(\mu ,\sigma )$$
+{% endraw %}
+</div>
+
+Such assumption might not be pramatic in current application.
+
+### Randomness Measured by Variation in Independent Component Direction
+### Transfrom into Randomness Metric Domain
 
 ## Codes or theory
 ## Experiments
@@ -575,3 +626,7 @@ Should we design a model m1 mapping X to Sapce U, and model m2 mapping Y to spac
 
 1. Vapnic, V.N & Chervonenkis, A. Y. (1971), "On the uniform convergence of relative ferequncies of events to their probabilities," Theory of Probability and Its Application XVI(2), 264-280
 2. Large-Scale Machine Learning for Classification and Search Wei Liu. PhD Thesis 2012.
+3. Ethem Alpaydin. 2010. Introduction to Machine Learning (2nd ed.). The MIT Press.
+4. Regression Shrinkage and Selection via the Lasso, Robert Tibshirani
+5. FISHER, R. A. (1936), THE USE OF MULTIPLE MEASUREMENTS IN TAXONOMIC PROBLEMS. Annals of Eugenics, 7: 179–188. doi:10.1111/j.1469-1809.1936.tb02137.x
+6. 
