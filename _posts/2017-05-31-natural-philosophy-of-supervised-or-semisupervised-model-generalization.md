@@ -16,7 +16,7 @@ Data-Model joint distribution is exactly process that we engineers find a model 
 
 “数据-模型”的联合分布，恰恰使我们工程师寻找, 一个不仅仅是, 能够拟合采样数据的模型。
 
-[Figure1](#bayesian-as-graph) shows how marginal distribution and joint distribution affected our sampling data and corresponding learned model. Our first approach is to discuss bases of generalization of a supervised or semisupervised model from bayesian perpectives. The bayesian perpective estimates how good a model achieved from ampled data should be. Then we dive into a specific approach widely employed by researchers and engineers in daily work \-\- Batched SGD. We use randomness metrics to uncover the true properties of randomness that potentially weaken our generalization. 
+[Figure1](#bayesian-as-graph) shows how marginal distribution and joint distribution affected our sampling data and corresponding learned model. Our first approach is to discuss bases of generalization of a supervised or semisupervised model from bayesian perpectives. The bayesian perpective estimates how good a model achieved from sampled data should be. Then we dive into a specific approach widely employed by researchers and engineers in daily work \-\- Batched SGD. We use randomness metrics to uncover the true properties of randomness that potentially weaken our generalization. 
 
 [图1](#bayesian-as-graph) 展示了边界分布，和联合分布如何影响我们的采样数据，以及从采样数据中学到的模型。本文第一个方法是，从贝叶斯角度，讨论影响监督和半监督模型的泛化因子。从贝叶斯的角度告，得知，针对采样数据学习得到的模型，到底应该多好才可以。然后我们具体的研究一个广泛采用的泛化方法，\-\-数据桶化的随机梯度下降法。我们采用了随机性指标，揭示
 
@@ -25,9 +25,9 @@ To this end, we present a future model construction methodology we are working o
 末尾，我们提了下，我们正在研究一个未来的构建方法，它极有可能成为领先的模型构造方法
 
 ## Basics of generalization of a model along data set
-Researchers use "VC demension model" in [Vladimir Vapnik and Alexey Chervonenkis's paper](#bibliography) published in 1971 to describe the relationship between hepothetic function and maximum sampling instances. This is becoming dramatically important especially when we have gorwing number of data. However, the concept of VC demension is weakened to some extend by the fact that modern hepothetic function is complex enough to leverage its both variation eror and bias error for extremely large set of data，dispite that corss validation, A/B test still predominates.
+Researchers use "VC demension model" in [Vladimir Vapnik and Alexey Chervonenkis's paper](#bibliography) published in 1971 to describe the relationship between hypothetic function and maximum sampling instances. This is becoming dramatically important especially when we have gorwing number of data. However, the concept of VC demension is weakened to some extend by the fact that modern hypothetic function is complex enough to leverage its both variation erorr and bias error for extremely large set of data，dispite that corss validation, A/B test still predominates.
 
-研究人员, 使用VC维模型来[1971 两位俄罗斯数学家的样本收敛性研究](#bibliography) 描述“假设函数”和最大采样数据的关系。这个变得越来越重要尤其是我们的数据持续增长。然而, 由于我们的假设函数足够复杂，来均摊variance和bias\(稍后将详细描述这两个概念\)。某种程度上，这些模型弱化了VC维，尽管会随机采样，进行cross validation, A/B test仍然是主流。
+研究人员, 使用VC维模型来[1971 两位俄罗斯数学家的样本收敛性研究](#bibliography) 描述“假设函数”和最大采样数据的关系。这个变得越来越重要尤其是我们的数据持续增长。然而, 由于我们的假设函数足够复杂，来均摊variance和bias\(稍后将详细描述这两个概念\)。某种程度上，这些模型弱化了VC维，尽管随机采样，进行cross validation和A/B test仍然是主流。
 
 Generlaization of a model is so important that we have to be cautious about "data flow process".
 
@@ -168,14 +168,14 @@ $$\min \;\sum\limits_i {\left\| {{w_i}} \right\| + p} $$
 {% endraw %}
 </div>
 
-We conclude regulization effects achived by reduce curve length. 
+We derive that regulization for generalization effects are equivalent to reducing curve arc length. 
 
 ## Stacked model and one true model
 Before we talk about Randomness of data, let us disscuss first model architecture. In industry we can employ "stacked model" to resolve our problems in a more natural manner, while a large group people, believe that if a single deep learning model complex enough, it eventually equivalent to a stacked model. Then the model will be suitable for different senarios.
 
 ![stack-model](/images/stack-model.png)
 
-在我们讨论数据的随机性之前，我们先讨论下模型架构。在工业界，我们往往会采用“stacked model”用一种更自然的方式，去解决我们的问题。虽然我不喜欢，基于规则学习，但它确实管用。同时呢，有相当一部分人认为，只要一个训练的模型足够复杂，精巧，他们是等价。而这些工作就可以远离业务，而移植到不同的场景中去：
+在我们讨论数据的随机性之前，我们先讨论下模型架构。在工业界，我们往往会采用“stacked model”用一种更自然的方式，去解决我们的问题。虽然我不喜欢，基于规则学习，但它确实管用。同时呢，有相当一部分人认为，只要一个训练的模型足够复杂，精巧，他们就会是等价的。而后者就可以远离业务，而移植到不同的场景中去：
 
 > Argument: Unfortunately, "Stacked models" are not equivalent to a single complex model. This argument is true especially when from one selection model like decision tree to another model \(function f1 to function f2\) are not uniform convergent.
 
@@ -565,13 +565,13 @@ We also noticed that, at some level, the randomness tend to be eliminated at som
 我们还注意到，在某个深度时，随机性消失了！这意味着，我们始终做基于趋势的，方差估计，而非点值估计。某公司工作人员试图用，底层黑箱模型+上层可解释模型，挑战上述模型的有效性时，我提问，“您的模型是不是在大的数据分类时，泛化能力准；在细节数据上泛化能力不准？”。对方答“是”。这就是一个随机性的很好例子。
  
 ## Mapping Direction -- What if bidirectional mapping?
-This is a very important work I am currently working on based on my work in 2014 when I was doing an internship in I2R supervised by Senior Scientist Huang Dongyan. Simply put, typically researchers working on a mapping F from samping space X to target space Y, and use **minimun error** or **minimumdistance** to supvise learning. We are comparing data in the similar target sampling space.
+This is a very important work I am currently working on based on my work in 2014 when I was doing an internship in I2R supervised by Senior Scientist Huang Dongyan. Simply put, typically researchers working on a mapping F from samping space X to target space Y, and use **minimun error** or **minimum distance** to supvise learning. We are comparing data in the similar target sampling space.
 
 Should we design a model m1 mapping X to Sapce U, and model m2 mapping Y to space V? We don't requre U, V are from the same samping space. We just require they being of similar demisions and supvise the learning using **Maximum Correlation**. And if m2 is invertible, we can built mapping from X to Y using **m1(m2)<sup>-1</sup>**. Shall we see.
 
 ![mapping](/images/mapping.png)
 
-The purpose we discusss the methedology here is to support Generalization in Randomness Perpectives analysis because randomness in independant component is much easier to observe.
+The purpose we discusss the methedology here is to support Generalization in Randomness Perpectives analysis because randomness in independant component is much easier to observe. Also, mapping features to a new space, we usually get a better aggregation result \-\- [Spectral Clustering](#bibliography).
 
 Traditional form of ml cost is:
 
@@ -605,7 +605,7 @@ $$\max \;Corr({h_w}(X),V(y))$$
 {% endraw %}
 </div>
 
-A concrete example which already existing in ML using such method are CCA and PLSR. But they are limited to a linear regression model to connect to multiple responses with simple and  error assumption:
+**CCA** and **PLSR** use the similiar form. But they are limited to a least square regression to connect to multiple responses under a simple error assumption:
 
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
@@ -613,10 +613,18 @@ $${y^i} = {h_w}({x^i}) + \varepsilon ,\varepsilon  \sim N(\mu ,\sigma )$$
 {% endraw %}
 </div>
 
-Such assumption might not be pramatic in current application.
+Such an assumption might not be pragmatic in current application. We already know non-linear hypothetic function has stronger abilit to fit than traditional models, and we should combine to see what exiting models we can achieve towards a more theoretically high generalization. Instead we assume that true responses of the form:
+
+<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+{% raw %}
+$${y^i} = {h_w}({x^i}) + \chi ({x^i})$$
+{% endraw %}
+</div>
 
 ### Randomness Measured by Variation in Independent Component Direction
-### Transfrom into Randomness Metric Domain
+### Design Pattern:
+
+### Algorithm Formulation:
 
 ## Codes or theory
 ## Experiments
@@ -629,4 +637,4 @@ Such assumption might not be pramatic in current application.
 3. Ethem Alpaydin. 2010. Introduction to Machine Learning (2nd ed.). The MIT Press.
 4. Regression Shrinkage and Selection via the Lasso, Robert Tibshirani
 5. FISHER, R. A. (1936), THE USE OF MULTIPLE MEASUREMENTS IN TAXONOMIC PROBLEMS. Annals of Eugenics, 7: 179–188. doi:10.1111/j.1469-1809.1936.tb02137.x
-6. 
+6. Dhillon, Inderjit; Yuqiang Guan; Brian Kulis (November 2007). "Weighted Graph Cuts without Eigenvectors: A Multilevel Approach". IEEE Transactions on Pattern Analysis and Machine Intelligence. 29 (11): 1–14. doi:10.1109/tpami.2007.1115
