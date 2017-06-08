@@ -25,7 +25,7 @@ To this end, we present a future model construction methodology we are working o
 末尾，我们提了下，我们正在研究一个未来的构建方法，它极有可能成为领先的模型构造方法
 
 ## Basics of generalization of a model along data set
-Researchers use "VC demension model" in [Vladimir Vapnik and Alexey Chervonenkis's paper](#bibliography) published in 1971 to describe the relationship between hypothetic function and maximum sampling instances. This is becoming dramatically important especially when we have gorwing number of data. However, the concept of VC demension is weakened to some extend by the fact that modern hypothetic function is complex enough to leverage its both variation erorr and bias error for extremely large set of data，dispite that corss validation, A/B test still predominates.
+Researchers use "VC demension model" in [Vladimir Vapnik and Alexey Chervonenkis's paper](#bibliography) published in 1971 to describe the relationship between hypothetical function and maximum sampling instances. This is becoming dramatically important especially when we have gorwing number of data. However, the concept of VC demension is weakened to some extend by the fact that modern hypothetic function is complex enough to leverage its both variation erorr and bias error for extremely large set of data，dispite that corss validation, A/B test still predominates.
 
 研究人员, 使用VC维模型来[1971 两位俄罗斯数学家的样本收敛性研究](#bibliography) 描述“假设函数”和最大采样数据的关系。这个变得越来越重要尤其是我们的数据持续增长。然而, 由于我们的假设函数足够复杂，来均摊variance和bias\(稍后将详细描述这两个概念\)。某种程度上，这些模型弱化了VC维，尽管随机采样，进行cross validation和A/B test仍然是主流。
 
@@ -626,9 +626,11 @@ $${y^i} = {h_w}({x^i}) + \chi ({x^i})$$
 
 ### Algorithm Formulation:
 
+
 ## Codes or theory
 ## Experiments
 ## Conclusion
+
 
 ## Bibliography
 
