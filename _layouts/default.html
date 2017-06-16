@@ -160,20 +160,11 @@
 		//  global namespace
 		//
 		(function () {
-			var QUEUE = MathJax.Hub.queue;  // shorthand for the queue
+			var QUEUE = MathJax.Hub.Queue;  // shorthand for the queue
 			var math = null;                // the element jax for the math output.
-			//
-			//  Get the element jax when MathJax has produced it.
-			//
-			QUEUE.Push(function () {
-				math = MathJax.Hub.getAllJax("formula");
-		  });
-		 //
-		 //  The onchange event handler that typesets the
-		 //  math entered by the user
-		 //
+			QUEUE(function () {});
 			window.UpdateMath = function (TeX) {
-				QUEUE.Push(["Text",math,"\\displaystyle{"+TeX+"}"]);<!--,"\\displaystyle{"+TeX+"}"-->
+				QUEUE.Push(["Text",math,"\\displaystyle{"+TeX+"}"])
 				}
 		 })();
 		</script>
