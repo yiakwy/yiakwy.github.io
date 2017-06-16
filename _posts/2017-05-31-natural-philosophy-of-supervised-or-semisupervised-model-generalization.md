@@ -473,87 +473,6 @@ class Month(SeriesNode):
     @staticmethod
     def left2right(self, child):
         self.treeIndex['weekly'].append(child)        
-
-class Week(SeriesNode):
-    span = delta(days=1)
-    
-    def __init__(self, startdatetime, enddatetime, data, type='json', treeIndex={}): 
-        super(Week, self).__init__(startdatetime, enddatetime, data, type=type)
-        
-        if  treeIndex != {}:
-            self.treeIndex = treeIndex
-            
-        self.id = self.startdatetime.strftime("%y%V")
-        
-    def __str__(self):
-        return 'Week ' + self.id + ':' 
-    
-    def buildtree(self):
-        self.aggregate(Day, self.up2down, self.left2right)
-        
-        return self    
-    
-    # vertical grouping
-    @staticmethod
-    def up2down(self, child):
-        self.add_child(child)
-        
-        ## up2down
-        child.statistic()
-        child.buildtree()
-    
-    # horizontal groupign
-    @staticmethod
-    def left2right(self, child):
-        self.treeIndex['dayly'].append(child)  
-        
-class Day(SeriesNode):
-    span = delta(hours=1)
-    
-    def __init__(self, startdatetime, enddatetime, data, type='json', treeIndex={}):
-        super(Day, self).__init__(startdatetime, enddatetime, data, type=type) 
-        
-        if  treeIndex != {}:
-            self.treeIndex = treeIndex
-            
-        self.id = self.startdatetime.strftime("%y%m%d")
-            
-    def __str__(self):
-        return 'Day ' + self.id + ':'
-    
-    def buildtree(self):
-        self.aggregate(Hour, self.up2down, self.left2right)
-        
-        return self 
-    
-    # vertical grouping
-    @staticmethod
-    def up2down(self, child):
-        self.add_child(child)
-        ## up2down
-        child.statistic()
-        ## uncomment the following line if it is not leaf ADS
-        #child.buildtree()
-    
-    # horizontal groupign
-    @staticmethod
-    def left2right(self, child):
-        self.treeIndex['hourly'].append(child)              
-
-class Hour(SeriesNode):
-    span = delta(hours=1)
-    
-    def __init__(self, startdatetime, enddatetime, data, type='json', treeIndex={}):
-        super(Hour, self).__init__(startdatetime, enddatetime, data, type=type) 
-        
-        if  treeIndex != {}:
-            self.treeIndex = treeIndex
-            
-        self.id = self.startdatetime.strftime("%y%m%d%H")
-
-    def __str__(self):
-        return 'Hour ' + self.id + ':'
-		
 ~~~
 
 The above programme is actaully a hierarchical tree. It was initially intentionly designed as a longterm object residence in redis server to provide services of hierarchical query. As illustrated in the above pictures, we found that, data nodes in the bottom of three is of high randomness \(our group collected them from meters purchased from Japan\). After negotiating with the headers from Japan, we realize that the data is not instantaneous data but a data computed using mathematics from sampled data in a delta time.
@@ -629,8 +548,9 @@ $${y^i} = {h_w}({x^i}) + \chi ({x^i})$$
 
 ## Codes or theory
 ## Experiments
-## Conclusion
+Please refer to: [This public address]()
 
+## Conclusion
 
 ## Bibliography
 
