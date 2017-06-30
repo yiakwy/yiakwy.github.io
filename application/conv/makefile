@@ -51,7 +51,7 @@ COBJ=$(patsubst %.c, %.o, $(CSRCS))
 
 # LINK WITH link flags
 $(TARGET): $(OBJ) $(COBJ) $(test)
-	$(CXX) -v $(CPPFLAGS) -I$(include) -std=c++11 -stdlib=libstdc++ $^ $(LIBS) -o $@
+	$(CXX) -v $(CPPFLAGS) -I$(include) -std=c++11 -stdlib=libc++ $^ $(LIBS) -o $@
 	mv $@ $(exec)/
 
 buildshared: $(sharedlib)
