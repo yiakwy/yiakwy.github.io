@@ -62,7 +62,7 @@ buildshared: $(sharedlib)
 	$(CC)  -v -std=gnu99 -I$(include) $(CFLAGS) -c $< -o $@
 	@echo $(GREEN) [INFO] $(COLOR_OFF) "compile C " $< "to obj"
 %.o : %.cpp
-	$(CXX) -v -std=c++11 -stdlib=libctdc++ -I$(include) $(CPPFLAGS) -c $< -o $@
+	$(CXX) -v -std=c++11 -stdlib=libc++ -I$(include) $(CPPFLAGS) -c $< -o $@
 	@echo $(GREEN) [INFO] $(COLOR_OFF) "compile CPP " $< "to obj"
 $(sharedlib): $(SRCS)
 	$(CXX) -v $(CPPFLAGS) -I$(include) -std=c++11 -stdlib=libc++ $^ -shared $(LIBS) -o $@
