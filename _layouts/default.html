@@ -137,25 +137,36 @@
 		<!--script type="text/javascript" src="/lib/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML"-->
 			window.MathJax = MathJax
 			MathJax.Hub.Config({						
-				displayAlign: "middle",
+				displayAlign: "left",
+				displayIndent: "2em",
 				extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
 				TeX: {
     				extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"],
-					equationNumbers: { autoNumber: "all" }
+					equationNumbers: { autoNumber: "all" },
+					TagSide: "left"
   				},
 				tex2jax: {
 					inlineMath: [['$','$'],['\\[','\\]']], 
 					displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
 					processEscapes: false
 				},
-				CommonHTML: { linebreaks: { automatic: true } },
-				"HTML-CSS": { linebreaks: { automatic: true } },
-				SVG: { linebreaks: { automatic: true } }
+				// CommonHTML: { linebreaks: { automatic: true } },
+				"HTML-CSS": { 
+					linebreaks: { automatic: true },
+					styles: { ".MathJax" : { color: "#CCCCCC !important" } }			
+				},
+				// SVG: { linebreaks: { automatic: true } }
+				styles: {
+					 ".MathJax_Display": {
+					 	display: "table-cell ! important",
+					 	padding: "2em 0 ! important"
+					 }
+				}
 			})
 			MathJax.Hub.Register.MessageHook("End Process", function(msg) {
 					console.log(msg)
 					console.log("begin post processing")
-					// resize_math()
+					resize_math()
 				})
 		</script>
 		

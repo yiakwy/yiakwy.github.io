@@ -74,6 +74,10 @@ img {
 .formula {
 	padding-left: 1em;
 	padding-right: 1em;
+	overflow-x: scroll;
+	border: 1px dashed skyblue;
+	border-left: 10px solid skyblue;
+	width: 90% !important;
 }
 
 @media (max-width: 767px) {
