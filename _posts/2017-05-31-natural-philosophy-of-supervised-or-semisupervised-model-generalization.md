@@ -149,9 +149,9 @@ Considering
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$\eqalign{
-  & \left\| {\sum\limits_i {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} } \right\| \leqslant \sum\limits_i {\left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} \right\|}   \cr 
-  & \quad \quad \quad \quad \quad \quad \quad \; \, \, \leqslant \sum\limits_i {\left| {{\beta _i}} \right| \cdot \left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}} \right\|}   \cr 
-  & \quad \quad \quad \quad \quad \quad \quad \; \, \, \leqslant {\left| \beta  \right|_{\max }}\sum\limits_i {\left\| {{{\vec a}_i}} \right\|}  + \left\| {{{\rm I}_i}} \right\| \cr} $$
+  & \left\| {\sum\limits_i {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} } \right\| \leqslant \sum\limits_i {\left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} \right\|}
+  & \leqslant \sum\limits_i {\left| {{\beta _i}} \right| \cdot \left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}} \right\|} 
+  & \leqslant {\left| \beta  \right|_{\max }}\sum\limits_i {\left\| {{{\vec a}_i}} \right\|}  + \left\| {{{\rm I}_i}} \right\| \cr} $$
 {% endraw %}
 </div>
 
