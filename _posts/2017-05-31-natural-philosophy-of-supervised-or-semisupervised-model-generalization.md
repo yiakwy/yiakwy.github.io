@@ -39,7 +39,7 @@ Generlaization of a model is so important that we have to be cautious about "dat
 
 But, we believe that Bayesian Method itself is clear enough to tell us relationship between the learned model from sampling data and sampling space \(All possible data\).
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$ p(M = m{\text{ }}|{\text{ }}D = d) $$
 {% endraw %}
@@ -51,7 +51,7 @@ Simplly tell us that given data set D, the possibility that the M assigned to m.
 
 > e.g: we have ten sampling D belongs to {d1, d2, ..., d10}, we got models m1 9 times, m2 1 time. Then 
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$ P(M = m1{\text{ }}|{\text{ }}D = some{\text{ }}d) \approx 1/9 $$
 {% endraw %}
@@ -61,7 +61,7 @@ If we already know d2 produced learned model m2 (m2 ≠ m1), we say
 
 假定，我们已经知道d2产生模型m2了，其实就是说
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$ P(M = m1{\text{ }}|{\text{ }}D = some{\text{ }}d2) = 0 $$
 $$ P(M = m2{\text{ }}|{\text{ }}D = some{\text{ }}d2) = 1 $$
@@ -150,8 +150,8 @@ Considering
 {% raw %}
 $$\eqalign{
   & \left\| {\sum\limits_i {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} } \right\| \leqslant \sum\limits_i {\left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}{\beta _i}} \right\|}   \cr 
-  & \quad \quad \quad \quad \quad \quad \, \leqslant \sum\limits_i {\left| {{\beta _i}} \right| \cdot \left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}} \right\|}   \cr 
-  & \quad \quad \quad \quad \quad \quad \, \leqslant {\left| \beta  \right|_{\max }}\sum\limits_i {\left\| {{{\vec a}_i}} \right\|}  + \left\| {{{\rm I}_i}} \right\| \cr} $$
+  & \quad \quad \quad \quad \quad \quad \quad \; \, \, \leqslant \sum\limits_i {\left| {{\beta _i}} \right| \cdot \left\| {\left\{ {{{\vec a}_i} + {{\rm I}_i}} \right\}} \right\|}   \cr 
+  & \quad \quad \quad \quad \quad \quad \quad \; \, \, \leqslant {\left| \beta  \right|_{\max }}\sum\limits_i {\left\| {{{\vec a}_i}} \right\|}  + \left\| {{{\rm I}_i}} \right\| \cr} $$
 {% endraw %}
 </div>
 
