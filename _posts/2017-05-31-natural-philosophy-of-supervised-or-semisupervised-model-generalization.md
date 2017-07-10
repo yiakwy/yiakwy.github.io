@@ -494,7 +494,7 @@ The purpose we discusss the methedology here is to support Generalization in Ran
 
 Traditional form of ml cost is:
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$\min \;\frac{1}{N}\sum\nolimits_i {L({h_w}({x^i}),{y^i})}  + \lambda ||w||$$
 {% endraw %}
@@ -502,7 +502,7 @@ $$\min \;\frac{1}{N}\sum\nolimits_i {L({h_w}({x^i}),{y^i})}  + \lambda ||w||$$
 
 If L\(•,•\) defined as an inner product over two sample spaces, we can also write it as
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$\min \;\frac{1}{N}L({h_w}(X),y) + \lambda ||w||$$
 {% endraw %}
@@ -510,7 +510,7 @@ $$\min \;\frac{1}{N}L({h_w}(X),y) + \lambda ||w||$$
 
 Where, 
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $${h_w}(X) = {\left[ {{h_w}({x^i})} \right]_{n \times 1}},{x^i}\;is\;a\;query$$
 {% endraw %}
@@ -518,7 +518,7 @@ $${h_w}(X) = {\left[ {{h_w}({x^i})} \right]_{n \times 1}},{x^i}\;is\;a\;query$$
 
 The general form of ml cost function can be hereby written in another form:
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $$\max \;Corr({h_w}(X),V(y))$$
 {% endraw %}
@@ -526,7 +526,7 @@ $$\max \;Corr({h_w}(X),V(y))$$
 
 **CCA** and **PLSR** use the similiar form. But they are limited to a least square regression to connect to multiple responses under a simple error assumption:
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $${y^i} = {h_w}({x^i}) + \varepsilon ,\varepsilon  \sim N(\mu ,\sigma )$$
 {% endraw %}
@@ -534,7 +534,7 @@ $${y^i} = {h_w}({x^i}) + \varepsilon ,\varepsilon  \sim N(\mu ,\sigma )$$
 
 Such an assumption might not be pragmatic in current application. We already know non-linear hypothetic function has stronger abilit to fit than traditional models, and we should combine to see what exiting models we can achieve towards a more theoretically high generalization. Instead we assume that true responses of the form:
 
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
+<div class="formula" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
 $${y^i} = {h_w}({x^i}) + \chi ({x^i})$$
 {% endraw %}
