@@ -48,8 +48,23 @@ div.post section {
 	perspective: 100px;
 	transition: all 0.8s ease;
 }
+
 div.post li:not(:hover) ul, div.post li:not(:active) ul
 div.post li:not(:hover) ol, div.post li:not(:acitve) ol {
+	opacity: 0.3;
+	max-height: 0;
+	visibility: hidden;
+	/*transform: translateX(130%);*/
+	transform: scale3d(0);
+  	transition: all 1.2s ease;
+	background: inherit;
+	color: inherit;
+}
+
+@media (max-width: 767px) {
+	
+div.post li ul,
+div.post li ol {
 	opacity: 0.3;
 	max-height: 0;
 	visibility: hidden;
