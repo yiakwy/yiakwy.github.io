@@ -10,31 +10,6 @@
         <title>{{page.title}}</title>
         <!-- Global Fonts-->
         <!--link href="/lib/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet" type="text/css"-->
-       	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
-		<!--script type="text/javascript" src="/lib/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML"-->
-			window.MathJax = MathJax
-			MathJax.Hub.Config({						
-				displayAlign: "middle",
-				extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
-				TeX: {
-    				extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"],
-					equationNumbers: { autoNumber: "all" }
-  				},
-				tex2jax: {
-					inlineMath: [['$','$'],['\\[','\\]']], 
-					displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-					processEscapes: false
-				},
-				CommonHTML: { linebreaks: { automatic: true } },
-				"HTML-CSS": { linebreaks: { automatic: true } },
-				SVG: { linebreaks: { automatic: true } }
-			})
-			MathJax.Hub.Register.MessageHook("End Process", function(msg) {
-					console.log(msg)
-					console.log("begin post processing")
-					// resize_math()
-				})
-		</script>
         <!-- Customer CSS-->
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="/css/default.css" rel="stylesheet" type="text/css">
@@ -92,6 +67,10 @@
 					var doc = document
 					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
 				})
+				
+				// for safari
+				var doc = document
+					doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
 				
 				$.fn.jsInj.prototype.wrap('img', 'figure')
 				$("div.post p+ol").wrap("<section>")
@@ -152,6 +131,32 @@
 			}
 		
 			_init()
+		</script>
+	
+       	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+		<!--script type="text/javascript" src="/lib/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML"-->
+			window.MathJax = MathJax
+			MathJax.Hub.Config({						
+				displayAlign: "middle",
+				extensions: ["tex2jax.js", "asciimath2jax.js", "mml2jax.js", "MathMenu.js", "MathZoom.js"],
+				TeX: {
+    				extensions: ["AMSmath.js", "AMSsymbols.js", "autoload-all.js"],
+					equationNumbers: { autoNumber: "all" }
+  				},
+				tex2jax: {
+					inlineMath: [['$','$'],['\\[','\\]']], 
+					displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+					processEscapes: false
+				},
+				CommonHTML: { linebreaks: { automatic: true } },
+				"HTML-CSS": { linebreaks: { automatic: true } },
+				SVG: { linebreaks: { automatic: true } }
+			})
+			MathJax.Hub.Register.MessageHook("End Process", function(msg) {
+					console.log(msg)
+					console.log("begin post processing")
+					// resize_math()
+				})
 		</script>
 		
 		<script>
