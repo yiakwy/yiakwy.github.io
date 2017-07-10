@@ -140,7 +140,7 @@ While,
 
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
-$$\left\| {\frac{{\partial c( \cdot ,step)}}{{\partial s}}ds} \right\| = \left\| {\sum\limits_i {\left\{ { < \frac{{\partial f}}{{\partial {x_i}}},0,...,0 >  + {{\rm I}_i}} \right\}d{x_i}} } \right\|$$
+$$\left\| {\frac{{\partial c( \cdot ,step)}}{{\partial s}}ds} \right\| = \left\| {\sum\limits_i {\left\{ { < \frac{{\partial f}}{{\partial {x_i}}},0,...,0 >  + {{\text{I}}_i}} \right\}d{x_i}} } \right\|$$
 {% endraw %}
 </div>
 
