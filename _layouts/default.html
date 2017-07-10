@@ -10,7 +10,7 @@
         <title>{{page.title}}</title>
         <!-- Global Fonts-->
         <!--link href="/lib/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet" type="text/css"-->
-       	<script src="https://cdnjs.cloudflare.com/ajax/libs/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+       	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
 		<!--script type="text/javascript" src="/lib/mathjax-MathJax-f5cd294/MathJax.js?config=TeX-AMS-MML_HTMLorMML"-->
 			window.MathJax = MathJax
 			MathJax.Hub.Config({						
@@ -160,9 +160,8 @@
 		//  global namespace
 		//
 		(function () {
-			var QUEUE = MathJax.Hub.Queue;  // shorthand for the queue
+			var QUEUE = MathJax.Hub.queue;  // shorthand for the queue
 			var math = null;                // the element jax for the math output.
-			QUEUE(function () {});
 			window.UpdateMath = function (TeX) {
 				QUEUE.Push(["Text",math,"\\displaystyle{"+TeX+"}"])
 				}
