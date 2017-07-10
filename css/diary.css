@@ -32,6 +32,7 @@ blockquote {
 	background: grey;
 	border-radius: 4px;
 	border: 1px dashed white;
+	border-left: 10px solid indianred;
 }
 
 .meta {
@@ -129,15 +130,7 @@ div.post section>ol {
 	border-left: 4px solid mediumslateblue;
 }
 
-.no-canpital {
-	font-size: 100%;
-	font-weight:lighter;
-	padding-left: 0;
-	margin-top: 0;
-	float-left: None;
-}
-
-div.post p::first-letter {
+  div.post p::first-letter {
 	font-size: 200%;
 	font-weight: bold;
 	padding-left: 0.5em;
@@ -145,7 +138,7 @@ div.post p::first-letter {
 	float: left;
 }
 
-div.post p::first-line {
+  div.post p::first-line {
 	text-transform: uppercase;
 }
 
@@ -175,5 +168,9 @@ code {
 }
 
 body, button, input, select, textarea {
-  font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+  /* font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif; */
+	font-family: consolas,monaco,courier,"courier new",fixed-width;
+	font-size: 1em;
+	line-height: 1.5;
+  
 }

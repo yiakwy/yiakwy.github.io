@@ -113,4 +113,8 @@ img {
 	ul.posts {
 		-webkit-padding-start: 0px;
 	}
+	
+	.text-muted {
+		border-bottom-right-radius: 0px;
+	}
 }
