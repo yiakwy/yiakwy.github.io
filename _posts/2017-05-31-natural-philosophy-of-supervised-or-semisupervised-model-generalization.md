@@ -41,12 +41,6 @@ But, we believe that Bayesian Method itself is clear enough to tell us relations
 
 <div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
 {% raw %}
-$$ p(model {\text{ }}M = m{\text{ }}|{\text{ }}sampling{\text{ }}dataset{\text{ }}D = d){\text{ }} = {\text{ }}\dfrac{{p(D = d{\text{ }}|{\text{ }}M = m){\text{ }} \cdot {\text{ }}p(M = m{\text{ }}learned{\text{ }}by{\text{ }}all{\text{ }}D){\text{ }}}}{{p(D = d)}} $$
-{% endraw %}
-</div>
-
-<div class="formula container" style="width: 95%" onload = "UpdateMath(this.value)">
-{% raw %}
 $$ p(M = m{\text{ }}|{\text{ }}D = d) $$
 {% endraw %}
 </div>
