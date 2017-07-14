@@ -73,6 +73,7 @@ div.post li ol {
 	color: inherit;
 }
 
+.touch,
 div.post section>ol>li:hover ol, div.post section>ol>li:active,
 div.post section>ul>li:hover ul, div.post section>ul>li:active {
 	opacity: 1;
