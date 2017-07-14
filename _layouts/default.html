@@ -105,13 +105,17 @@
 			var resize_math = function () {
 				var doc = document
 				var formula = doc.querySelectorAll(".formula")
-				var f, p
+				var f, p, i=0,j, pset_array
 				// for (let f of formula) { // not supported in ios safari
-				for (f of formula) {
+				for (; i < formula.length; i++) {
+					f = formula[i]
 					var pset = f.getElementsByClassName("MathJax_Preview")
 					
 					// for (let p of Array.from(pset)) {
-					for (p of Array.from(pset)) {
+					j = 0;
+					pset_array = Array.from(pset)
+					for (;j < pset_array.length; j++ ) {
+						p = pset_array[j]
 						p = p.nextSibling.firstChild
 						console.log("isMultiline", MathJax.Hub.getAllJax(f)[0].root.isMultiline)
 						console.log("f offsetWidth", 	f.offsetWidth)
