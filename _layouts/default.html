@@ -60,7 +60,6 @@
 		
 		<script type="text/javascript" src="/lib/jQuery/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="/js/dom_filter.js"></script>
-		.
 		<script type="text/javascript">
 			function _init() {
 				window.addEventListener('load', function() {
@@ -106,10 +105,13 @@
 			var resize_math = function () {
 				var doc = document
 				var formula = doc.querySelectorAll(".formula")
-				for (let f of formula) {
+				let f, p
+				// for (let f of formula) { // not supported in ios safari
+				for (f of formula) {
 					var pset = f.getElementsByClassName("MathJax_Preview")
 					
-					for (let p of Array.from(pset)) {
+					// for (let p of Array.from(pset)) {
+					for (p of Array.from(pset)) {
 						p = p.nextSibling.firstChild
 						console.log("isMultiline", MathJax.Hub.getAllJax(f)[0].root.isMultiline)
 						console.log("f offsetWidth", 	f.offsetWidth)
