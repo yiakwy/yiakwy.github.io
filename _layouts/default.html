@@ -2,7 +2,7 @@
 <html lang="utf-8">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatiple" content="IE-edge">
         <meta name="description" content="Yi' blog">
         <meta name="author" content="王翼">
@@ -67,9 +67,23 @@
 					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
 				})
 				
-				// for safari
+				// for ios safari
 				var doc = document
-					doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
+				doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
+				doc.body.addEventListener("touchmove", function(evt) {
+					evt.preventDefault();
+				}, false)
+				var nodelist = doc.querySelectorAll("div.post li ol")
+					i = 0
+				for (; i < nodelist.length; i++) {
+					var el = nodelist.item(i)
+					el.addEventListener("touchmove", function(evt) {
+						if (evt.targetTouches.length == 1) {
+							el.classList.toggle("touch")
+						}
+					})
+				}
+				
 				
 				$.fn.jsInj.prototype.wrap('img', 'figure')
 				$("div.post p+ol").wrap("<section>")
@@ -80,13 +94,15 @@
 				})
 				
 				chrome_re = /Chrome|chrome/
+				safari_re = /Safari|safari/
 				if (chrome_re.test(navigator.userAgent) &&
 				    $.fn.jsInj.prototype.isMobile()) {
 					var doc = document,
 						s = doc.querySelector("nav ul")
 					s.style.width = "44.9%"
 					
-				} 
+				}
+				
 
 			}
 			
@@ -100,6 +116,12 @@
 				el1.classList.toggle(cls);
 				el2.classList.toggle(cls);
 				el3.classList.toggle(cls);
+			}
+			
+			function touch_toggle(evt) {
+				if (evt.targetTouches.length == 1) {
+					var touch = evt.targetTouches[0];
+				}
 			}
 			
 			var resize_math = function () {
