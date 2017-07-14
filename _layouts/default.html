@@ -79,6 +79,7 @@
 					var el = nodelist.item(i)
 					var query = el.parentElement.querySelector("span.click")
 					query && cache.addEventListener("touchstart", function(evt) {
+						console.log("trigger a touchstart event!")
 						evt.preventDefault()
 						if (evt.targetTouches.length == 1) {
 							evt.classList.toggle("leave")
