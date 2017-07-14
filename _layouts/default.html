@@ -78,7 +78,8 @@
 				for (; i < nodelist.length; i++) {
 					var el = nodelist.item(i)
 					var query = el.parentElement.querySelector("span.click")
-					query && cache.addEventListener("click", function(evt) {
+					console.log(query)
+					query && query.addEventListener("click", function(evt) {
 						console.log("trigger a touchstart event!")
 						evt.preventDefault()
 						if (evt.targetTouches.length == 1) {
