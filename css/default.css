@@ -11,6 +11,12 @@ body {
 	overflow-x: hidden;
 }
 
+#wrapper {
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
 .container,
 #fullpage,
 footer,
