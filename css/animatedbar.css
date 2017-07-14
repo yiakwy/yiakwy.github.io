@@ -60,7 +60,8 @@ div.post li:not(:hover) ol, div.post li:not(:acitve) ol {
 	background: inherit;
 	color: inherit;
 }
-	
+
+.leave, 
 div.post li ul,
 div.post li ol {
 	opacity: 0.3;

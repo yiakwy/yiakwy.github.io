@@ -206,7 +206,7 @@
 				for (; j < children.length; j++) { child = children[j]
 					if (child.tagName == "OL" || child.tagName == "UL") {
 						var template = doc.createElement('TEMPLATE')
-						template.innerHTML = "<span style='text-decoration:underline;font-size:small;color:red;'>click me</span>"
+						template.innerHTML = "<span class='click' style='text-decoration:underline;font-size:small;color:red;'>click me</span>"
 						var click_me = template.content.firstChild
 						parent.insertBefore(click_me, child)
 						break;
