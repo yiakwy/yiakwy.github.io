@@ -146,7 +146,9 @@
 												children) {
 
 			var selected = []
-			for (child of children) {
+			var child, j=0;
+			// for (child of children) {
+			for (; j < children.length; j++) { child = children[j]
 				if (child.nodeName === "SCRIPT" || child.nodeName === "STYLE") {
 					parent.removeChild(child)
 				}
@@ -172,7 +174,9 @@
 										   children) {
 			
 			var selected = [];
-			for (child of children) {
+			var child, j=0;
+			// for (child of children) {
+			for (; j < children.length; j++) { child = children[j]
 				if (child.tagName == tag.toUpperCase()) {
 					var ori = child.outerHTML
 					child.outerHTML = '<div class="' + cls + '" alt="' + child.alt + '">' + ori + '</div>'
@@ -191,12 +195,15 @@
 	function add_click_me() {
 		var doc = document,
 			roots = doc.querySelectorAll("div.post section>ol")
-		
-		for (root of roots) {
+		var root, i=0;
+		// for (root of roots) {
+		for (; i < roots.length; i++) { root = roots[i]
 			var node = walk_dom(root, function(parent,
 											   children) {
 				var selected = [];
-				for (child of children) {
+				var child, j=0;
+				// for (child of children) {
+				for (; j < children.length; j++) { child = children[j]
 					if (child.tagName == "OL" || child.tagName == "UL") {
 						var template = doc.createElement('TEMPLATE')
 						template.innerHTML = "<span style='text-decoration:underline;font-size:small;color:red;'>click me</span>"
