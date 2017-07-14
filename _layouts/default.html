@@ -77,7 +77,8 @@
 					i = 0
 				for (; i < nodelist.length; i++) {
 					var el = nodelist.item(i)
-					el.addEventListener("touchmove", function(evt) {
+					el.addEventListener("touchstart", function(evt) {
+						evt.preventDefault();
 						if (evt.targetTouches.length == 1) {
 							el.classList.toggle("touch")
 						}
