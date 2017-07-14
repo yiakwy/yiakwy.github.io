@@ -77,10 +77,11 @@
 					i = 0
 				for (; i < nodelist.length; i++) {
 					var el = nodelist.item(i)
-					el.parentElement.addEventListener("touchstart", function(evt) {
-						evt.preventDefault();
+					el.parentElement.querySelector("span.click").addEventListener("touchstart", function(evt) {
+						evt.preventDefault()
 						if (evt.targetTouches.length == 1) {
-							el.classList.toggle("touch")
+							evt.classList.toggle("leave")
+							evt.classList.toggle("touch")
 						}
 					})
 				}
@@ -119,7 +120,7 @@
 				el3.classList.toggle(cls);
 			}
 			
-			var resize_math = function () {
+			var scaleMath = function () {
 				var doc = document
 				var formula = doc.querySelectorAll(".formula")
 				var f, p, i=0,j, pset_array
@@ -189,7 +190,7 @@
 			MathJax.Hub.Register.MessageHook("End Process", function(msg) {
 					console.log(msg)
 					console.log("begin post processing")
-					resize_math()
+					scaleMath()
 				})
 		</script>
 		
