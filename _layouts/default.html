@@ -77,7 +77,8 @@
 					i = 0
 				for (; i < nodelist.length; i++) {
 					var el = nodelist.item(i)
-					el.parentElement.querySelector("span.click").addEventListener("touchstart", function(evt) {
+					var query = el.parentElement.querySelector("span.click")
+					query && cache.addEventListener("touchstart", function(evt) {
 						evt.preventDefault()
 						if (evt.targetTouches.length == 1) {
 							evt.classList.toggle("leave")
