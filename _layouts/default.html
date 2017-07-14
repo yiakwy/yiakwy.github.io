@@ -73,22 +73,6 @@
 				/* doc.body.addEventListener("touchmove", function(evt) {
 					evt.preventDefault();
 				}, false) */
-				var nodelist = doc.querySelectorAll("div.post li ol")
-					i = 0
-				for (; i < nodelist.length; i++) {
-					var el = nodelist.item(i)
-					var query = el.parentElement.querySelector("span.click")
-					console.log(query)
-					query && query.addEventListener("click", function(evt) {
-						console.log("trigger a touchstart event!")
-						evt.preventDefault()
-						if (evt.targetTouches.length == 1) {
-							evt.classList.toggle("leave")
-							evt.classList.toggle("touch")
-						}
-					})
-				}
-				
 				
 				$.fn.jsInj.prototype.wrap('img', 'figure')
 				$("div.post p+ol").wrap("<section>")
@@ -108,6 +92,21 @@
 					
 				}
 				
+				// add events
+				var nodelist = doc.querySelectorAll("div.post li ol")
+					i = 0
+				for (; i < nodelist.length; i++) {
+					var el = nodelist.item(i)
+					var query = el.parentElement.querySelector("span.click")
+					query && query.addEventListener("click", function(evt) {
+						console.log("trigger a touchstart event!")
+						evt.preventDefault()
+						if (evt.targetTouches.length == 1) {
+							evt.classList.toggle("leave")
+							evt.classList.toggle("touch")
+						}
+					})
+				}
 
 			}
 			
