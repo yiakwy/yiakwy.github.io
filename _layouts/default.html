@@ -99,21 +99,21 @@
 				var nodelist = doc.querySelectorAll("div.post li ol")
 					i = 0
 				for (; i < nodelist.length; i++) {
+					console.log(i)
 					var el = nodelist.item(i)
 					var query = el.parentElement.querySelector("span.click")
 					// query && query.addEventListener("touchstart", function(evt) {
 					query && query.addEventListener("click", (function(_query, 
 																	   _el, 
 																	   _i) { 
-					  return function(evt) {
+					return function(evt) {
 					  			console.log("trigger a click event!")
 					  			console.log("context:", _i)
 					  			console.log(_el.parentElemnet)
 								console.log(_query)
 					  		 } 
-					  })(query, el, i))
+					})(query, el, i))
 				}
-
 			}
 			
 			function toggle() {
