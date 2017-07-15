@@ -102,16 +102,13 @@
 					var el = nodelist.item(i)
 					var query = el.parentElement.querySelector("span.click")
 					// query && query.addEventListener("touchstart", function(evt) {
-					query && query.addEventListener("click", function(evt) {
-						console.log("trigger a click event!")
-						console.log("context:")
-						console.log(el)
-						// evt.preventDefault()
-						// if (evt.targetTouches.length == 1) {
-						// el.classList.toggle("leave")
-						// el.classList.toggle("touch")
-						// }
-					})
+					query && query.addEventListener("click", (function(_query, 
+																	   _el, 
+																	   _i) 
+					{ return function(evt) {
+					  console.log("trigger a click event!")
+					  console.log("context:", i)
+					  console.log(el.parentElemnet)} })(query, el, i))
 				}
 
 			}
