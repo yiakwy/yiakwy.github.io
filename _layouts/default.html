@@ -82,8 +82,10 @@
 					$("div.post li > ol").toggleClass("collapse")
 				})
 				
+				
 				chrome_re = /Chrome|chrome/
 				safari_re = /Safari|safari/
+				/* once we set body.overflow to hidden, there is no need for these codes
 				if (chrome_re.test(navigator.userAgent) &&
 				    $.fn.jsInj.prototype.isMobile()) {
 					var doc = document,
@@ -91,6 +93,7 @@
 					s.style.width = "44.9%"
 					
 				}
+				*/
 				
 				// add events
 				var nodelist = doc.querySelectorAll("div.post li ol")
