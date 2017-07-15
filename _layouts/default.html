@@ -104,12 +104,12 @@
 					var query = el.parentElement.querySelector("span.click")
 					// query && query.addEventListener("touchstart", function(evt) {
 					query && (function (_query, _el, _i) {
-					query.addEventListener("click", function(evt) {
-					  			console.log("trigger a click event!")
-					  			console.log("context:", _i)
-					  			console.log(_el.parentElemnet)
-								console.log(_query)
-					  		 } , false)}(query, el, i))
+					query.addEventListener("click", function(evt) 
+										   {
+												evt.preventDefault()
+												el.classList.toggle(touch)
+												el.classList.toggle(leave)
+										   } , false)}(query, el, i))
 				}
 			}
 			

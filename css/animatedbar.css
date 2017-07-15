@@ -50,8 +50,20 @@ div.post section {
 }
 
 .leave, 
-div.post li:not(:hover) ul, div.post li:not(:active) ul
-div.post li:not(:hover) ol, div.post li:not(:acitve) ol {
+div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:active) ol
+div.post section>ul>li:not(:hover) ul, div.post section>ul>li:not(:acitve) ul {
+	opacity: 0.3;
+	max-height: 0;
+	visibility: hidden;
+	/*transform: translateX(130%);*/
+	transform: scale3d(0);
+  	transition: all 1.2s ease;
+	background: inherit;
+	color: inherit;
+}
+
+div.post li ul,
+div.post li ol {
 	opacity: 0.3;
 	max-height: 0;
 	visibility: hidden;
