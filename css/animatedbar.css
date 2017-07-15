@@ -50,8 +50,8 @@ div.post section {
 }
 
 .leave, 
-div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:active) ol
-div.post section>ul>li:not(:hover) ul, div.post section>ul>li:not(:acitve) ul {
+div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:focus) ol
+div.post section>ul>li:not(:hover) ul, div.post section>ul>li:not(:focus) ul {
 	opacity: 0.3;
 	max-height: 0;
 	visibility: hidden;
@@ -75,8 +75,8 @@ div.post li ol {
 }
 
 .touch,
-div.post section>ol>li:hover ol, div.post section>ol>li:active,
-div.post section>ul>li:hover ul, div.post section>ul>li:active {
+div.post section>ol>li:hover ol, div.post section>ol>li:focus,
+div.post section>ul>li:hover ul, div.post section>ul>li:focus {
 	opacity: 1;
 	max-height: 1000px;
 	visibility: visible;
