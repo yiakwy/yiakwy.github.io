@@ -101,11 +101,18 @@
 				for (; i < nodelist.length; i++) {
 					console.log(i)
 					var el = nodelist.item(i)
+					el.index = i
 					var query = el.parentElement.querySelector("span.click")
 					// query && query.addEventListener("touchstart", function(evt) {
 					query && (function (_query, _el, _i) {
 					query.addEventListener("click", function(evt) 
 										   {
+												console.log("a click event triggered")
+												if (_el.index === i) {
+													console.log("matched index is :", _el.index)
+												} else {
+													console.log("unmached indice :", _el.index, "≠", _i)
+												}
 												evt.preventDefault()
 												el.classList.toggle("touch")
 												el.classList.toggle("leave")
