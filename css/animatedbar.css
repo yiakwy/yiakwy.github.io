@@ -50,7 +50,7 @@ div.post section {
 }
 
 .leave, 
-div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:focus) ol
+div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:focus) ol,
 div.post section>ul>li:not(:hover) ul, div.post section>ul>li:not(:focus) ul {
 	opacity: 0.3;
 	max-height: 0;
