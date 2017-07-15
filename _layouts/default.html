@@ -102,13 +102,15 @@
 					var el = nodelist.item(i)
 					var query = el.parentElement.querySelector("span.click")
 					// query && query.addEventListener("touchstart", function(evt) {
-					query && query.addEventListener("click", (function(query, 
-																	   el, 
-																	   i) { 
+					query && query.addEventListener("click", (function(_query, 
+																	   _el, 
+																	   _i) { 
 					  return function(evt) {
 					  			console.log("trigger a click event!")
-					  			console.log("context:", i)
-					  			console.log(el.parentElemnet)} 
+					  			console.log("context:", _i)
+					  			console.log(_el.parentElemnet)
+								console.log(_query)
+					  		 } 
 					  })(query, el, i))
 				}
 
