@@ -4,7 +4,15 @@ title: CV
 ---
 
 <div class="col-12" style="margin: auto;overflow:scroll;">
-<object data="/cv/LeiWang2017-3.pdf#view=Fit" type="application/pdf" width="100%" height="600">
+<object data="/cv/LeiWang2017-3.pdf#view=Fit" type="application/pdf" width="100%" height="1600px">
 alt : <a href="/cv/LeiWang2017-3.pdf">cv</a>
 </object>
-</div> 
+</div>
+
+ <script>
+var doc = document
+	doc.querySelector("object").addEventListener('load', function() {
+		this.hide()
+		this.show()
+	})
+</script>
