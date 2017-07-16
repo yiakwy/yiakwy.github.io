@@ -1,4 +1,4 @@
-(function(factor) {
+(function(factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(factory)
 	} else if (typeof define === 'function' && define.cmd){
@@ -6,7 +6,8 @@
 	} else if (typeof exports === 'object') {
 		var YiLetter = module.exports = factory(require)
 	} else {
-		factory(null)
+		var global = (0, eval)('this')
+		global.YiLetter = factory(null)
 	}
 }(function (require){
 	var isCommonJS = true
