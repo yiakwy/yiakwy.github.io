@@ -18,7 +18,7 @@
 	var VERSION = '0.1.0',
 		NAME = 'YiLetter',
 		AUTHOR = 'Lei Wang',
-		EMAIL = 'yiak.wy@gmail.com',
+		EMAIL = 'yiak.wy@gmail.com'
 	
 	var $YiLetter = function (settings) {
 			_classCallCheck(this, $YiLetter)
@@ -30,14 +30,16 @@
 		// $ = require("jQuery")
 		// gapi = require("gapi")
 	} else {
-		$ = global.jQuery
-		gapi = global.gapi
+		if (global.jQuery !== undefined) {
+			$ = global.jQuery
+		}
+		var $ = $ || {}
 	}
 	
 	var defaultSettings = {
-			clientId: '<YOUR_CLIENT_ID>',
+			clientId: '1009352751052-3kn4v3g9terh3t2q7gu5octboksb806q.apps.googleusercontent.com',
 			discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-			scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+			scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
 		}
 	
 	function gDrive(meta) {
@@ -45,7 +47,7 @@
 		this.mimeType = meta.mimeType
 	}
 	
-	var $YiLetter.prototype = {
+	$YiLetter.prototype = {
 		_init: _init,
 		_classCallCheck: _classCallCheck,
 		check_support: check_support,
@@ -54,8 +56,10 @@
 		handleClientLoad: handleClientLoad
 		}
 	
-	$.fn.YiLetter = $YiLetter
-	$.fn.extend($YiLetter)
+	if ($ != undefined && $.fn !== undefined) {
+		$.fn.YiLetter = $YiLetter
+		$.fn.extend($YiLetter)
+	}
 	
 	// global functions
 	function _init(settings) {
@@ -115,14 +119,16 @@
 
 	function handleSignedIn(isSignedIn) {
 		if (isSignedIn) {
-			
+			alert("successful, we can navigate through google drive now!")
 		} else {
 			alert("client connect to google cloud not successful!")
 		}
 	}
 		
 	function initClient() {
-		gapi.client.init(this.settings).then(authenticate)
+		gapi.client.init(this.settings).then(authenticate, function(err) {
+			console.log(err)
+		})
 	}
 	
 	function create(target) {
@@ -139,7 +145,7 @@
 								})
 	}
 		
-	function delete(target) {
+	function _delete(target) {
 		
 	}
 		
@@ -149,4 +155,4 @@
 	
 	return $YiLetter
 
-})
+}))

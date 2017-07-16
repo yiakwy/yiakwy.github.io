@@ -2,8 +2,10 @@
 layout: default
 title: chat
 ---
+
 <script src="/js/google-drive.js"></script>
 <script async defer src="https://apis.google.com/js/api.js" 
-		onload="this.onload=handleClientLoad" 
+		onload="this.onload=function(){};var ins = new YiLetter({}); ins.handleClientLoad()" 
 		onreadystatechange="if (this.readyState === 'complete') this.onload()">
+	console.log("google-drive executed!")
 </script>
