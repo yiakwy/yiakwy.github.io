@@ -15,7 +15,12 @@ layout: default
 			<br>
 			can only cost you
 			<br>
-			<span style="font-size: 2em;color;color:grey;">{{ assign page.reading_expenditure = post.content | number_of_words | modulo:  1000}}</span>
+			{% if post.content > 0 %}
+			{% assign reading_expenditure = post.content | number_of_words | divided_by: 500 %}
+			{% else %}
+			{% assign reading_expenditure = 0 %}
+            <span style="font-size: 2em;color;color:grey;">{{ reading_expenditure }}</span>
+			{% endif %}
 			<br>
 			minutes
 		</p>
