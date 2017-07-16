@@ -39,7 +39,10 @@
 	var defaultSettings = {
 			clientId: '1009352751052-3kn4v3g9terh3t2q7gu5octboksb806q.apps.googleusercontent.com',
 			discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-			scope: 'https://www.googleapis.com/auth/drive.metadata.readonly'
+			scope: 'https://www.googleapis.com/auth/drive.file'
+				/*['https://www.googleapis.com/auth/drive.metadata.readonly',
+				   'https://www.googleapis.com/auth/drive.appdata',
+				   'https://www.googleapis.com/auth/drive.file']*/
 		}
 	
 	function gDrive(meta) {
@@ -120,6 +123,7 @@
 	function handleSignedIn(isSignedIn) {
 		if (isSignedIn) {
 			alert("successful, we can navigate through google drive now!")
+			test()
 		} else {
 			alert("client connect to google cloud not successful!")
 		}
@@ -128,21 +132,34 @@
 	function initClient() {
 		gapi.client.init(this.settings).then(authenticate, function(err) {
 			console.log(err)
+			alert(err)
 		})
 	}
 	
 	function create(target) {
-		var drive = gapi.client.drive
-		drive.files.create({
-			resource: target,
-			fields: 'id'
-						    }, function(err, file) {
-									if (err) {
-										console.log(err)
-									} else {
-										console.log('Crated Fold ID:', file.id)
-									}
-								})
+		// Implements RFC 2387 Multipart content type for google REST api
+		const boundary = '--MultiBoundary';
+    	const delimiter = "\r\n--" + boundary + "\r\n";
+    	const close_delim = "\r\n--" + boundary + "--";
+		const end = "\r\n\r\n"
+		var mimeType = target.mime_type
+		var multipart_body = delimiter +  'Content-Type: application/json' + end +
+        					 JSON.stringify({
+								 				'mimeType': mimeType, 
+								 				'name': target.name
+							 				}) +
+							 delimiter + 'Content-Type: ' + mimeType + end +
+        					 target.contents +
+        					 close_delim	
+		
+		gapi.client.request({
+			'path': '/upload/drive/v3/files/?uploadType=multipart',
+			'method': 'POST',
+			'params': {'uploadType': 'multipart'},
+			'headers': {'Content-Type': 'multipart/mixed; boundary=' + boundary},
+			'body': multipart_body,
+			'callback': target.callback || function(file){console.log(file)}
+		})
 	}
 		
 	function _delete(target) {
@@ -151,6 +168,15 @@
 		
 	function get(target) {
 	
+	}
+	
+	function test() {
+		var target = {
+				name: "SimpleTest.txt",
+				contents: "Hello World! This is a test message!",
+				mime_type: "text/html"
+			}
+		create(target)
 	}
 	
 	return $YiLetter
