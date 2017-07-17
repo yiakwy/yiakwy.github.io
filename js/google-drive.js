@@ -118,12 +118,15 @@
 	function authenticate() {
 		gapi.auth2.getAuthInstance().isSignedIn.listen(handleSignedIn)
 		gapi.auth2.getAuthInstance().signIn()
+		if (gapi.auth2.getAuthInstance().isSignedIn.get()){
+			// for signed in events here! Lei
+			test()
+		}
 	}
 
 	function handleSignedIn(isSignedIn) {
 		if (isSignedIn) {
 			alert("successful, we can navigate through google drive now!")
-			test()
 		} else {
 			alert("client connect to google cloud not successful!")
 		}
@@ -136,7 +139,8 @@
 		})
 	}
 	
-	function create(target) {
+	// google
+	function modify(target, callback, method) {
 		// Implements RFC 2387 Multipart content type for google REST api
 		const boundary = '--MultiBoundary';
     	const delimiter = "\r\n--" + boundary + "\r\n";
@@ -151,23 +155,62 @@
 							 delimiter + 'Content-Type: ' + mimeType + end +
         					 target.contents +
         					 close_delim	
-		
-		gapi.client.request({
-			'path': '/upload/drive/v3/files/?uploadType=multipart',
-			'method': 'POST',
-			'params': {'uploadType': 'multipart'},
-			'headers': {'Content-Type': 'multipart/mixed; boundary=' + boundary},
-			'body': multipart_body,
-			'callback': target.callback || function(file){console.log(file)}
-		})
+		if (method == 'POST') {
+			return gapi.client.request({
+				'path': '/upload/drive/v3/files/',
+				'method': method,
+				'params': {'uploadType': 'multipart'},
+				'headers': {'Content-Type': 'multipart/mixed; boundary=' + boundary},
+				'body': multipart_body,
+				'callback': callback || function(file){console.log(file)}
+			})
+		} else {
+			for (var i=0; i < target.files.length; i++) {
+				   gapi.client.request({
+				'path': '/upload/drive/v3/files/' + target.files[i].id,
+				'method': method,
+				'params': {'uploadType': 'multipart'},
+				'headers': {'Content-Type': 'multipart/mixed; boundary=' + boundary},
+				'body': multipart_body,
+				'callback': callback || function(file){console.log(file)}
+				})
+			}
+		}
 	}
+	
+	function create(target, 
+					callback) {
 		
+		function success(response) {
+			console.log(" find " + response.result.files.length + " files ")
+			target.files = response.result.files
+			modify(target, callback, "PATCH")
+		}
+		
+		function error(reason) {
+			modify(target, callback, "POST")
+		}
+		
+		query_ob("name+=+" + "%27" + target.name + "%27", success, error)
+	}
+	
 	function _delete(target) {
 		
 	}
 		
-	function get(target) {
+	function get(target, callback) {
+		return gapi.client.request({
+			'path': "/drive/v3/files/" + target.fileId,
+			'method': "GET",
+			'callback': callback || function(file){console.log(file)}
+		})
+	}
 	
+	function query_ob(selector, success, error) {
+		return gapi.client.request({
+			'path': "/drive/v3/files/?q=" + selector,
+			'method': "GET",
+		}).then(success, error)
 	}
 	
 	function test() {
@@ -176,7 +219,11 @@
 				contents: "Hello World! This is a test message!",
 				mime_type: "text/html"
 			}
-		create(target)
+		create(target, function(file){
+				var ret = get({fileId: file.id})
+				console.log("fetched file " + file.name + ":")
+				console.log(ret)
+				})
 	}
 	
 	return $YiLetter
