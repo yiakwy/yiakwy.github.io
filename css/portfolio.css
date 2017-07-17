@@ -6,4 +6,6 @@
 	-moz-border-radius: 450px;
 	 border-radius: 450px;
 	 background: rgb(255,255,255);
+	display: block;
+    margin: 0 auto;
 }

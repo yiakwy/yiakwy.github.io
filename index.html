@@ -31,7 +31,7 @@ title: Garden of Edian, yiak
 						<div style="width:100%">
 					{% endif %}
 					<span class="meta" style="color: black;"> <i class='fa fa-calendar'></i> {{ post.date | date_to_string }}</span>
-					<a href="{{post.url}}" title="{{post.title}}" style="left:10px;">{{post.title}}</a><hr style="margin-top:10px;margin-bottom:10px;background:black;width:90%">
+					<a href="{{post.url}}" title="{{post.title}}" style="left:10px;">{{post.title}}</a><hr style="margin-top:10px;margin-bottom:10px;background:rgba(0,0,0,0.2);width:90%;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)">
 					{% if post.thumb_img %}
 					<div class="panel">{{ post.excerpt }}</div>	
 					{% else %}

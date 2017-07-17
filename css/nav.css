@@ -59,6 +59,7 @@ ul.navbar:after,
 ul.navbar,
 .navbar-header {
 	zoom: 1;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)
 }
 
 nav img.logo_seo {
@@ -91,7 +92,6 @@ nav img.logo_seo {
 	}
 	ul.navbar {
 		list-style-type:none;
-		overflow: scroll;
 		background-color: hsl(0,0%,20%); /* black in 20% lightness */
 	}
 	ul.navbar > li {
