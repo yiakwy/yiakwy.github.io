@@ -103,7 +103,7 @@ img {
 		transform: translate3d(0,0,0);
 		-webkit-transform: translate3d(0,0,0);
 		width: 100%;
-		posiiton: relative;
+		position: relative;
 	}
 	
 	div#fullpage.row.collapsed {
@@ -127,5 +127,24 @@ img {
 	
 	.text-muted {
 		border-bottom-right-radius: 0px;
+	}
+}
+
+video#background-video {
+	position: fixed; right: 0; bottom: 0;
+	min-width: 100%; min-height: 100%;
+	width: auto; height: auto; z-index: -100;
+	background: url(/images/norway.png) no-repeat;
+	background-size: cover;
+	}
+
+@media (max-width: 414px) {
+video#background-video {
+	position: fixed; top: 48px; right: 0; bottom: 0;
+	max-width: 100%;
+	width: auto; height: auto; z-index: -100;
+	background: url(/images/norway.png) no-repeat;
+	background-size: cover;
+	border-radius: 15px 25px;
 	}
 }
