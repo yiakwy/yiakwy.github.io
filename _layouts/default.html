@@ -9,6 +9,7 @@
         
         <title>{{page.title}}</title>
 		<script type="text/javascript" src="/lib/jQuery/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="/js/canvas-video-player.js"></script>
         <!-- Global Fonts-->
         <!--link href="/lib/font-awesome-4.1.0/css/font-awesome.css" rel="stylesheet" type="text/css"-->
         <!-- Customer CSS-->
@@ -43,10 +44,14 @@
 					<li><a href="/chat">YiLetter</a></li>
                 </ul>
             </nav>
+<!-- enables Accept Ranges: bytes in server -->
 <video autoplay loop id="background-video" controls="true">
+	<srouce src="/images/norway4k-iPhone.webm" type='video/webm;codecs="vp8, vorbis"' media="all and (max-width:480px)">
+	<srouce src="/images/norway4k.webm" type='video/webm;codecs="vp8, vorbis"' media="all and (max-width:480px)">
 	<source src="/images/norway4k-iPhone.mp4" type="video/mp4" media="all and (max-width:480px)">
 	<source src="/images/norway4k.mp4" type="video/mp4">
 </video>
+<canvas class="canvasVideo" style="display:none"></canvas>
             <div id="fullpage" class="row">
 				{{content}}
 			</div>
@@ -136,6 +141,20 @@
 				el1.classList.toggle(cls);
 				el2.classList.toggle(cls);
 				el3.classList.toggle(cls);
+			}
+			
+			function mobileVideo() {
+				if (safari_re.test(navigator.userAgent) &&
+				    $.fn.jsInj.prototype.isMobile()) {
+					var config = { videoSelector: '.video',
+								   canvasSelector: '.canvas',
+								   timelineSelector: false,
+								   autoplay: true,
+								   makeLoop: true,
+								   pauseOnClick: false, 
+								   audio: true}
+					var ca_video = new CanvasVideoPlayer();
+				}
 			}
 			
 			var scaleMath = function () {
