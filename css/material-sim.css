@@ -1,0 +1,29 @@
+.material-middle:hover, .material-middle:focus,
+.material-up {
+	z-index: 31;
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 10px 5px rgba(0,0,0,0.24);
+	transition: box-shadow 0.2s ease;
+}
+
+h1:hover, blockquote:hover,
+h1:focus, blockquote:focus,
+.material-normal:hover, .material-normal:focus,
+.material-middle {
+	z-index: 21;
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12), 10px 10px 10px 3px rgba(0,0,0,0.24);
+	transition: box-shadow 0.2s ease;
+}
+
+h1, blockquote,
+.material-normal,
+.material-subtle {
+	z-index: 11;
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 10px 3px rgba(0,0,0,0.24);
+	transition: box-shadow 0.2s ease;
+}
+
+.material-ground {
+	z-index: 1;
+	box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 10px 1px rgba(0,0,0,0.24);
+	transition: box-shadow 0.2s ease;
+}
