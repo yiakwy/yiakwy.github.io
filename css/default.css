@@ -154,6 +154,6 @@ video#background-video {
 	border-radius: 15px 25px;
 	}
 .canvasVideo {
-	display: "";
+	display: block;
 }
 }
