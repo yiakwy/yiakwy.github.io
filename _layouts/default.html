@@ -212,7 +212,7 @@
 				
 				// mimick event due to safari ios developer policy
 				window.addEventListener('touchstart', forceSafariPlayAudio, false);
-				videoSource = doc.querySelector("video > source")
+				var videoSource = doc.querySelector("video > source")
 				audio.src = videoSouce.src
 			}
 			
