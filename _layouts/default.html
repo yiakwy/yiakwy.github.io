@@ -172,6 +172,11 @@
 				}
 			}
 			
+			/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
+			function audioPlayer() {
+				var doc = document,
+					audio = doc.querySelector("audio")
+				
 			function forceSafariPlayAudio() {
 				audio.load(); // iOS 9   还需要额外的 load 一下, 否则直接 play 无效
 				audio.play(); // iOS 7/8 仅需要 play 一下
@@ -180,11 +185,6 @@
 			function log(info) {
 				console.log(info)
 			}
-			
-			/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
-			function audioPlayer() {
-				var doc = document,
-					audio = doc.querySelector("audio")
 				
 				audio.addEventListener('loadstart', function() {
 					log('loadstart');
