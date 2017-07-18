@@ -99,6 +99,7 @@
 				
 				chrome_re = /Chrome|chrome/
 				safari_re = /Safari|safari/
+				wechat_re = /Wechat|wechat/
 				/* once we set body.overflow to hidden, there is no need for these codes
 				if (chrome_re.test(navigator.userAgent) &&
 				    $.fn.jsInj.prototype.isMobile()) {
@@ -216,7 +217,12 @@
 				// mimick event due to safari ios developer policy
 				window.addEventListener('touchstart', forceSafariPlayAudio, false);
 				var videoSource = doc.querySelector("video > source")
-				audio.src = videoSource.src
+				if (wechat_re.test(navigator.userAgent) && 
+				   $.fn.jsInj.prototype.isMobile()) {
+			
+				} else {
+					audio.src = videoSource.src
+				}
 			}
 			
 			var scaleMath = function () {
