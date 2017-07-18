@@ -6,7 +6,7 @@ nav li{
 nav li a{
 	display: block;
 	position: relative;
-	color: red;
+	color: yellow;
 	text-align: center;
 	text-decoration: none;
 }
