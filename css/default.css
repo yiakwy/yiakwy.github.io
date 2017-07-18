@@ -143,7 +143,19 @@ video#background-video {
 	display: none;
 	}
 }
-
+@media (max-width: 786px) {
+.canvasVideo,	
+video#background-video {
+	position: fixed; right: 0; bottom: 0;
+	min-width: 100%; min-height: 100%;
+	width: auto; height: auto; z-index: -100;
+	background: url(/images/norway.png) no-repeat;
+	background-size: cover;
+	}
+.canvasVideo {
+	display: block;
+	}
+}
 @media (max-width: 414px) {
 
 .canvasVideo,
@@ -154,5 +166,6 @@ video#background-video {
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
 	border-radius: 15px 25px;
+	display: block;
 	}
 }
