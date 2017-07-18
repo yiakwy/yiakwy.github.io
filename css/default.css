@@ -138,8 +138,10 @@ video#background-video {
 	background-size: cover;
 	}
 
+@media (min-width: 787px) {
 .canvasVideo {
 	display: none;
+	}
 }
 
 @media (max-width: 414px) {
@@ -153,7 +155,4 @@ video#background-video {
 	background-size: cover;
 	border-radius: 15px 25px;
 	}
-.canvasVideo {
-	display: block;
-}
 }
