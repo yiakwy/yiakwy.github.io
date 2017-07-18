@@ -154,6 +154,8 @@
 								   pauseOnClick: false, 
 								   audio: true }
 					var pseuVideo = new CanvasVideoPlayer(config)
+					pseuVideo.play()
+					audioPlayer()
 				} else 
 				if (chrome_re.test(navigator.userAgent) && 
 				   $.fn.jsInj.prototype.isMobile()) {
@@ -166,7 +168,49 @@
 								   audio: true }
 					var pseuVideo = new CanvasVideoPlayer(config)
 					pseuVideo.play()
+					audioPlayer()
 				}
+			}
+			
+			function forceSafariPlayAudio() {
+				audio.load(); // iOS 9   还需要额外的 load 一下, 否则直接 play 无效
+				audio.play(); // iOS 7/8 仅需要 play 一下
+			}
+			
+			/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
+			function audioPlayer() {
+				var doc = document,
+					log = console.log,
+					audio = doc.querySelector("audio")
+				
+				audio.addEventListener('loadstart', function() {
+					log('loadstart');
+				}, false);
+				audio.addEventListener('loadeddata', function() {
+					log('loadeddata');
+				}, false);
+				audio.addEventListener('loadedmetadata', function() {
+					log('loadedmetadata');
+				}, false);
+				audio.addEventListener('canplay', function() {
+					log('canplay');
+				}, false);
+				audioEl.addEventListener('play', function() {
+					log('play');
+					// remove event handler
+					window.removeEventListener('touchstart', forceSafariPlayAudio, false);
+				}, false);
+				audio.addEventListener('playing', function() {
+					log('playing');
+				}, false);
+				audio.addEventListener('pause', function() {
+					log('pause');
+				}, false);
+				
+				// mimick event due to safari ios developer policy
+				window.addEventListener('touchstart', forceSafariPlayAudio, false);
+				videoSource = doc.querySelector("video > source")
+				audio.src = videoSouce.src
 			}
 			
 			var scaleMath = function () {
