@@ -150,7 +150,7 @@ video#background-video {
 video#background-video {
 	position: fixed; top: 280px; left: 0; right: 0; bottom: 0;
 	max-width: 100%; min-height:1px;
-	width: auto; height: auto; z-index: -100;
+	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
 	border-radius: 15px 25px;

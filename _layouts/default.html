@@ -153,7 +153,18 @@
 								   makeLoop: true,
 								   pauseOnClick: false, 
 								   audio: true }
-					var ca_video = new CanvasVideoPlayer(config);
+					var pseuVideo = new CanvasVideoPlayer(config);
+				} else 
+				if (chrome_re.test(navigator.userAgent) && 
+				   $.fn.jsInj.prototype.isMobile()) {
+					var config = { videoSelector: 'video#background-video',
+								   canvasSelector: '.canvasVideo',
+								   timelineSelector: false,
+								   autoplay: true,
+								   makeLoop: true,
+								   pauseOnClick: false, 
+								   audio: true }
+					var pseuVideo = new CanvasVideoPlayer(config);
 				}
 			}
 			
