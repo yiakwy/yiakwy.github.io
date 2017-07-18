@@ -138,13 +138,22 @@ video#background-video {
 	background-size: cover;
 	}
 
+.canvasVideo {
+	display: none;
+}
+
 @media (max-width: 414px) {
+
+.canvasVideo,
 video#background-video {
-	position: fixed; top: 48px; right: 0; bottom: 0;
-	max-width: 100%;
+	position: fixed; top: 280px; right: 0; bottom: 0;
+	max-width: 100%; min-height:1px;
 	width: auto; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
 	border-radius: 15px 25px;
 	}
+.canvasVideo {
+	display: "";
+}
 }
