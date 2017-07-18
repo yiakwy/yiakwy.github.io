@@ -48,6 +48,7 @@
             </nav>
 <!-- enables Accept Ranges: bytes in server -->
 <video autoplay loop id="background-video" controls="false">
+	<source src="/images/norway4k-iPhone.m4v" type="video/mp4" media="all and (max-width:480px)"/>
 	<source src="/images/norway4k-iPhone.mp4" type="video/mp4" media="all and (max-width:480px)"/>
 	<source src="/images/norway4k.mp4" type="video/mp4"/>
 	<srouce src="/images/norway4k-iPhone.webm" type='video/webm' media="all and (max-width:480px)"/>
@@ -215,7 +216,7 @@
 				// mimick event due to safari ios developer policy
 				window.addEventListener('touchstart', forceSafariPlayAudio, false);
 				var videoSource = doc.querySelector("video > source")
-				audio.src = videoSouce.src
+				audio.src = videoSource.src
 			}
 			
 			var scaleMath = function () {
