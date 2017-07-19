@@ -7,6 +7,7 @@
 
 h1:hover, blockquote:hover,
 h1:focus, blockquote:focus,
+img:hover, img:focus,
 .material-normal:hover, .material-normal:focus,
 .material-middle {
 	z-index: 21;
@@ -14,7 +15,7 @@ h1:focus, blockquote:focus,
 	transition: box-shadow 0.2s ease;
 }
 
-h1, blockquote,
+h1, blockquote, img,
 .material-normal,
 .material-subtle {
 	z-index: 11;
