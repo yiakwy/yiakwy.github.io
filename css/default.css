@@ -94,6 +94,10 @@ img {
 		min-width: 200px;
 	}
 	
+	div#fullpage {
+		background-color:initial;
+	}
+	
 	div#fullpage.row {
 		margin-top: 58px;
 		margin-left: 0;
@@ -104,6 +108,25 @@ img {
 		-webkit-transform: translate3d(0,0,0);
 		width: 100%;
 		position: relative;
+	}
+	
+	h1:nth-of-type(1) {
+		color: white;
+	}
+	
+	.video {
+		transition: 0.6s;
+		-webkit-transform: translateZ(0);
+		transform: translate3d(0,0,0);
+		-webkit-transform: translate3d(0,0,0);
+	}
+	
+	.video.collapsed {
+		margin-left: 80%;
+		transition: 0.6s;
+		-webkit-transform: translateZ(0);
+		transform: translate3d(0,0,0);
+		-webkit-transform: translate3d(0,0,0);
 	}
 	
 	div#fullpage.row.collapsed {
@@ -146,9 +169,9 @@ video#background-video {
 @media (max-width: 786px) {
 .canvasVideo,	
 video#background-video {
-	position: fixed; right: 0; bottom: 0;
-	min-width: 100%; min-height: 100%;
-	width: auto; height: auto; z-index: -100;
+	position: absolute; top: 80px; left: 0; right: 0; bottom: 0;
+	max-width: 100%; min-height:1px;
+	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
 	}
@@ -160,12 +183,12 @@ video#background-video {
 
 .canvasVideo,
 video#background-video {
-	position: fixed; top: 280px; left: 0; right: 0; bottom: 0;
+	position: absolute; top: 350px; left: 0; right: 0; bottom: 0;
 	max-width: 100%; min-height:1px;
 	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
-	border-radius: 15px 25px;
+	/*border-radius: 15px 25px;*/
 	display: block;
 	}
 }

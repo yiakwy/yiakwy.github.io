@@ -3,7 +3,7 @@ layout: default
 ---
 
 
-<h1>{{page.title}}</h1>
+<h1 style="background-color:initial;color:green;opacity:0.7">{{page.title}}</h1>
 <p class="meta"> <i class='fa fa-calendar'></i> created on {{ page.date | date_to_string }}, last updated on {{ page.updated | date_to_string }} </p>
 <hr>
 <div>
@@ -16,7 +16,7 @@ layout: default
 			can only cost you
 			<br>
 			{% if post.content > 0 %}
-			{% assign reading_expenditure = post.content | number_of_words | divided_by: 500 %}
+			{% assign reading_expenditure = post.content | number_of_words | divided_by: 500.0 %}
 			{% else %}
 			{% assign reading_expenditure = 0 %}
             <span style="font-size: 2em;color;color:grey;">{{ reading_expenditure }}</span>
