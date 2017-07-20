@@ -201,7 +201,7 @@
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
 							var rect = h1.getBoundingClientRect()
 							for (var i=0; i < videos.length; i++) {
-								videos[i].style.top = rect.top - 20 + "px"
+								videos[i].style.top = rect.top - 20 + window.scrollY + "px"
 								videos[i].style.minHeight = rect.height + 40 + "px"
 							}
 							h1.style.color = "white"
