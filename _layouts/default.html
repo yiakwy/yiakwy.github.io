@@ -187,7 +187,7 @@
 					
 					doc.addEventListener("DOMContentLoaded", function() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
-							var rect = h1.getBoundingClientRect() - body.getBoundingClientRect()
+							var rect = h1.getBoundingClientRect()
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
 								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
