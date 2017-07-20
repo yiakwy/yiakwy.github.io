@@ -183,11 +183,11 @@
 				}
 					var doc = document
 					var h1 = doc.querySelector("h1"),
-						videos = doc.querySelectorAll(".video")
-					
+						videos = doc.querySelectorAll(".video"),
+						box = doc.querySelector("div.box")
+						
 					doc.addEventListener("DOMContentLoaded", function() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
-							var rect = h1.getBoundingClientRect()
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
 								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
@@ -198,8 +198,21 @@
 					}, false)
 					
 					
+					window.addEventListener("orientationchange", function(){
+						switch(window.orientation) {
+							case 90 || -90:
+							for (var i=0; i < videos.length; i++) {
+								videos[i].style.minHeight = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + "px"
+							}
+							case 0:
+							for (var i=0; i < videos.length; i++) {
+								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
+							}		
+						}
+					})
+					
 					doc.addEventListener("resize", function(){
-						console.log("resize triggered")
+						console.log("resize triggered！")
 					}, false)
 					
 					
