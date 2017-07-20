@@ -191,7 +191,7 @@
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
+								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
 							}
 							h1.style.color = "white"
 							doc.removeEventListener("DOMContentLoaded", arguments.callee)
@@ -204,8 +204,8 @@
 							case 90 || -90:
 							for (var i=0; i < videos.length; i++) {
 								if (box !== null) {
-								videos[i].style.minHeight = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px" } else {
-								videos[i].style.minHeight = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetTop	+ next[next.length-1].offsetHeight + 20 + 5 + "px"
+								videos[i].style.Height = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px" } else {
+								videos[i].style.Height = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetTop	+ next[next.length-1].offsetHeight + 20 + 5 + "px"
 								for (var j=0; j < next.length; j++) {
 								next[j].style.color = "white"
 								next[j].style.opacity = "1"
@@ -215,15 +215,13 @@
 							break
 							case 0:
 							for (var i=0; i < videos.length; i++) {
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px" 
-								if (box !== null) {
+								videos[i].style.Height = h1.offsetHeight+ 40 + "px" 
+								if (box === null) {
 								for (var j=0; j < next.length; j++) {
 									if (next.tagName == "P") {next[j].style.color = "black"}
 									else { next[j].style.color = "green" }
-								next[j].style.opacity = "1"
+									next[j].style.opacity = "1"
 									}
-								} else {
-								
 								}
 							}		
 						}
