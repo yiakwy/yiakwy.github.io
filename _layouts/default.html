@@ -215,7 +215,16 @@
 							break
 							case 0:
 							for (var i=0; i < videos.length; i++) {
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
+								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px" 
+								if (box !== null) {
+								for (var j=0; j < next; j++) {
+									if (next.tagName == "P") {next[j].style.color = "black"}
+									else { next[j].style.color = "green" }
+								next[j].style.opacity = "1"
+									}
+								} else {
+								
+								}
 							}		
 						}
 					}, false)
