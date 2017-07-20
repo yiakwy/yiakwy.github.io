@@ -204,8 +204,8 @@
 							case 90 || -90:
 							for (var i=0; i < videos.length; i++) {
 								if (box !== null) {
-								videos[i].style.Height = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px" } else {
-								videos[i].style.Height = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetTop	+ next[next.length-1].offsetHeight + 20 + 5 + "px"
+								videos[i].style.Height = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px"; videos[i].style.minHeight = box.parentElement.offsetTop + box.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px" } else {
+								videos[i].style.Height = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetTop + next[next.length-1].offsetHeight + 20 + 5 + "px"; videos[i].style.minHeight = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetTop + next[next.length-1].offsetHeight + 20 + 5 + "px"
 								for (var j=0; j < next.length; j++) {
 									if (next[j].tagName == "P") {next[j].style.color = "white"; next[j].style.opacity="1"}
 									else { next[j].style.color = "white"; next[j].style.opacity = "0.8"}
@@ -215,7 +215,8 @@
 							break
 							case 0:
 							for (var i=0; i < videos.length; i++) {
-								videos[i].style.Height = h1.offsetHeight+ 40 + "px" 
+								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
+								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
 								if (box === null) {
 								for (var j=0; j < next.length; j++) {
 									if (next[j].tagName == "P") {next[j].style.color = "black"; next[j].style.opacity="1"}
