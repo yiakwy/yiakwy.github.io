@@ -55,7 +55,7 @@
 	<srouce src="/images/norway4k-iPhone.webm" type='video/webm' media="all and (max-width:480px)"/>
 	<srouce src="/images/norway4k.webm" type='video/webm'/>
 </video>
-<canvas class="canvasVideo video" style="display:none"></canvas>
+<canvas class="canvasVideo video"></canvas>
 				{{content}}
 			</div>
 
@@ -177,6 +177,9 @@
 					var pseuVideo = new CanvasVideoPlayer(config)
 					pseuVideo.play()
 					audioPlayer()
+				} else {
+					var ca = document.querySelector("canvas")
+					ca.style.display = "none"
 				}
 					var doc = document
 					var h1 = doc.querySelector("h1"),
