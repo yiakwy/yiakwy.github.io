@@ -131,7 +131,7 @@
 
 	function isMobile() {
 		var mobile = /iPhone|Android|iPad|iPod/i
-		if( mobile.test(navigator.userAgent))
+		if( mobile.test(navigator.platform))
 		{
 			return true;
 		}

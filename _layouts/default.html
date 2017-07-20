@@ -47,14 +47,14 @@
                 </ul>
             </nav>
 <!-- enables Accept Ranges: bytes in server -->
-<video autoplay loop id="background-video" controls="false">
+<video class="video" autoplay loop id="background-video" controls="false">
 	<source src="/images/norway4k-iPhone.m4v" type="video/mp4" media="all and (max-width:480px)"/>
 	<!--source src="/images/norway4k-iPhone.mp4" type="video/mp4" media="all and (max-width:480px)"/-->
 	<source src="/images/norway4k.mp4" type="video/mp4"/>
 	<srouce src="/images/norway4k-iPhone.webm" type='video/webm' media="all and (max-width:480px)"/>
 	<srouce src="/images/norway4k.webm" type='video/webm'/>
 </video>
-<canvas class="canvasVideo"></canvas>
+<canvas class="canvasVideo video" style="display:none"></canvas>
             <div id="fullpage" class="row material-middle">
 				{{content}}
 			</div>
@@ -80,7 +80,6 @@
 					var doc = document
 					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
 				})
-				
 				// for ios safari
 				var doc = document
 				doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
@@ -141,10 +140,15 @@
 				var el1 = doc.querySelector("div#fullpage");
 				var el2 = doc.querySelector(".navbar-toggle");
 				var el3 = doc.querySelector("nav ul");
+				var el4 = doc.querySelectorAll(".video")
 				if (! el1 || ! el2 || ! el3) {return;}
 				el1.classList.toggle(cls);
 				el2.classList.toggle(cls);
 				el3.classList.toggle(cls);
+				
+				for (var i=0; i<el4.length; i++) {
+					el4[i].classList.toggle(cls);
+				}
 			}
 			
 			function mobileVideo() {
@@ -174,6 +178,35 @@
 					pseuVideo.play()
 					audioPlayer()
 				}
+					var doc = document
+					var h1 = doc.querySelector("h1"),
+						videos = doc.querySelectorAll(".video")
+					
+					doc.addEventListener("DOMContentLoaded", function() {
+						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
+							var rect = h1.getBoundingClientRect()
+							for (var i=0; i < videos.length; i++) {
+								videos[i].style.top = rect.top - 20 + "px"
+								videos[i].style.minHeight = rect.height + 40 + "px"
+							}
+							h1.style.color = "white"
+							doc.removeEventListener("onreadystatechange", arguments.callee)
+						}
+					}, false)
+					
+					doc.addEventListener("resize", function(){
+						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
+							var rect = h1.getBoundingClientRect()
+							for (var i=0; i < videos.length; i++) {
+								videos[i].style.top = rect.top - 20 + "px"
+								videos[i].style.minHeight = rect.height + 40 + "px"
+							}
+							h1.style.color = "white"
+							doc.removeEventListener("resize", arguments.callee)
+						}
+					}, false)
+					
+
 			}
 			
 			/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
@@ -181,15 +214,17 @@
 				var doc = document,
 					audio = doc.querySelector("audio")
 				
-			function forceSafariPlayAudio() {
-				audio.load(); // iOS 9   还需要额外的 load 一下, 否则直接 play 无效
-				audio.play(); // iOS 7/8 仅需要 play 一下
-			}
-			
-			function log(info) {
-				console.log(info)
-			}
-				
+				var self = this
+				self.audio = audio
+				function forceSafariPlayAudio() {
+					audio.load(); // iOS 9   还需要额外的 load 一下, 否则直接 play 无效
+					audio.play(); // iOS 7/8 仅需要 play 一下
+				}
+
+				function log(info) {
+					console.log(info)
+				}
+
 				audio.addEventListener('loadstart', function() {
 					log('loadstart');
 				}, false);
@@ -221,7 +256,7 @@
 				   $.fn.jsInj.prototype.isMobile()) {
 			
 				} else {
-					audio.src = videoSource.src
+					// audio.src = videoSource.src
 				}
 			}
 			
@@ -254,8 +289,7 @@
 						}
 						
 						p.style.fontSize = String(ratio * 100 * factor) + "%";
-					}
-						
+					}	
 				}
 			}
 		
