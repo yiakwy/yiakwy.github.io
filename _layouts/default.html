@@ -189,6 +189,8 @@
 						
 					doc.addEventListener("DOMContentLoaded", function() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
+							console.log("h1, height:" + toString(h1.offsetHeight))
+							console.log("h1, top:" + toString(h1.offsetTop))
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
 								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
