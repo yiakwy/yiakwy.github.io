@@ -56,7 +56,9 @@
 	<srouce src="/images/norway4k.webm" type='video/webm'/>
 </video>
 <canvas class="canvasVideo video"></canvas>
+				<div id="overLay" class="row">
 				{{content}}
+				</div>
 			</div>
 
             <footer>
@@ -145,10 +147,11 @@
 				el1.classList.toggle(cls);
 				el2.classList.toggle(cls);
 				el3.classList.toggle(cls);
-				
+				/*
 				for (var i=0; i<el4.length; i++) {
 					el4[i].classList.toggle(cls);
 				}
+				*/
 			}
 			
 			function mobileVideo() {

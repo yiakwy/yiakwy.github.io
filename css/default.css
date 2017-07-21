@@ -18,6 +18,7 @@ body {
 }
 
 .container,
+#overLay,
 #fullpage,
 footer,
 header,
@@ -37,6 +38,7 @@ ul, ol {
 	list-style:none;
 }
 
+#overLay,
 #fullpage
 footer {
 	clear: both;
@@ -94,8 +96,10 @@ img {
 		min-width: 200px;
 	}
 	
+	div#overLay,
 	div#fullpage {
 		background-color:initial;
+		padding: 0px;
 	}
 	
 	div#fullpage.row {
