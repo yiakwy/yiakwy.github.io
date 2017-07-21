@@ -185,8 +185,11 @@
 					var h1 = doc.querySelector("h1"),
 						videos = doc.querySelectorAll(".video"),
 						box = doc.querySelector("div.box"),
-						next = doc.querySelectorAll(".next")
-						
+						next = doc.querySelectorAll(".next"),
+						self = this
+					
+					self.doc = doc
+					/*
 					doc.addEventListener("DOMContentLoaded", function() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
 							console.log("h1, height:" + h1.offsetHeight)
@@ -202,8 +205,34 @@
 							doc.removeEventListener("DOMContentLoaded", arguments.callee)
 						}
 					}, false)
+					*/
+					function adjustMovieStyle() {
+						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
+							console.log("h1, height:" + h1.offsetHeight)
+							console.log("h1, top:" + h1.offsetTop)
+							console.log("doc status:" + doc.readyState)
+							for (var i=0; i < videos.length; i++) {
+								videos[i].style.top = h1.offsetTop - 20 + "px"
+								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
+								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
+								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
+							}
+							h1.style.color = "white"
+						}
+					}
 					
-					
+					if (doc.readyState === 'complete') {
+						adjustMovieStyle()
+					} else {
+						doc.onreadystatechange = function () {
+							if (self.doc.readyState === "interactive" ) {
+								adjustMovieStyle()
+							} else 
+							if (self.doc.readyState === "complete" ) {
+								adjustMovieStyle()
+							}
+						}
+					}
 					
 					
 					window.addEventListener("orientationchange", function(){
