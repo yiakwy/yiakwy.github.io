@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Across devices HTML5-CSS3 design"
-date: 2017-07-15
-updated: 2017-07-15
+date: 2017-07-20
+updated: 2017-07-24
 reading_expenditure: 10
 excerpt_separator: <!--more-->
 thumb_img: /images/html5css3.png
@@ -56,15 +56,173 @@ UI in HTML is part of Human Computer Interaction\(HCI\) because HTML constrains 
 
 The influence upon us is that, our interaction events are expanded to "click", "mouse over", "mouse leave", etc. Now in mobile first era, we have a new understanding of HCI, a natural way for human to interact with computer. These devices include but not limited to "multi touch screen", "logitech optical camera", and "mechanical traking system", which widely used in mobile, research and movie industries. 
 
-UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与电脑的交互。早在1964年，个人电脑，或者民用电脑仅针对键盘事件响应，是因为鼠标还没有被发明 ，并且各种研究人员注意力还在键盘上，比如统计报刊关于键盘布局的文章。然后，Douglas Engelbart\(https://en.wikipedia.org/wiki/Douglas_Engelbart\)在他还是斯坦福研究院成员的时候，在1968年，发明了民用鼠标，并迅速被苹果公司商业化。
+UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与电脑的交互。回到1964年前，个人电脑，或者民用电脑仅针对键盘事件响应，是因为鼠标还没有被发明 ，并且各种研究人员注意力还在键盘上，比如统计报刊关于键盘布局的文章。然后，Douglas Engelbart\(https://en.wikipedia.org/wiki/Douglas_Engelbart\)在他还是斯坦福研究院成员的时候，在1968年，发明了民用鼠标，并迅速被苹果公司商业化。
 
 对于我们的影响，就是，交互事件被扩展到了，“点击”，“鼠标掠过”，“鼠标离去”等等。现在，移动第一的时代，我们有了全新的HCI定义，用人类自然的方式和机器交互。这些设备包含, 不限于，“多控点触摸屏幕”， “logitech光学照相机”，“机械跟踪设备”。他们广泛地应用在，手机，科研，以及电影工业。因此，我们在设计一个基于UI事件驱动的过程中，我们需要仔细考虑。
 
 ### A simple C IO handler for kernel to process using select and message queue based implementation
 
+HTML5中定义了事件模型[Event](https://www.w3.org/TR/uievents/), 以及出发和绑定方法。一个事件绑定后\(.addEventListener方法\)，就可以在您想要触发的元素上调用dispatchEvent方法了。因为涉及非阻塞状态，从内核的角度，看成是一个IO多路复用的特例。这里是模仿一个传统的，来自[深入理解操作系统]\(\)的C IO多路复用的写法：
 
+~~~ C
+//
+//  select.cpp
+//  SimpleHTTPServer
+//
+//  Created by Wang Yi on 20/7/17, updated on 24/7/17, mimick codes developed by Randal E. Bryant and David R. O'Hallaron in their book "Computer System: A programmers' perspective, 3rd Edition" published in 2016. This book describe OS in latest x86 archtecutre
+//  Copyright © 2017 Wang Lei. All rights reserved.
+//
+
+#include "select.hpp" 
+int select_server(int argc, char **argv)
+{
+    fd_set fd_pool, ready_set;
+    struct sockaddr_storage client_addr;
+    int max_conn;
+    init_fdPool(&fd_pool);
+    while (1) {
+        ready_set = fd_pool;
+        int ready_evt = select(max_conn, &ready_set, nullptr, nullptr, nullptr);
+        struct Event* ets = get_evt(&ready_set);
+        struct Event* curr = ets;
+        while (curr != nullptr) {
+            curr->handler(); curr++;
+        }
+    }
+    
+    return 1;
+}
+~~~
+
+我们可以清楚地看到，在程序的18行的时候，程序会发生阻塞等待一个事件触发；对于UI程序，会有一个默认的"draw"每一帧都会触发, 以免程序阻塞。这里Event会维持一个文件或者事件描述符动态查询表。现代的设计中，往往会专门使用一个**消息队列**，或者**消息服务器**，或者第三方**消息服务**来进行事件的注册，查询，解绑操作。
+
+Message queue based is a little bit complicated but basically they are the same. Instead of using "select" to check whether buffer is ready from kernel, we use a thread safe queue shared by peer threads and detach them from the main executing flow. Here is an [example](https://github.com/yiakwy/DBManagement/blob/master/src/core/DAO/Database.py) I wrote several years ago: 
+
+~~~ python
+# -*- coding: utf-8 -*-
+'''
+Created on 20 Oct, 2014
+@author: wangyi
+'''
+
+# -- sys --
+import contextlib
+import queue
+import re
+import sys
+import threading
+
+...
+# the basic database is used for querying or non-transaction based database interacting
+# the database alwasy returns Json style data in python             
+class Database(Connector): 
+    
+    def __init__(self, **config):
+        super(Database, self).__init__(**config)
+        
+        self._input = queue.Queue()
+        self._output = queue.Queue()
+## -- interface for user --    
+    def query(self, sql, *args, **hint):
+        
+        self.basic(sql, self.onQuery, *args, **hint)
+
+        list = []
+        while True:
+            try:
+                list.append( self._output.get(block=False) )
+            except queue.Empty:
+                break
+        
+        if   list.__len__() == 1:
+            return list[0]
+        elif True:
+            return list         
+    
+    def insert(self, sql, *args, **hint):
+        if  hint != {}:
+            # db sharding mode 
+            try:        
+                status = self.query(self.sqlMapping['query']['_?_table'], hint['db'], hint['table'])
+                    
+                if  not status:
+                    self.onAlter(hint['create'], hint['table']) 
+            except Exception as e:
+                pass   
+         
+        self.basic(sql, self.onAlter, *args, **hint)
+
+class DataNode(Database, threading.Thread):
+
+    def __init__(self, **config):
+        Database.__init__(self, **config)
+        
+        self.config = config
+        
+        threading.Thread.__init__(self)     
+
+        self.stoprequest = threading.Event()
+        self.startloop = threading.Event()
+        self.conlock = threading.Condition()
+        
+        self.cursor_setup = False
+        self.cursor_close = True
+        
+        self.input_status = True
+        self.daemon = True
+        self.cursor = None
+        
+        self.counter= 0
+       
+        self.start()
+
+...
+
+    def ioLoop(self):
+                
+        while not self.stoprequest.isSet():
+            try:
+                # sql event loop
+                job = self._input.get(True, 0.05)
+                # callback
+                self.execl(job)
+                
+            except queue.Empty:
+                continue
+            except mysql.connector.Error as err:
+                self.input_status = False
+                self.stoprequest.set()
+                print( 'runtime error ' + self.name + ' : ' + err.__str__() )
+                raise mysql.connector.Error('master capture an err event:' + err )
+
+    def run(self):
+        
+        while True:
+            # wait for signal to start task-querying loop
+            self.startloop.wait()
+            
+            with self.Cursor(): # open cursor management
+                # sql event loop
+                self.ioLoop()
+
+
+~~~
+
+![web-workers_from Erin Swenson-Healey's article in 2013](./images/web-workers.png)
+
+In this programme, we first start a daemon after peer threads pool ready for use and block the master until user trigger some commands to start looping. To safely run it, we wrap the codes in context manager so that whatever exception will be handled by it. The inner ioLoop will check whether there is a event registered by users and fire it. A worker will put the results generated into an output shared queue for other main process to use\(calling join method in a query\).
+
+在这个程序中，我们首先开始在线程池准备好后，运行一个分离后的线程。该背景线程，或者服务，会一直阻塞，直到用户触发命令，释放startloop锁。为了安全地运行，我们将他放在一个上下文管理器Cursor()方法里面\(这样做事考虑到, 我们在审查oracle客户端代码时发现，在实现 mysql PEP标准时，cursor会缓存一个可以写的数据缓存，这样，‘写’不安全)\。内部的ioLoop循环，会不断查询是否有事件产生，并运行它。子线程，会不断地将生产的结果放在共享结果队列里面，以方便主执行线，可以获取。比方说，在主执行流程里面的query方法里面，执行join，并将结果读出。
 
 ### back to css3, canvas and WebGL
+
+Understanding event loop is critical to your performance of your web app and understand how this affect your design. Considering a simple dynamic background video I am developing with four status:
+
+![headline_collapsed_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
+![headline_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
+![headline_rotate_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
+![cover_pc](./images/website_design/cover_pc.png)
+
 ### UI deisgn pattern, Visual, effects and targets
 
 ## Bibliography
