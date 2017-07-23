@@ -211,12 +211,14 @@
 					*/
 					function adjustMovieStyle() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
-							console.log("h1, height:" + h1.offsetHeight)
+							console.log("h1, offset height:" + h1.offsetHeight)
 							console.log("h1, top:" + h1.offsetTop)
 							console.log("doc status:" + doc.readyState)
+							var rect = h1.getBoundingClientRect()
+							console.log("h1, rect height:" + rect.height)
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
-								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
+								videos[i].style.Height = Math.min(h1.offsetHeight, rect.height)+ 40 + "px"
 								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
 								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
 							}
@@ -240,6 +242,7 @@
 					
 					window.addEventListener("orientationchange", function(){
 						switch(window.orientation) {
+							case 270 || -270:
 							case 90 || -90:
 							for (var i=0; i < videos.length; i++) {
 								if (box !== null) {
