@@ -56,7 +56,7 @@ UI in HTML is part of Human Computer Interaction\(HCI\) because HTML constrains 
 
 The influence upon us is that, our interaction events are expanded to "click", "mouse over", "mouse leave", etc. Now in mobile first era, we have a new understanding of HCI, a natural way for human to interact with computer. These devices include but not limited to "multi touch screen", "logitech optical camera", and "mechanical traking system", which widely used in mobile, research and movie industries. 
 
-UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与电脑的交互。回到1964年前，个人电脑，或者民用电脑仅针对键盘事件响应，是因为鼠标还没有被发明 ，并且各种研究人员注意力还在键盘上，比如统计报刊关于键盘布局的文章。然后，Douglas Engelbart\(https://en.wikipedia.org/wiki/Douglas_Engelbart\)在他还是斯坦福研究院成员的时候，在1968年，发明了民用鼠标，并迅速被苹果公司商业化。
+UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与电脑的交互。回到1964年前，个人电脑，或者民用电脑仅针对键盘事件响应，是因为鼠标还没有被发明 ，并且各种研究人员注意力还在键盘上，比如统计报刊关于键盘布局的文章。然后，Douglas Engelbart博士 \( https://en.wikipedia.org/wiki/Douglas_Engelbart \)在他还是斯坦福研究院成员的时候，在1968年，发明了民用鼠标，并迅速被苹果公司商业化。
 
 对于我们的影响，就是，交互事件被扩展到了，“点击”，“鼠标掠过”，“鼠标离去”等等。现在，移动第一的时代，我们有了全新的HCI定义，用人类自然的方式和机器交互。这些设备包含, 不限于，“多控点触摸屏幕”， “logitech光学照相机”，“机械跟踪设备”。他们广泛地应用在，手机，科研，以及电影工业。因此，我们在设计一个基于UI事件驱动的过程中，我们需要仔细考虑。
 
@@ -64,7 +64,7 @@ UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与
 
 HTML5中定义了事件模型[Event](https://www.w3.org/TR/uievents/), 以及出发和绑定方法。一个事件绑定后\(.addEventListener方法\)，就可以在您想要触发的元素上调用dispatchEvent方法了。因为涉及非阻塞状态，从内核的角度，看成是一个IO多路复用的特例。这里是模仿一个传统的，来自[深入理解操作系统]\(\)的C IO多路复用的写法：
 
-~~~ C
+~~~ c++
 //
 //  select.cpp
 //  SimpleHTTPServer
@@ -208,20 +208,25 @@ class DataNode(Database, threading.Thread):
 
 ~~~
 
-![web-workers_from Erin Swenson-Healey's article in 2013](./images/web-workers.png)
+![web-workers_from Erin Swenson-Healey's article in 2013](/images/web-workers.png)
 
 In this programme, we first start a daemon after peer threads pool ready for use and block the master until user trigger some commands to start looping. To safely run it, we wrap the codes in context manager so that whatever exception will be handled by it. The inner ioLoop will check whether there is a event registered by users and fire it. A worker will put the results generated into an output shared queue for other main process to use\(calling join method in a query\).
 
-在这个程序中，我们首先开始在线程池准备好后，运行一个分离后的线程。该背景线程，或者服务，会一直阻塞，直到用户触发命令，释放startloop锁。为了安全地运行，我们将他放在一个上下文管理器Cursor()方法里面\(这样做事考虑到, 我们在审查oracle客户端代码时发现，在实现 mysql PEP标准时，cursor会缓存一个可以写的数据缓存，这样，‘写’不安全)\。内部的ioLoop循环，会不断查询是否有事件产生，并运行它。子线程，会不断地将生产的结果放在共享结果队列里面，以方便主执行线，可以获取。比方说，在主执行流程里面的query方法里面，执行join，并将结果读出。
+在这个程序中，我们首先开始在线程池准备好后，运行一个分离后的线程。该背景线程，或者服务，会一直阻塞，直到用户触发命令，释放startloop锁。为了安全地运行，我们将他放在一个上下文管理器Cursor()方法里面\(这样做，是考虑到, 我们在审查oracle客户端代码时发现，在实现 mysql PEP标准时，cursor会缓存一个可以写的数据缓存，这样，客户端‘写’就不线程安全了)\。内部的ioLoop循环，会不断查询是否有事件产生，并运行它。子线程，会不断地将生产的结果放在共享结果队列里面，以方便主执行流，可以获取。比方说，在主执行流程里面的query方法里面，执行join，并将结果读出。
 
 ### back to css3, canvas and WebGL
 
-Understanding event loop is critical to your performance of your web app and understand how this affect your design. Considering a simple dynamic background video I am developing with four status:
+Understanding event loop is critical to your performance of your web app and understand how this affect your design. Considering a simple dynamic background video I am developing with four statuses:
 
-![headline_collapsed_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
-![headline_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
-![headline_rotate_background-iPhone](./images/website_design/headline_collapsed_background-iPhone.png)
-![cover_pc](./images/website_design/cover_pc.png)
+![headline_collapsed_background-iPhone](/images/website_design/headline_collapsed_background-iPhone.png)
+
+![headline_background-iPhone](/images/website_design/headline_background-iPhone.png)
+
+![headline_rotate_background-iPhone](/images/website_design/headline_rotate_background-iPhone.png)
+
+![cover_pc](/images/website_design/cover_pc.png)
+
+To facilitate hardware acelerating, we developed animation using css on purpose. 
 
 ### UI deisgn pattern, Visual, effects and targets
 
