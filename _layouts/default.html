@@ -213,20 +213,22 @@
 						}
 					}
 					
-					if (doc.readyState === 'complete') {
-						adjustMovieStyle()
-					} else {
-						doc.onreadystatechange = function () {
-							if (self.doc.readyState === "interactive" ) {
-								adjustMovieStyle()
-							} else 
-							if (self.doc.readyState === "complete" ) {
-								adjustMovieStyle()
+					function adjustStyle() {
+						if (doc.readyState === 'complete') {
+							adjustMovieStyle()
+						} else {
+							doc.onreadystatechange = function () {
+								if (self.doc.readyState === "interactive" ) {
+									adjustMovieStyle()
+								} else 
+								if (self.doc.readyState === "complete" ) {
+									adjustMovieStyle()
+								}
 							}
 						}
 					}
 					
-					
+					window.addEventListener("DOMContentLoaded", adjustStyle, false)
 					window.addEventListener("orientationchange", function(){
 						switch(window.orientation) {
 							case 270 || -270:
