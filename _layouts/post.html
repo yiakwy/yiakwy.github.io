@@ -15,8 +15,9 @@ layout: default
 			<br>
 			can only cost you
 			<br>
-			{% if post.content > 0 %}
-			{% assign reading_expenditure = post.content | number_of_words | divided_by: 500.0 %}
+			{% assign words = page.content | number_of_words %}
+			{% if words > 0 %}
+			{% assign reading_expenditure = page.content | number_of_words | divided_by: 200  %}
 			{% else %}
 			{% assign reading_expenditure = 0 %}
 			{% endif %}
