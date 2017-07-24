@@ -35,7 +35,7 @@ This article described a typical UI programming model then discuss problems runn
 
 1. Client side UI programming Model Intro
 	1. A simple C IO handler for kernel to process: event driven
-	2. message queue based event driven implemantion
+	2. message queue based event driven implementaion
 	3. back to css3, canvas and WebGL
 	4. UI deisgn pattern, Visual, effects and targets
 2. Event Supported across devices
@@ -62,7 +62,9 @@ UI在HTML里面，是人机交互的一部分\(HCI\) 因为 HTML 限制了人与
 
 ### A simple C IO handler for kernel to process using select and message queue based implementation
 
-HTML5中定义了事件模型[Event](https://www.w3.org/TR/uievents/), 以及出发和绑定方法。一个事件绑定后\(.addEventListener方法\)，就可以在您想要触发的元素上调用dispatchEvent方法了。因为涉及非阻塞状态，从内核的角度，看成是一个IO多路复用的特例。这里是模仿一个传统的，来自[深入理解操作系统]\(\)的C IO多路复用的写法：
+HTML5 defines [Event model](https://www.w3.org/TR/uievents/), and how they bind to elements. Once you use method "addEventListener", you can call dispatchEvent method upon the element you want. Since it deals with blocking status in kernel side, a multiplexing IO technique could be applied. Here is the codes mimicking tradition multiplexing IO from textbook [Computer Systems: A Programmer's Perpective, 3rd Edition](#bibliography)
+
+HTML5中定义了事件模型[Event](https://www.w3.org/TR/uievents/), 以及出发和绑定方法。一个事件绑定后\(.addEventListener方法\)，就可以在您想要触发的元素上调用dispatchEvent方法了。因为涉及非阻塞状态，从内核的角度，看成是一个IO多路复用的特例。这里是模仿一个传统的，来自[深入理解操作系统](#bibliography)的C IO多路复用的写法:
 
 ~~~ c++
 //
@@ -204,19 +206,17 @@ class DataNode(Database, threading.Thread):
             with self.Cursor(): # open cursor management
                 # sql event loop
                 self.ioLoop()
-
-
 ~~~
 
 ![web-workers_from Erin Swenson-Healey's article in 2013](/images/web-workers.png)
 
-In this programme, we first start a daemon after peer threads pool ready for use and block the master until user trigger some commands to start looping. To safely run it, we wrap the codes in context manager so that whatever exception will be handled by it. The inner ioLoop will check whether there is a event registered by users and fire it. A worker will put the results generated into an output shared queue for other main process to use\(calling join method in a query\).
+In this programme, we first start a daemon after peer threads pool ready for use and block the master until user trigger some commands to start looping. To safely run it, we wrap the codes in context manager so that whatever exception will be handled by it. The inner ioLoop will check whether there is a event registered by users and fire it. A worker will put the results generated into an shared queue for read by other threads executing flow\(calling join method in a query\).
 
-在这个程序中，我们首先开始在线程池准备好后，运行一个分离后的线程。该背景线程，或者服务，会一直阻塞，直到用户触发命令，释放startloop锁。为了安全地运行，我们将他放在一个上下文管理器Cursor()方法里面\(这样做，是考虑到, 我们在审查oracle客户端代码时发现，在实现 mysql PEP标准时，cursor会缓存一个可以写的数据缓存，这样，客户端‘写’就不线程安全了)\。内部的ioLoop循环，会不断查询是否有事件产生，并运行它。子线程，会不断地将生产的结果放在共享结果队列里面，以方便主执行流，可以获取。比方说，在主执行流程里面的query方法里面，执行join，并将结果读出。
+在这个程序中，我们首先开始在线程池准备好后，运行一个分离后的线程。该背景线程，或者服务，会一直阻塞，直到用户触发命令，释放startloop锁。为了安全地运行，我们将他放在一个上下文管理器Cursor()方法里面\(这样做，是考虑到, 我们在审查oracle客户端代码时发现，在实现 mysql PEP标准时，cursor会缓存一个可以写的数据缓存，这样，客户端‘写’就不线程安全了\)。内部的ioLoop循环，会不断查询是否有事件产生，并运行它。子线程，会不断地将生产的结果放在共享结果队列里面，以方便主执行流，可以获取。比方说，在其他指令CPU流水线里面的query方法里面，执行join，并将结果读出。
 
-### back to css3, canvas and WebGL
+Understanding event loop is critical to your performance of your web app and affect your design. Considering a simple dynamic background video I am developing with four statuses:
 
-Understanding event loop is critical to your performance of your web app and understand how this affect your design. Considering a simple dynamic background video I am developing with four statuses:
+理解事件循环，对于网站的性能是十分重要的， 并影响你的设计。 考虑下面一个我们正在设计的动态视频背景：
 
 ![headline_collapsed_background-iPhone](/images/website_design/headline_collapsed_background-iPhone.png)
 
@@ -226,12 +226,312 @@ Understanding event loop is critical to your performance of your web app and und
 
 ![cover_pc](/images/website_design/cover_pc.png)
 
-To facilitate hardware acelerating, we developed animation using css on purpose. 
+They respond to different events: rotate, compress，mobile, pc. And the most important of all, suppose we want to **modfiy css using javascript**, we have to monitor "onreadystate" event because dom attributes vary while loading, rendering. Taditional ways to deal with it, are:
 
-### UI deisgn pattern, Visual, effects and targets
+它对应着四个事件：旋转，压缩，移动，PC. 最重要的是，如果我们想通过JS修改CSS的话，我们需要监控"onreadystate"事件，因为dom属性会随着，加载，渲染变化。我们传统有三种处理方式：
+
+1. setTimeout, not robust when codes grow, not easy to debug
+2. load event, this works for listener binding but not effectively for css adjsuting.
+3. listen to onreadystate and check **readyState** value. This is robust. 
+
+I recommend to use the third method, because , that sometimes, it takes long time before dom rendering finished. To make procedure smooth, we need call rendering method per frame. 
+
+我推荐使用第三种方式，因为，有时候，dom需要很长时间才能完成渲染。未来让这个过程更加光滑，我需要在每一帧上渲染。
+
+### back to css3, canvas and WebGL
+
+To facilitate hardware acelerating, we develop animation procedures using css on purpose. As for canvas and GL, a typical GL programme, after perspective projection\(glMatrixMode(GL_PROJECTION), glPerspective(mtx)\), global camera\(glLookAt(mtx)\) set up, we push motion matrix calc by scale, rotation, translation parameters into matrix stack, before we draw connected components together. But primitive graphics with textures by 3d reconstruction algorithms like B-Spine curve gen is not enough for a real world application. We build 3d world using [scene graph](https://webglfundamentals.org/webgl/lessons/webgl-scene-graph.html). There are two ways to define a scene graph:
+
+为了利用硬件加速，我们通常有意识地使用css来完成动画。对于canvas和GL来说，一个典型的GL程序，在设置完投影视角\(glMatrixMode(GL_PROJECTION), glPerspective(mtx)\)，全局照相机视点\(glLookAt(mtx)\)，我们就将通过参数计算出来的，刚性运动矩阵，压入矩阵栈中, 然后画连通图形。但是仅仅是有着纹理的图形还是不够的。我们实际上使用[scene graph](https://webglfundamentals.org/webgl/lessons/webgl-scene-graph.html)来构建应用
+
+1. explicitly build a tree 
+2. implicitly using a configure file, like xml or json, which widely used in productive env. 
+
+By using gl scene grpah, we can build stuning, heavy interactive web application. We will build a **articles gallery**, 3d tag cloud and timeline later as vivid examples to show how 3d interactive mode affacts our UI appearance. 
+
+通过使用，gl scene graph，我们就可以构建一个令人震惊的，重交互的网络应用。我们稍后，会在个人网站上构建**文章长廊**， **3d 标签云**和时间轴，作为真实的例子展示3d交互模式，是如何改变我们的UI的。
+
+Instead of using as graphics container, canvas can also be used as a movie player to run in background no matter what devices you are using. 
+
+除了作为图形的容器外，canvas还可以当做2d的背景播放器使用。不管您使用什么设备，都可以在背景处悄无声息的运行。
+
+~~~ javascript
+	// On every time update draws frame
+	this.video.addEventListener('timeupdate', cvpHandlers.videoTimeUpdateHandler = function() {
+		self.drawFrame();
+		if (self.options.timelineSelector) {
+			self.updateTimeline();
+		}
+	});
+	
+	CanvasVideoPlayer.prototype.drawFrame = function() {
+		this.ctx.drawImage(this.video, 0, 0, this.width, this.height);
+	};
+~~~
+
+This is tremendous!
+
+css3 material design is one way comes 3d design. We add support for material design proposed by creating "material-sim.css" recently. css3 uses Key frames algorithms developed in Digital Movie industry in around 1980 when Pixal founded. We recommend you to use "cubic-bezier" named by French Engineer Pierre Bezier. This kind of curves will envolved into B-Spines curves which palys a great important role in 3D reconstruction. We record the curve a timming function. You might have already used it without notification, say Windows Office pen curves. To implement it, we use dvide and conque strategy:
+
+这非常棒!
+
+css3材料设计是和3d结合的一种方式。我们最近增加了材料设计的支持。css3使用在数字电影工业界发展的 Key-Frame 技术来渲染动画。那个时候，1980年，Pixar也成立了。它整个数字动画产业有着不可估量的影响。我推荐你们使用由法国工程师Pierre Bezier命名的"cubic-bezeier"来计量css。这种曲线最后发展成为B-Spines曲线。我们用它作为计时器。您可能已经用过它，但却从来都没有注意到：比方说windows Office的钢笔曲线。未来实施它，我们采用了divide & conque的策略。
+
+~~~ c
+//============================================================
+void plotBezier(Point2d* bez, int deg)
+{
+	// TODO:  add your own codes 
+	// project tempalte created in Aug 2009 by NTU, filled by Lei(lwang019@e.ntu.edu.sg) as part of requirements of the project
+	double height = maxDistance(bez, deg);
+
+	if(height < tessEps){
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINES);
+		glVertex2f(bez[0].x, bez[0].y);
+		glVertex2f(bez[deg].x, bez[deg].y);
+		glEnd();
+	}
+	else{
+		Point2d *leftBez,*rightBez;
+
+		leftBez = (Point2d*)malloc( (deg + 1) * sizeof(Point2d) );
+		rightBez = (Point2d*)malloc( (deg + 1) * sizeof(Point2d) );
+		midSubdivide(bez, leftBez, rightBez, deg);
+		plotBezier(leftBez, deg);
+		plotBezier(rightBez, deg);
+
+		free(leftBez);
+		free(rightBez);
+		leftBez = NULL;
+		rightBez = NULL;
+	}
+}
+~~~
+
+### UI deisgn pattern: Visual, effectiveness and targets
+
+![pixar-studio](/images/pixar.png)
+
+The theory partly comes from animation. For a simple webUI design, we don't need to design a storyboard but some concepts are still important!
+
+1. Visual: cold vs warm, determined by our theme
+2. effectiveness: is the design really reflecting what our requirements are
+3  targets: How people feel or use it in an end point
+
+理论部分来自于动画理论。对于一个简单的webUI设计，我们不需要故事板，但是有些概念还是重要的：
+
+1. 视觉：冷色调 vs 暖色调，由主题决定
+2. 有效性: 该设计是否反映了，我们的需求？
+3. 目标：终端用户如何感知该设计
+
+## Event Supported across devices
+
+This part centers arround heterogenous design problems and how to deal with them. 
+
+这部分将详细讲述，几个事件，在各种设备上的异同以及处理办法
+### click, hover
+
+<div style="overflow:auto">
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">device</th>
+      <th style="text-align: right">click</th>
+      <th style="text-align: right">hover</th>
+      <th style="text-align: right">replacement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">browser</td>
+      <td style="text-align: right">supported</td>
+      <td style="text-align: right">supported</td>
+      <td style="text-align: right">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">ios, safari</td>
+      <td style="text-align: right">supported</td>
+      <td style="text-align: right">not supported</td>
+      <td style="text-align: right">focus, touch</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+one listen to click event. Alternatively, css "focus" and "active" and mimic the "click" effects. Due to lack of mouse like interactive tool, there is no hover defined for mobile. The side effect is that we have to define multiple actions to cover undescribed behavior.
+
+click, 可以通过Javascrip来监听，也可以通过css的 focus和active来模拟。由于移动设备，没有鼠标这种形式的交互，并没有hover效果，和对应的Mouse over事件等。因此在移动端，我们需要进行多重定义，来覆盖不被支持的效果：
+
+~~~ css
+.leave, 
+div.post section>ol>li:not(:hover) ol, div.post section>ol>li:not(:focus) ol,
+div.post section>ul>li:not(:hover) ul, div.post section>ul>li:not(:focus) ul {
+	opacity: 0.3;
+	max-height: 0;
+	visibility: hidden;
+	/*transform: translateX(130%);*/
+	transform: scale3d(0);
+  	transition: all 1.2s ease;
+	background: inherit;
+	color: inherit;
+}
+
+.touch,
+div.post section>ol>li:hover ol, div.post section>ol>li:focus,
+div.post section>ul>li:hover ul, div.post section>ul>li:focus {
+	opacity: 1;
+	max-height: 1000px;
+	visibility: visible;
+	transform: scale3d(110%);
+	transition: all 1.8s ease;
+	background: lightgrey;
+	color: black;
+}
+~~~
+
+A alias will be used to mark events transfering in case of use.
+
+我们会用一个别名，去标记它，这是因为，未来我们可能会用javascript来标记这些状态转移。
+
+### load, onreadystate
+
+Load event happens when dom semantic node constructed. For example, you inspecting "offsetHeight" or "offsetTop", you might end up with different values. Sometimes they change fast but sometimes not. If the process is slow, we have wrap codes in onreadystate event to check whether they are ready.
+
+load是文档被解析后，加入到dom树的事件标志，此时它并不一定渲染完成。比如如果您监控offsetHeight, offsetTop并输出日志，您会发现，他们在改变；只不过有时候快，有时候慢。我们通常用这个来绑定一些监听事件。如果他们过慢改变，我们就需要进一步绑定onreadystate，并检查状态变量是否准备就绪：
+
+~~~ javascript
+var adjustStyle = function() {
+	var self = this
+	if (doc.readyState === 'complete') {
+		adjustMovieStyle()
+	} else {
+		doc.onreadystatechange = function () {
+			if (self.doc.readyState === "interactive" ) {
+				self.adjustMovieStyle()
+			} else 
+			if (self.doc.readyState === "complete" ) {
+				self.adjustMovieStyle()
+			}
+		}
+	}
+}
+doc.addEventListener("DOMContentLoaded", adjustStyle, false)
+~~~
+
+### touch, rotate
+
+"touch" and "rotate" are central to mobile first application. Boris Sums has a wonderful [post]((https://www.html5rocks.com/en/mobile/touch/)) about it. I will focus on rotate event instead. The codes might look like:
+
+touch, rotate是移动专属事件。touch是唯一可以模仿鼠标设备的事件。Boris Smus有一篇非常棒的关于[touch事件的文章](https://www.html5rocks.com/en/mobile/touch/)。我会详细讨论下rotate事件。Rotate事件，可以通过监控“orientationchange”和window.orientation触发，代码，大概长这个样子：
+
+~~~ javascript
+window.addEventListener("orientationchange", function(){
+	switch(window.orientation) {
+		case 270 || -270:
+		case 90 || -90:
+		// do something
+		break
+		case 0:
+		// do something else
+	}
+}, false)
+~~~
+
+Transition is added for event status transfering.
+
+执行事件状态转移时，我们当然需要加下过渡：
+
+~~~ css
+.kls {
+	transition: 0.6s;
+	-webkit-transform: translateZ(0);
+	transform: translate3d(0,0,0);
+	-webkit-transform: translate3d(0,0,0);
+}
+~~~
+
+
+
+### mediaPlayer
+
+HTMl5 supports audio and video. But that is not enough. Once html5 video loaded into page, if "mute" option set to be false, an audio tag will be inserted into page before video tag. They obeys media api protocol:
+
+HTML5是支持视觉和音频的。但是，实际工作告诉我们，这远远不够。一旦html5 video, 被载入，如果mute设置为false，浏览器会在video前面插入一个audio标签用来播放声音。他们遵循一个共同的多媒体协议接口：
+
+~~~ javascript
+/* please refer to this report, thanks for his or her efforts */
+/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
+function audioPlayer() {
+	var doc = document,
+		audio = doc.querySelector("audio")
+
+	var self = this
+	self.audio = audio
+	function forceSafariPlayAudio() {
+		audio.load(); // iOS 9   还需要额外的 load 一下, 否则直接 play 无效
+		audio.play(); // iOS 7/8 仅需要 play 一下
+	}
+
+	function log(info) {
+		console.log(info)
+	}
+
+	audio.addEventListener('loadstart', function() {
+		log('loadstart');
+	}, false);
+	audio.addEventListener('loadeddata', function() {
+		log('loadeddata');
+	}, false);
+	audio.addEventListener('loadedmetadata', function() {
+		log('loadedmetadata');
+	}, false);
+	audio.addEventListener('canplay', function() {
+		log('canplay');
+	}, false);
+	audio.addEventListener('play', function() {
+		log('play');
+		// remove event handler
+		window.removeEventListener('touchstart', forceSafariPlayAudio, false);
+	}, false);
+	audio.addEventListener('playing', function() {
+		log('playing');
+	}, false);
+	audio.addEventListener('pause', function() {
+		log('pause');
+	}, false);
+
+	// mimick event due to safari ios developer policy
+	window.addEventListener('touchstart', forceSafariPlayAudio, false);
+	var videoSource = doc.querySelector("video > source")
+	if (wechat_re.test(navigator.userAgent) && 
+	   $.fn.jsInj.prototype.isMobile()) {
+
+	} else {
+		// audio.src = videoSource.src
+	}
+}
+~~~
+
+load event tells browsers that we can download the media and decode it. Once "canplay" event ready, we can play medias. Here are three things we should at least consider：
+
+1. play media, should we replace them in a new container
+2. Overlay: parent node sytle like "z-index", "background-color" place no impact upon mdeia elements. We can only affect media elements overlay attributes through sibling elements
+3. dynamic size
+
+load函数告诉浏览器，可以下载相应的资源，并根据媒体类型进行解码。一旦"canplay"时间触发，就可以执行play操作，进行播放了。至少有三件事我们需要考虑：
+
+1. 播放资源，有无必要替换，比如之前提到的canvas代替video
+2. OverLay，其父元素的背景设置，和z-index设置，对video无效。只能通过兄弟节点的背景涉及来进行层次覆盖。
+3. 动态大小
+
+## Deveoper references
+
+Pending
 
 ## Bibliography
 
+Pending
 
 
 

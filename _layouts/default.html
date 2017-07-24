@@ -193,21 +193,7 @@
 					
 					self.doc = doc
 					/*
-					doc.addEventListener("DOMContentLoaded", function() {
-						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
-							console.log("h1, height:" + h1.offsetHeight)
-							console.log("h1, top:" + h1.offsetTop)
-							console.log("doc status:" + doc.readyState)
-							for (var i=0; i < videos.length; i++) {
-								videos[i].style.top = h1.offsetTop - 20 + "px"
-								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
-								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
-							}
-							h1.style.color = "white"
-							doc.removeEventListener("DOMContentLoaded", arguments.callee)
-						}
-					}, false)
+					doc.addEventListener("DOMContentLoaded", adjustMovieStyle, false)
 					*/
 					function adjustMovieStyle() {
 						if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
@@ -215,12 +201,13 @@
 							console.log("h1, top:" + h1.offsetTop)
 							console.log("doc status:" + doc.readyState)
 							var rect = h1.getBoundingClientRect()
+							var height = Math.min(h1.offsetHeight, rect.height)
 							console.log("h1, rect height:" + rect.height)
 							for (var i=0; i < videos.length; i++) {
 								videos[i].style.top = h1.offsetTop - 20 + "px"
-								videos[i].style.Height = Math.min(h1.offsetHeight, rect.height)+ 40 + "px"
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
-								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
+								videos[i].style.Height    = height + 40 + "px"
+								videos[i].style.minHeight = height + 40 + "px"
+								videos[i].style.maxHeight = height + 40 + "px"
 							}
 							h1.style.color = "white"
 						}
@@ -246,12 +233,16 @@
 							case 90 || -90:
 							for (var i=0; i < videos.length; i++) {
 								if (box !== null) {
-								videos[i].style.Height    = box.parentElement.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px"; 
-								videos[i].style.minHeight = box.parentElement.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px";
-								videos[i].style.maxHeight = box.parentElement.offsetTop + box.offsetHeight - h1.offsetTop + 20 + 5 + "px"; } else {
-								videos[i].style.Height    = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetHeight - h1.offsetTop + 20 + 5 + "px"; 
-								videos[i].style.minHeight = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetHeight - h1.offsetTop + 20 + 5 + "px"; 
-								videos[i].style.maxHeight = next[next.length-1].parentElement.offsetTop + next[next.length-1].offsetHeight - h1.offsetTop + 20 + 5 + "px"
+									var rect = box.getBoundingClientRect()
+									var height = Math.min(rect.height, box.offsetHeight)
+								videos[i].style.Height    = box.parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px"; 
+								videos[i].style.minHeight = box.parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px";
+								videos[i].style.maxHeight = box.parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px"; } else {
+									var rect = next[next.length-1].getBoundingClientRect()
+									var height = Math.min(rect.height, next[next.length-1].offsetHeight)
+								videos[i].style.Height    = next[next.length-1].parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px"; 
+								videos[i].style.minHeight = next[next.length-1].parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px"; 
+								videos[i].style.maxHeight = next[next.length-1].parentElement.offsetTop + height - h1.offsetTop + 20 + 5 + "px"
 								}
 							}
 							if (box === null) {
@@ -263,9 +254,11 @@
 							break
 							case 0:
 							for (var i=0; i < videos.length; i++) {
-								videos[i].style.Height = h1.offsetHeight+ 40 + "px"
-								videos[i].style.maxHeight = h1.offsetHeight+ 40 + "px"
-								videos[i].style.minHeight = h1.offsetHeight+ 40 + "px"
+									var rect = h1.getBoundingClientRect()
+									var height = Math.min(rect.height-40, h1.offsetHeight)
+								videos[i].style.Height    = height+ 40 + "px"
+								videos[i].style.maxHeight = height+ 40 + "px"
+								videos[i].style.minHeight = height+ 40 + "px"
 							}
 							if (box === null) {
 							for (var j=0; j < next.length; j++) {
