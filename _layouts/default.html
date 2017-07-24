@@ -255,7 +255,7 @@
 							case 0:
 							for (var i=0; i < videos.length; i++) {
 									var rect = h1.getBoundingClientRect()
-									var height = Math.min(rect.height-40, h1.offsetHeight)
+									var height = Math.min(rect.height, h1.offsetHeight)
 								videos[i].style.Height    = height+ 40 + "px"
 								videos[i].style.maxHeight = height+ 40 + "px"
 								videos[i].style.minHeight = height+ 40 + "px"
