@@ -17,7 +17,7 @@ ul > li a:hover, ul > li a:active {
 	background-color: grey;
 	color: white;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5),0 6px 20px 0 rgba(0,0,0,0.5);
-	transform: scale(1.2);
+	transform: scale(1.04);
 	z-index: +1;
 }
 
