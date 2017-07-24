@@ -1,7 +1,21 @@
 ---
 layout: default
 ---
+<style>
+@media (max-width: 414px) {
 
+.canvasVideo,
+video#background-video {
+	position: absolute; top: 28px; left: 0; right: 0; bottom: 0;
+	max-width: 100%; min-height:1px;
+	width: 100%; height: auto; z-index: -100;
+	background: url(/images/norway.png) no-repeat;
+	background-size: cover;
+	/*border-radius: 15px 25px;*/
+	display: block;
+	}
+}
+</style>
 
 <h1 style="background-color:initial;color:green;opacity:0.7">{{page.title}}</h1>
 <p class="meta"> <i class='fa fa-calendar'></i> created on {{ page.date | date_to_string }}, last updated on {{ page.updated | date_to_string }} </p>

@@ -173,7 +173,7 @@ video#background-video {
 @media (max-width: 786px) {
 .canvasVideo,	
 video#background-video {
-	position: absolute; top: 80px; left: 0; right: 0; bottom: 0;
+	position: absolute; top: 0px; left: 0; right: 0; bottom: 0;
 	max-width: 100%; min-height:1px;
 	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
@@ -187,7 +187,7 @@ video#background-video {
 
 .canvasVideo,
 video#background-video {
-	position: absolute; top: 350px; left: 0; right: 0; bottom: 0;
+	position: absolute; top: 0px; left: 0; right: 0; bottom: 0;
 	max-width: 100%; min-height:1px;
 	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
