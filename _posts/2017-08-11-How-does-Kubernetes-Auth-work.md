@@ -779,7 +779,7 @@ Kubernetes在L7路由上实现了它的鉴权流程。同时呢，流量控制�
 
 Thanks to Senior Engieer from Huawei， also previous engieers in RedHat, Ning Jiang , through the process we disscuss a lot of questions together. Without him, I might not be in the endeavour to finish the task. Thanks to him again
 
-感谢来自华为的高级工程师，之前也是红帽子的工程师，江宁。工程中，我们讨论了很多问题。没有他，我就没有动力完成这个工作。再次感谢。
+感谢来自华为的高级工程师，之前也是红帽子的工程师，姜宁。工程中，我们讨论了很多问题。没有他，我就没有动力完成这个工作。再次感谢。
 
 Lei @ Peking, 12 Aug 2017
 
