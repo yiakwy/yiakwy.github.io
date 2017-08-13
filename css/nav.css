@@ -83,6 +83,13 @@ nav img.logo_seo {
 }
 
 @media (min-width: 768px){	
+	nav {
+		width: 100%;
+		position: fixed;
+	}
+	div#fullpage {
+		padding-top: 68px;
+	}
 	.navbar-header {
 		position: relative;
 		float: left;
@@ -98,6 +105,8 @@ nav img.logo_seo {
 		text-decoration: none;
 	}
 	ul.navbar {
+		margin-top:0px;
+		margin-bottom:0px;
 		list-style-type:none;
 		background-color: hsl(0,0%,20%); /* black in 20% lightness */
 	}
