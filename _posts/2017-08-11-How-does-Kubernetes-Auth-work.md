@@ -59,7 +59,7 @@ k8s.io
 		...
 ~~~
 
-The authentciation involved across "kubectl", "kube-proxy" and apiserver. It is centre to build connection among servcies in fsat ,safe user experience. Google implement openID to grant limited access from one sercie to another. More details about openID or oauth is fully discussed in RFC 6749. They takes care of relationships among "resources owner", "authroization server" and "resources server". Instead of using role based authentication control model, google implementes attribute based access control (ABAC) to gain flexible and simplified access management, centralized auditing and access policy.
+The authentciation involved across "kubectl", "kube-proxy" and apiserver. It is centre to build connection among servcies in fast ,safe user experience. Google implement openID to grant limited access from one service to another. More details about openID or oauth is fully discussed in RFC 6749. They takes care of relationships among "resources owner", "authroization server" and "resources server". Instead of using role based authentication control model, google implementes attribute based access control (ABAC) to gain flexible and simplified access management, centralized auditing and access policy.
 
 Authentication鉴权对于建立服务间，快速和安全的是非常重要的。谷歌基于openID实现了服务编排和通信。更多关于oauth1.0和2.0等信息，在RFC 6749里面找到；他们是关于资源拥有者，鉴权服务器，资源服务器三方的关系。谷歌自己实现以套基于abac的鉴权模型，而不是传统的基于角色的鉴权模型，用以获得更加灵活的和简单的访问管理，和中心化的审计，访问策略。
 
@@ -119,9 +119,9 @@ A k8s based microservices architecture:
 一个基于kubernetes的微服务架构，根目录包含了以下文件：
 
 ~~~ yaml
-Dockerfile : defines dependencies a src porject need to build; Kubernetes will build it first then upload it to remote image repositroy. This image will be reused in each cluter node to build distributed services in a cloud envrionment.
+Dockerfile : defines dependencies a src porject need to build; Kubernetes will build it first then upload it to remote image repositroy. This image will be reused in each cluster node to build distributed services in a cloud envrionment.
 
-development.yaml: create a cluster based services specified in services.yaml. Include  replicas, image place and so on.
+development.yaml: create a cluster based services specified in services.yaml. Include replicas, image place and so on.
 services.yaml: A single Service instance definition in a k8s pod. Include service label, port, selector for commandline tool and so on.
 router.yaml: api gateway; load balancing.
 otheres: other valid files accepted by k8s.
@@ -417,9 +417,9 @@ prox:=net.http.httputils.NewSingleHostReverseProxy(targetUrl) for specific targe
 // prox.ServeHTTP(repWriter, req)
 ~~~
 
-The above exampel in L4 level. Once connection is built, you can CGI related controls to create http requests and response. In go, we just let httpClient to accept the L4 connection
+The above exampel in L4 level. Once connection is built, you can CGI related controls to create HTTP requests and response. In go, we just let httpClient to accept the L4 connection
 
-以上是L4级别的。一旦连接建立。我们将使用类似CGI的代码区从IP创建HTTP请求，和响应。在GO中，我们通过让一个hTTP客户端程序，接受一个TCP连接来实现。
+以上是L4级别的。一旦连接建立。我们将使用类似CGI的代码区从IP创建HTTP请求和响应。在GO中，我们通过让一个HTTP客户端程序，接受一个TCP连接来实现。
 
 ### apiserver
 
@@ -529,7 +529,7 @@ authorized, reason, err := a.Authorize(attributes)
 }
 ~~~
 
-2) Each time a request dispatched, we retrieve request conext \(very simple, a hashmap\), and update request context with the current request. Conext will used by apiserver and third party auditing. Other context servcies conprise of Prometheus Monitoring services. Requests will be monitored by Prometheus Monitoring services, -- a quite famouse third party project. And they are also grouped into two generes: recoured and non-resourced. It is easy to understand in on openID conext:
+2) Each time a request dispatched, we retrieve request conext \(very simple, a hashmap\), and update request context with the current request. Conext will used by apiserver and third party auditing. Other context servcies conprise of Prometheus Monitoring services. Requests will be monitored by Prometheus Monitoring services, -- a quite famouse third party project. And they are also grouped into two generes: resoured and non-resourced. It is easy to understand in on openID conext:
 
 2) 每次请求被路由了，我们提取访问上下文，其实就是一个hashmap，并将本次请求添加到hashmap中。上下文会被应用入口服务器和第三方的审计系统使用。其他上下文服务，还包括了，普罗米修斯监控系统。请求都会普罗米修斯监控，一个非常著名的项目；还被分成两大类：资源请求，非资源请求。这比较容易在openID上下文下理解：
 
