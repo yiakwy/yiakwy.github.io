@@ -77,7 +77,7 @@ The picture shows a canonical css layout \(or html layout, but I personally beli
                 </ul>
             </nav>
 
-            <div class="row">{% raw% } { something } {% endraw %}</div>
+            <div class="row">{% raw %} { something } {% endraw %}</div>
 
             <footer> ... </footer>     
         </div>
