@@ -1,21 +1,22 @@
 ---
 layout: post
-title: "How does Kubernetes Auth work"
+title: "Review of  Kubernetes(V1.7.3, Aug 2017) Authentication and Authorization"
 date: 2017-08-11
-updated: 2017-08-11
+updated: 2017-08-14
 excerpt_separator: <!--more-->
 thumb_img: /images/Kubernetes.png
 ---
 
 ## Introduction
 
-Kubenetes lead by google consist of master nodes in server side and clients everywhere else. In cluster, master nodes, run three important processes in individual master node. They are "kube-apiserver", "kube-controller-manager" and "kube-scheduler".  In client side, users are granted commandline tools or construct kubenetes api directly  and kube-proxy will forward requests to remove server as a unique api gateway.
-<!--more-->
+Kubenetes lead by google consists of master nodes in server side and clients everywhere else. Within clusters, k8s service orchestration system executes three important processes in individual master node. <!--more--> They are such named as "kube-apiserver", "kube-controller-manager" and "kube-scheduler".  While, for clients side, users are granted commandline tools access secrets automatically or alternatively they construct kubenetes api with the srecrets explictly to access clusters and kube-proxy functions as api-gateway to forward requests to remote server.
 
-由谷歌领导，众多厂商参与的kubernetes的集群每一个节点运行着三个重要的进程。 他们是“kube-apiserver”， "kube-controller-manager"，以及"kube-scheduler"。kube-proxy为api入口，将转发请求到对于的集群服务上.
+
+由谷歌领导，众多厂商参与开发的kubernetes由服务器的主节点和，遍布世界各个角落的客户端组成。集群内，k8s服务编排系统启动三个重要的进程: “kube-apiserver”， "kube-controller-manager"，以及"kube-scheduler"。 同时在客户端，用户被授予命令行访问密令，后者。kube-proxy为api入口，将转发请求到对于的集群服务上.
 
 ~~~ bash
-# how k8s series of projects placed in github
+# how k8s series of projects grouped in github
+
 k8s.io
 ├── api/
 │       ...
@@ -59,17 +60,19 @@ k8s.io
 		...
 ~~~
 
-The authentciation involved across "kubectl", "kube-proxy" and apiserver. It is centre to build connection among servcies in fast ,safe user experience. Google implement openID to grant limited access from one service to another. More details about openID or oauth is fully discussed in RFC 6749. They takes care of relationships among "resources owner", "authroization server" and "resources server". Instead of using role based authentication control model, google implementes attribute based access control (ABAC) to gain flexible and simplified access management, centralized auditing and access policy.
+The authentciation involved across "kubectl", "kube-proxy" and "apiserver". It is centre to build connections among servcies in fast ,safe user experience. Google implement openID for third party users to grant limited access from one service to another. More details about openID or oauth is fully discussed in RFC 6749. They takes care of relationships among "resources owner", "authroization server" and "resources server". Instead of constrained in role based authentication (recently) control model, google implementes attribute based access control (ABAC) to gain flexible and simplified access management, centralized auditing and access policy.
 
-Authentication鉴权对于建立服务间，快速和安全的是非常重要的。谷歌基于openID实现了服务编排和通信。更多关于oauth1.0和2.0等信息，在RFC 6749里面找到；他们是关于资源拥有者，鉴权服务器，资源服务器三方的关系。谷歌自己实现以套基于abac的鉴权模型，而不是传统的基于角色的鉴权模型，用以获得更加灵活的和简单的访问管理，和中心化的审计，访问策略。
+Authentication穿插在"kubectl", "kube-proxy"和"apiserver"中. 鉴权对于建立服务间，快速和安全的是非常重要的。借助openID，谷歌帮助第三方实现服务间的访问。更多关于oauth1.0和2.0等信息，在RFC 6749里面找到；它描述了资源拥有者，鉴权服务器，资源服务器三方的关系。谷歌自己实现一套基于abac的鉴权模型，并不受限于传统的基于角色的鉴权模型。ABAC模型拥有更加灵活的，简单的，中心化的的访问管理和审计策略。
 
-All these perpectives reflect on codes and projects themselves. We will walk though concrete codes and in cloud demos to gain deep understanding of google kubernetes auth for general micorservices architecture.
+All these perpectives reflect well on projects. We will walk though concrete codes and in cloud demos to gain deep understanding of google kubernetes auth for general micorservices architecture.
 
-这些角度都在代码和项目上反应。我们将会分析实际的代码和和在云上的工程来获得关于google kubernetes auth更为深入的理解，并应用它去解决微服务架构的问题。
+这些角度很好地展示在k8s项目上。我们将会分析实际的代码和在云上的工程，来获得关于google kubernetes auth更为深入的理解，并应用它去解决微服务架构的问题:
+
+> No artificial interference of onsite environment, products can be doployed, shared, published under a seameless api gateway\(service registration and discovery\) for high availibility\(loadBlancing\), hight stability \(**smooth** grey realsing\) and 
 
 By tracing api-gateway relevent codes in kubernetes, we obtain clues that how web traffices flowing through servcies. Authentication and anthorization happen inside traffic flow, and we review secrets and abac implementation respectively. We have our tools sharpened first, so that our github page is more friendly:
 
-通过追踪和api-gateway在kubernetes相关的代码，我们获得流量传递的线索。鉴权，就发生在web流量流动的过程中， 然后我们分别审查密匙和abac的代码实现。
+通过追踪和api-gateway在kubernetes相关的代码，我们获得流量传递的线索。鉴权，就发生在web流量流动的过程中， 然后我们分别审查密匙和abac的代码实现。首先更新下我们的代码浏览工具，这样我们的github会更友好：
 
 1. Introduction
 2. Overview of source code structure
@@ -85,19 +88,17 @@ By tracing api-gateway relevent codes in kubernetes, we obtain clues that how we
 5. Auth UE research
 6. Reference
 
-我们首先考虑“请求转发”等apigateway在k8s中涉及的代码，找到流量通过服务流动的线索。鉴权就发生在此过程中；然后我们分别检查密令和abac的实现。 首先更新下我们的代码浏览工具，这样我们的github会更友好：
-
 ![ide1.png](/images/kubernetes/ide1.png)
 
 ![ide2.png](/images/kubernetes/ide2.png)
 
 Some of key module implementation will be hide in Vendor directory because Kuernetes are maintained by many companies including Redhat, Huawei and so on. If you don't use tool like **souregraph**, you might suffer from doing static analysis.
 
-不少核心代码\(auth\），反向代理会隐藏到Vendor，以及其他在k8s.io旗下的项目里面，如果您没有采纳我的建议，做静态代码分析时候，可能会十分痛苦。
+由于kubernetes由众多包括红帽子，华为等厂商维护，不少核心代码的实现会隐藏在k8s.io/{prject_name}/vendor，和其他在k8s.io旗下的项目里面，如果您没有采纳我的建议，做静态代码分析时候，可能会十分痛苦。
 
-Here I used Sourcegraph. Sourcegraph is a handys static analytic toolkit for navigating through a large project hosted in github. Anlyzing codes can't be easier wit it.
+Here I used Sourcegraph. Sourcegraph is a handys static analysis toolkit for navigating through a large project hosted in github. Anlyzing codes can't be easier without it.
 
-这里我使用了Sourcegrpah这个Chrome插件。它是一个非常容易上手的github代码静态分析工具。拥有它，分析代码不能更简单了。
+这里我使用了Sourcegrpah这个Chrome插件。它是一个非常容易上手的github代码静态分析工具。没有它，分析代码不能更简单了。
 
 Favorite skills to finish article reading
 
@@ -106,11 +107,18 @@ Favorite skills to finish article reading
 3. familiar L7 web development achitecture
 4. basic understanding of L4 socket level usage
 
+完整这篇文章，您需要：
+
+1. 熟悉go和Python\(了解PEP， 常见设计模式，web开源架构\)
+2. 熟悉SOA或者微服务架构
+3. 熟悉L7网络开发架构
+4. 对L4 socket的使用有基本的了解
+
 ## Overview of source code structure
 
-Most functionality of kubenestes written in "pkg", "plugin", "cmd" and "cluster". "cmd" defines a collection of commandline tool in clientside using cobra framework, while "pkg" and "plugin" includes most of authentication logics.
+Most functionality of kubenestes written in "pkg", "plugin", "cmd" and "cluster". "cmd" defines a collection of commandline tool in client side using cobra framework, while "pkg" and "plugin" includes most of authentication logics.
 
-k8s大多数功能，写在"pkg", "plugin", "cmd" 和 "cluster"包下。其中"cmd"是在用户端，采用cobra架构定义了一族，命令行工具。“pkg”和“plugin”包含了大多数的鉴权实现。
+k8s大多数功能，写在"pkg", "plugin", "cmd" 和 "cluster"包下。其中"cmd"是在用户端，采用cobra架构定义了一族，命令行工具。“pkg”和“plugin”包含了大多数的鉴权实现逻辑。
 
 ## Review of Microservies Architecture
 
@@ -197,7 +205,9 @@ By inspecting imeplementation in apisever, we found that, in kubernetes, objects
 	8. KubeControllerManager
 	9. KubeScheduler
 	
-And we also need find out at which traffic level the authentication happens, L4 or L7? We need trace traffic flow.
+When a request reaches the Indentity Provider\(we will talk about it later\), we need to identify whether the request is "resourced" or "non-resourced". And we also need find out at which traffic level the authentication happens, L4 or L7? We need trace traffic flow.
+
+当一个请求来到“身份提供者”\(我们稍后会讨论它\)，我们需要确认请求是“资源类型的”还是“非资源类型的”。我们同样还需要找出，在哪个流量级别，鉴权发生了，是L4还是L7呢？我们需要跟踪流量。
 
 Now we are **ready** to explore more about k8s auth! 
 我们现在可以探索更多k8s auth了！
@@ -216,17 +226,112 @@ Initially, kubernetes should use ${USER}/.kube/config provided by user to set cl
 
 ![fetch credentials from remote cluster](/images/kubernetes/fetch_credentials.png)
 
+If you are not familiar with Oauth in Client side here is an example I wrote 2 years ago
+
+~~~
+## The codes USAGE belongs to relevant developers. Lei is the author
+## These codes are very old and just for educational purpose and SHOULD NOT use OR be implied to use in any product in any form without conent of codes holders. 
+## in_profile/auth/decorators/targtes/linkedin/oauth.py
+## Since the implementation used "session", ---- cookie based, already deprecated in lastest implementation
+
+'''
+Created on 21 Nov, 2015, Michigan Unit State
+
+@author: wangyi
+'''
+#from django.contrib.auth import REDIRECT_FIELD_NAME
+from rest_framework import status
+from rest_framework.response import Response as response
+from django.http.response import JsonResponse
+from linked_in.source_manager.linkedin.linkedin import LinkedInAuthentication, LinkedInApplication, PERMISSIONS_DEFAULT
+from functools import wraps
+from django.utils.decorators import available_attrs
+
+import pytz
+from linked_in.settings import TIME_ZONE
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from in_profile.models import LinkedinUser, LinkedinProfile
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
+from linked_in.source_manager.linkedin.utils import LinkedInError
+
+### ...  a lof utilities, let us move ahead
+### 
+
+## This method will be called by Django interally. You don't need to understand it . The only you must be aware of is 
+## 1) If we need to authenticate, check the session, retrieve reqeust context from cookie. 
+## 2) If redirect the user to Identity Provider with next_url as a callback
+## 3) proceed to standard oauth procedure by makeing request to get codes first from identity provider and then retieve access token for relevant resources server. 
+def user_passes_test(test_func, login_url=None, 
+                     redirect_field_name=None):
+    
+    def decorator(view_func):
+        @wraps(view_func, assigned=available_attrs(view_func))
+        def wrapper(req_or_view, *args, **kwargs):
+
+            user_verified = test_func(req_or_view)
+            if not user_verified:
+                # passed as callback
+                try:
+                    session = req_or_view.session
+                except AttributeError:
+                    session = req_or_view.request.session
+                try:
+                    ac = session['ac']
+                    if ac:# True
+                        # auth part
+                        # get credentials
+                        session['ac'] = False
+                        try:
+                            _authenticate(req_or_view.request)
+                        except Exception as e:
+                            if hasattr(e, 'rep'):
+                                return e.rep
+                            # should change err type
+                            return response(status=status.HTTP_511_NETWORK_AUTHENTICATION_REQUIRED)
+                        return view_func(req_or_view, *args, **kwargs)
+                except KeyError:
+                    session['ac'] = False
+                # redirect
+                try:
+                    next_url = req_or_view.build_absolute_url()
+                except:
+                    # if you use restful framework
+                    from rest_framework.reverse import reverse
+                    kw = get_args(req_or_view)
+                    base_url = reverse('api_auth', request=req_or_view.request)
+                    next_url = url_encode(base_url, list(kw.items()))
+                # do session part
+                # because if it is not authenticated django will mute session modification
+                session['ac'] = True
+                from django.http import HttpResponseRedirect
+                lka = LinkedInApp(callback=next_url)
+                return HttpResponseRedirect(lka.url)
+            else:
+                return view_func(req_or_view, *args, **kwargs)
+        return wrapper
+    return decorator    
+
+~~~
+
 By combining cloud administration SDK, with kubernetes, cloud users‘ user experience (UE) is far more better than configuring or downloading cluster credentials manually. 
 
 将云管理界面SDK和kubernetes结合，云用户的远远比手动配置要好。
 
-In this case google is identity provider. The framework also applied to other auth providers like Aure, Amazon EC2 platform. Identity provider provides us with *access_token*, *id_token* and "refresh token". User can also inject id_token in reverse proxy or using kubectl proxy command to visity kubernetes cluster through proxy server. Root Certificate Autherizor\(CA\) validates certificates kubelet or kubectl client certificates to build a connection。
+In this case, gCloud is identity provider. The framework also applied to other auth providers like Aure, Amazon EC2 platform. Identity provider provides us with *access_token*, *id_token* and "refresh_oken". User can also visit kubernetes cluster by injecting "id_token" in reverse proxy or using kubectl proxy command. Root Certificate Autherizor\(CA\) validates certificates kubelet or kubectl client feed to build a connection。
 
 在这个例子，谷歌是身份验证提供者。这个框架同样适用于其他身份提供者比如 Azure, Amazon EC2 平台。身份提供者给我们提供"access_token", "id_token" 和 “refresh_token”。用户还可以将 id_token 加入到反向代理中，或者使用 kubernetes 命令行工具，通过代理服务器访问集群。根证书鉴权验证由kubectl客户端发来的证书，来建立联系。
 
 ![k8s_oidc_login](/images/kubernetes/k8s_oidc_login.svg)
 
-A token or JWT token might be look like:
+"id_token", "refresh_token" and "access_token" are called Jason Web Tokens\(JWT\). Objects parsed from A token or JWT might look like:
+
+"id_token", "refresh_token" 和 "access_token" 被称为 JWT。令牌或者JWT被解析后的对象有如下定义：
+
 ~~~ go
 // k8s.io/kubernetes/pkg/kuberctl/serviceaccount/jwt.go
 // codes abstraction from k8s developers for analysis, only for education purpose
@@ -277,7 +382,9 @@ func (j *jwtTokenGenerator) GenerateToken(serviceAccount v1.ServiceAccount, secr
 
 ~~~
 
-Here is the main associated methods for jwtToken. 
+Here is the main methods associated with jwtToken: "AuthenticateToken". This coincides with our [JWT definition](https://jwt.io/), -- a three partitioned signature, two base64 codes and a signature crypted by algorithms specified in the first part, separated by dot.
+
+这里是JWT有一个主方法: "AuthenticateToken". 这和我们关于[JWT的定义](https://jwt.io/)相吻合，-- 一个由三部分组成的签名，两个base64加密的代码和一个由第一部分声明算法加密的签名，由点号隔开。
 
 ~~~ go
 
@@ -332,11 +439,11 @@ import (
 
 ~~~
 
-One thing we need be aware of is that kubenetes auth IS FOR kubernetes account servcie and APPLIATION related screts should be handled in kubernetes based APPLICATION like api-gateway ENVOY.
+One thing we need be aware of is that kubenetes auth IS FOR kubernetes SERVICE account and APPLIATION related SECRETS should be handled in kubernetes based APPLICATION. For example, API-GATEWAY, ENVOY.
 
-值得注意的是，kubenetes auth是针对kubernetes账户服务。应用相关的秘令，应当在基于k8s的应用上处理，比如基于k8s的API-GATEWAY ENVOY。
+值得注意的是，kubenetes auth是针对kubernetes账户服务。应用相关的秘令，应当在基于k8s的应用上处理，比如基于k8s的API-GATEWAY, ENVOY。
 
-An very important approach in L7 level form client side, is to use the token to construct bearToken authentication for consumers:
+A very important approach in L7 level form client side, is to use the token to construct bearToken authentication for consumers:
 
 客户端有一个重要的方法，来通过构建bearToken请求，来访问集群：
 
@@ -349,9 +456,7 @@ req = requests.get(url, headers={"Authorization": "Bearer " + TOKEN}, verify=Fal
 
 ### proxy
 
-This is extremely important, that because production is very very complex. You **must** brear it mind to remind yourself what they are doing.
-
-Proxy is a service forward requests from one end point to another endpoint for central audit and simplified implementation.
+This is extremely important, that because production is very very complex. You **must** brear it mind to remind yourself what they are doing. Proxy is a service forward requests from one end point to another endpoint for central audit and simplified implementation.
 
 始终记住自己在做什么非常重要，因为实现非常复杂。 代理是一个将求请，从一个节点发送到另一个节点的服务，这样就可以做集中式审计，并且实现方便。
 
@@ -531,7 +636,7 @@ authorized, reason, err := a.Authorize(attributes)
 
 2) Each time a request dispatched, we retrieve request conext \(very simple, a hashmap\), and update request context with the current request. Conext will used by apiserver and third party auditing. Other context servcies conprise of Prometheus Monitoring services. Requests will be monitored by Prometheus Monitoring services, -- a quite famouse third party project. And they are also grouped into two generes: resoured and non-resourced. It is easy to understand in on openID conext:
 
-2) 每次请求被路由了，我们提取访问上下文，其实就是一个hashmap，并将本次请求添加到hashmap中。上下文会被应用入口服务器和第三方的审计系统使用。其他上下文服务，还包括了，普罗米修斯监控系统。请求都会普罗米修斯监控，一个非常著名的项目；还被分成两大类：资源请求，非资源请求。这比较容易在openID上下文下理解：
+2) 每次请求被路由了，我们提取访问上下文hashmap，并将本次请求添加到hashmap中。上下文会被应用入口服务器和第三方的审计系统使用。其他上下文服务，还包括了，普罗米修斯监控系统。请求都会普罗米修斯监控，一个非常著名的项目；还被分成两大类：资源请求，非资源请求。这比较容易在openID上下文下理解：
 
 > Valid authenticated tokens reqired when request forwared to resources server! 当请求路由到资源服务器时候，就需要授权令牌。
 
@@ -755,11 +860,11 @@ func matches(p api.Policy, a authorizer.Attributes) bool {
 {"apiVersion": "abac.authorization.kubernetes.io/v1beta1", "kind": "Policy", "spec": {"user":"bob",       "namespace": "projectCaribou", "resource": "*",         "apiGroup": "*", "readonly": true }}
 ~~~
 
-#### Other control scheme
+#### Other control schemes
 
-When kubenetes server setup, there are up to 5 choices besides ABAC to choose from:
+When kubenetes server setup, there are up to 5 choices besides ABAC to choose from, which can be seeen from kubeapiserver configuration file:
 
-在k8s master节点启动后，除了ABAC共有5个鉴权选项：
+在k8s master节点启动后，除了ABAC共有5个鉴权选项, 这在服务器authorization配置选项里面可以看到：
 
 1. Node Access Control
 2. AlwaysAllow
@@ -767,7 +872,32 @@ When kubenetes server setup, there are up to 5 choices besides ABAC to choose fr
 4. [WebHook](https://kubernetes.io/docs/admin/authorization/webhook/): An HTTP post based callback when some even triggered. This is used in Kubernetes to query an outsite REST to determine user privileges.
 5. RBAC
 
-Enabling ABAC and WebHook modes are required for authorization process. 只有ABAC, Webhook是必须的。
+~~~ go
+// k8s.io/kubernetes/pkg/kubeapiserver/authorizer/config.go#L94-164
+// from kubernetes developers, only education purpose
+
+func (config AuthorizationConfig) New() (authorizer.Authorizer, error) {
+// ...
+for _, authorizationMode := range config.AuthorizationModes {
+		if authorizerMap[authorizationMode] {
+			return nil, fmt.Errorf("Authorization mode %s specified more than once", authorizationMode)
+		}
+		// Keep cases in sync with constant list above.
+		switch authorizationMode {
+		case modes.ModeNode: ...
+		case modes.ModeAlwaysAllow: ...
+		case modes.ModeAlwaysDeny: ...
+		case modes.ModeABAC: ...
+		case modes.ModeWebhook: ...
+		case modes.ModeRBAC: ...
+		default:
+			return nil, fmt.Errorf("Unknown authorization mode %s specified", authorizationMode)
+		}
+		authorizerMap[authorizationMode] = true
+	}
+// ...
+}
+~~~
 
 ## Conclusion
 
