@@ -10,4 +10,5 @@ lib/bootstrap-table/
 frameworks_demos/sklearn/*.jpg
 frameworks_demos/sklearn/sklearn_lfw.ipynb
 frameworks_demos/sklearn/.ipynb_checkpoints/
-frameworks_demos/sklearn/fea_vector
+frameworks_demos/sklearn/lfw_fea.npy
+*.mat
