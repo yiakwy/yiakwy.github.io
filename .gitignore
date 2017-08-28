@@ -3,6 +3,7 @@ _site/
 lib/bootstrap-table/
 面试算法.xml
 课程设计.xml
+<<<<<<< HEAD
 
 *.caffemodel
 *.prototxt
@@ -12,3 +13,5 @@ frameworks_demos/sklearn/sklearn_lfw.ipynb
 frameworks_demos/sklearn/.ipynb_checkpoints/
 frameworks_demos/sklearn/lfw_fea.npy
 *.mat
+=======
+>>>>>>> 6662ec5618338c0191780643d971f6b75b29756a

@@ -1,0 +1,3 @@
+[diff "pptx"]
+	binary = true
+	textconv = python pptx-textconv.py
