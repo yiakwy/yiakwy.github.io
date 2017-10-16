@@ -524,10 +524,10 @@
 				}
 		 })();
 		</script>
-		<script>
-			// add catalog
-			$.fn.jsInj.prototype.catalog()
-		</script>
+		{% if page.id %}
+<script>
+	$.fn.jsInj.prototype.catalog()
+</script>
+		{% endif %}
     </body>
-
 </html>
