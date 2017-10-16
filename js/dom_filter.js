@@ -223,7 +223,6 @@
 						template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id + '" style="text-align:left;padding-left:' + String((index-2)*40) + 'px;">' + String(index2) + " " + child.innerText + '</a><li>' }
 						else {
 template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id + '" style="text-align:left;padding-left:' + String((index-2)*40) + 'px;">' + String(index2) + "." + String(index3) + " " + child.innerText + '</a><li>' }
-						console.log(template.innerHTML)
 						target.appendChild(template.content.firstChild)
 					} else {
 						//
