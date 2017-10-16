@@ -83,7 +83,15 @@ p.standard::first-letter {
 img {
 	width: 100%;
 }
-
+.sidebar-info {
+	color:grey;
+}
+.sidebar-info li a {
+	color: blue;
+}
+.sidebar-info li a:hover {
+	
+}
 .formula {
 	padding-left: 1em;
 	padding-right: 1em;
@@ -160,7 +168,7 @@ img {
 		border-bottom-right-radius: 0px;
 	}
 }
-
+.canvasVideo,
 video#background-video {
 	position: fixed; right: 0; bottom: 0;
 	min-width: 100%; min-height: 100%;
@@ -182,6 +190,7 @@ video#background-video {
 	width: 100%; height: auto; z-index: -100;
 	background: url(/images/norway.png) no-repeat;
 	background-size: cover;
+	object-fit: fill;
 	}
 .canvasVideo {
 	display: block;
@@ -198,6 +207,7 @@ video#background-video {
 	background-size: cover;
 	/*border-radius: 15px 25px;*/
 	display: block;
+	object-fit: fill;
 	}
 }
 

@@ -18,3 +18,46 @@ exclude: [lib/bootstrap-table/]
 gems: [jekyll-paginate, jekyll-feed]
 paginate: 5
 paginate_path: "/blog/page:num/"
+friends: [
+	{
+		url: "http://freerambo.com",
+		name: "FreeRambo",
+        icon: "fa fa-user-o"
+	},
+	{
+		url: "www.yiak.co",
+		name: "Yiak\'s Old posts",
+        icon: "fa fa-external-link"
+	},
+    {
+        url: "https://linux.die.net/man/",
+        name: "Linux",
+        icon: "fa fa-external-link"
+    },
+    {
+        url: "https://en.wikipedia.org/wiki/Science",
+        name: "Wikipedia Science",
+        icon: "fa fa-external-link"
+    },
+    {
+        url: "https://stanfordnlp.github.io/CoreNLP/",
+        name: "Stanford NLP Group, NLP compiler",
+        icon: "fa fa-external-link"
+    },
+    {
+        url: "https://github.com/tensorflow/tensorflow",
+        name: "Tensorflow",
+        icon: "fa fa-external-link"
+    },
+    {
+        url: "https://cloud.google.com",
+        name: "GCE, Kubernetes",
+        icon: "fa fa-external-link"
+    },
+    {
+        url: "https://ruff.io",
+        name: "IoT",
+        icon: "fa fa-external-link"
+    }
+]
+

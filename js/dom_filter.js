@@ -48,6 +48,7 @@
 		remove_scripts: remove_scripts,
 		wrap: wrap,
 		add_click_me: add_click_me,
+		catalog: catalog,
 		bibitexParse: bibitexParse
 	}
 	
@@ -183,6 +184,49 @@
 					parent.children[0].id = child.alt
 					if (parent.tagName == "P") { 
 						parent.parentElement.insertBefore(parent.children[0], parent) 
+					}
+				} else {
+					selected.push(child)
+				}
+			}
+			return selected
+		})
+	}
+	
+	function catalog() {
+		var doc = document,
+			root = doc.querySelector("div.post"),
+			nav = doc.querySelector("ul.navbar"),
+			template = doc.createElement('TEMPLATE'),
+			index2 = 0,
+			index3 = 0
+		
+		template.innerHTML = '<div class="panel sidebar-info" style="margin-top:20px"><h5 style="margin-top:0px">Catalog</h5><ul id="catalog"></ul></div>'
+		nav.append(template.content.firstChild)
+		var node = walk_dom(root, function(parent,
+										   children) {
+			
+			var selected = [];
+			var child, j=0;
+			// for (child of children) {
+			for (; j < children.length; j++) { child = children[j]
+				if (child.tagName.startsWith("H") === true) {
+					if (isMobile() || window.innerWidth < 767) {
+						var doc = document,
+							target = doc.querySelector("#catalog")
+						var template = doc.createElement('TEMPLATE'),
+							index = parseInt(child.tagName[1])
+						if (index === 2)  { index2++; index3=0; }
+						if (index === 3) { index3++; }
+						if (index > 3) { index3++; index=3 }
+						if (index3 === 0) {
+						template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id + '" style="text-align:left;padding-left:' + String((index-2)*40) + 'px;">' + String(index2) + " " + child.innerText + '</a><li>' }
+						else {
+template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id + '" style="text-align:left;padding-left:' + String((index-2)*40) + 'px;">' + String(index2) + "." + String(index3) + " " + child.innerText + '</a><li>' }
+						console.log(template.innerHTML)
+						target.appendChild(template.content.firstChild)
+					} else {
+						//
 					}
 				} else {
 					selected.push(child)

@@ -21,7 +21,8 @@
 		<link href="/css/animatedbar.css" rel="stylesheet" type="text/css">
 		<link href="/css/panel.css"  rel="stylesheet" type="text/css">
 		<link href="/css/diary.css"  rel="stylesheet" type="text/css">
-		<link href="/lib/syntax.css" rel="stylesheet" type="text/css">
+		<!-- link href="/lib/syntax.css" rel="stylesheet" type="text/css"-->
+		<link href="/css/syntax.css" rel="stylesheet" type="text/css">
 		<!-- updated on July 19 2017 by Lei Wang for simple material design support -->
 		<link href="/css/material-sim.css" rel="stylesheet" type="text/css">
     </head>
@@ -48,12 +49,12 @@
             </nav>
             <div id="fullpage" class="row material-middle">
 <!-- enables Accept Ranges: bytes in server -->
-<video class="video" autoplay loop id="background-video" controls="false">
+<video class="video" autoplay loop id="background-video">
 	<source src="/images/norway4k-iPhone.m4v" type="video/mp4" media="all and (max-width:480px)"/>
 	<!--source src="/images/norway4k-iPhone.mp4" type="video/mp4" media="all and (max-width:480px)"/-->
 	<source src="/images/norway4k.mp4" type="video/mp4"/>
 	<srouce src="/images/norway4k-iPhone.webm" type='video/webm' media="all and (max-width:480px)"/>
-	<srouce src="/images/norway4k.webm" type='video/webm'/>
+	<srouce src="/images/norway4k.webm" type="video/webm"/>
 </video>
 <canvas class="canvasVideo video"></canvas>
 				<div id="overLay" class="row">
@@ -76,6 +77,28 @@
         </div>
 		
 		<script type="text/javascript" src="/js/dom_filter.js"></script>
+		<script type="text/javascript">
+			function asyn(callback, isReady, max, curr) {
+				var timer,
+					curr = curr || 0,
+					max = max || 10
+				if (isReady()) {
+					callback()
+					if (timer) {
+						clearTimeout(timer);
+					}
+				} else {
+					if (curr < max) {
+						timer = setTimeout(function(){
+							asyn(callback, isReady, max, curr+1);
+						}, 500)
+					} else {
+						clearTimeout(timer)
+						console.log("try " + max + " times. give up.")
+					}
+				}
+			}
+		</script>
 		<script type="text/javascript">
 			function _init() {
 				window.addEventListener('load', function() {
@@ -181,8 +204,47 @@
 					pseuVideo.play()
 					audioPlayer()
 				} else {
-					var ca = document.querySelector("canvas")
+					var doc = document;
+					var ca = doc.querySelector("canvas")
 					ca.style.display = "none"
+					asyn(function(){
+						var video = doc.querySelector("video")
+						var promise = video.play() // html5 video auto play is not allowed in chrome, safari. Hence we need other tricks to do that.
+						console.log("to play video manually.")
+						var self = this
+						self.video = video
+						promise.catch(
+							function(reason){
+								console.log(reason)
+								console.log("try the pseudo video elem")
+								/* use canvas instead */
+								var ca = doc.querySelector("canvas")
+								ca.style.display = "block"
+								var config = { videoSelector: 'video#background-video',
+								   canvasSelector: '.canvasVideo',
+								   timelineSelector: false,
+								   autoplay: true,
+								   makeLoop: true,
+								   pauseOnClick: false, 
+								   audio: true }
+								var pseuVideo = new CanvasVideoPlayer(config)
+								pseuVideo.play()
+							})
+						promise.then(
+							function(ret) {
+								console.log("played video successfully.")
+							})
+					}, function(){
+						var video = doc.querySelector("video")
+						if (video.length !== 0) {
+							console.log("video is ready now.")
+							return true
+						} else {
+							console.log("video is not ready. retry after 500 ms ... ")
+							return false
+						}
+					}, 4)
+					audioPlayer()
 				}
 					var doc = document
 					var h1 = doc.querySelector("h1"),
@@ -228,7 +290,29 @@
 						}
 					}
 					
+					// addto sidebar
+					if ($.fn.jsInj.prototype.isMobile() || window.innerWidth < 767) {
+						var doc = document,
+							sidebar = doc.querySelectorAll(".sidebar-info"),
+							nav = doc.querySelector("ul.navbar")
+						
+						for (var i=0; i < sidebar.length; i++) {
+							nav.appendChild(sidebar[i])
+						}
+					}
+				
+					window.addEventListener("load", adjustStyle, false)
+					asyn(adjustStyle,function(){
+						if (videos !== null) {
+							return true
+						} else {
+							videos = doc.querySelectorAll(".video")
+							console.log("videos are not available. retry 500 ms later")
+							return false
+						}
+					},2)
 					window.addEventListener("DOMContentLoaded", adjustStyle, false)
+					window.addEventListener("resize", adjustStyle, false)
 					window.addEventListener("orientationchange", function(){
 						switch(window.orientation) {
 							case 270 || -270:
@@ -281,10 +365,9 @@
 			
 			/* please refer to this report, thanks for his or her efforts */
 			/* https://gist.github.com/ufologist/50b4f2768126089c3e11 */
-			function audioPlayer() {
+			function _audioPlayer() {
 				var doc = document,
 					audio = doc.querySelector("audio")
-				
 				var self = this
 				self.audio = audio
 				function forceSafariPlayAudio() {
@@ -305,17 +388,21 @@
 				audio.addEventListener('loadedmetadata', function() {
 					log('loadedmetadata');
 				}, false);
+				/*
 				audio.addEventListener('canplay', function() {
 					log('canplay');
 				}, false);
+				*/
 				audio.addEventListener('play', function() {
 					log('play');
 					// remove event handler
 					window.removeEventListener('touchstart', forceSafariPlayAudio, false);
 				}, false);
+				/*
 				audio.addEventListener('playing', function() {
 					log('playing');
 				}, false);
+				*/
 				audio.addEventListener('pause', function() {
 					log('pause');
 				}, false);
@@ -329,6 +416,21 @@
 				} else {
 					// audio.src = videoSource.src
 				}
+			}
+			
+			function audioPlayer()
+			{
+				asyn(_audioPlayer, function(){
+					var doc = document,
+						audio = doc.querySelector("audio")
+					if (audio !== null) {
+						console.log("audio is available now.")
+						return true
+					} else {
+						console.log("audio is not available. retry after 500 ms ... ")
+						return false
+					}
+				}, 4);
 			}
 			
 			var scaleMath = function () {
@@ -347,8 +449,8 @@
 						p = pset_array[j]
 						p = p.nextSibling.firstChild
 						console.log("isMultiline", MathJax.Hub.getAllJax(f)[0].root.isMultiline)
-						console.log("f offsetWidth", 	f.offsetWidth)
-						console.log("p offsetWidth", 	p.offsetWidth)
+						console.log("f offsetWidth", f.offsetWidth)
+						console.log("p offsetWidth", p.offsetWidth)
 						var ratio = f.offsetWidth / p.offsetWidth
 						console.log("ratio", ratio)
 						var factor
@@ -421,6 +523,10 @@
 				QUEUE.Push(["Text",math,"\\displaystyle{"+TeX+"}"])
 				}
 		 })();
+		</script>
+		<script>
+			// add catalog
+			$.fn.jsInj.prototype.catalog()
 		</script>
     </body>
 

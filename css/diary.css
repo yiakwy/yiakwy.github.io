@@ -154,7 +154,7 @@ hr {
 }
 
 pre.highlight {
-	background-color: whitesmoke;
+	background-color: black;
 	border: 1px solid lightgrey;
 	border-left: 4px solid black;
 	border-radius: 4px;
@@ -167,7 +167,16 @@ code {
 	line-height: 1.0em;
 	margin-top: 0.5em;
     margin-bottom: 0.5em;
-	overflow: scroll;
+	overflow: auto;
+}
+em {
+	color: green;
+	background: skyblue;
+}
+
+strong {
+	color: white;
+	background: brown;
 }
 
 body, button, input, select, textarea {

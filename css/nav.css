@@ -6,7 +6,7 @@ nav li{
 nav li a{
 	display: block;
 	position: relative;
-	color: yellow;
+	color: lightgrey;
 	text-align: center;
 	text-decoration: none;
 }
@@ -189,13 +189,13 @@ nav img.logo_seo {
 
 	}
 	
-	nav ul {
+	nav ul.navbar { /* https://drafts.csswg.org/selectors-4/#the-nth-child-pseudo */
 		margin-left: -80%;
 		width: 79%;/* sarafi width */
-		   /* 44.9%; Chrome Browser*/
+		           /* 44.9%; Chrome Browser*/
 	}
 	
-	nav ul.collapsed {
+	nav ul.navbar.collapsed {
 		margin-left: 0;
 	}
 	

@@ -1,0 +1,20 @@
+<!-- tags -->
+{% if site.tags %}
+<div class="panel sidebar-info" style="margin-top:20px;">
+<h5 style="margin-top:0px"><a herf="{{'\tags\' | prepend: site.baseurl}}">TAGS</a></h5>
+	<div id=tags></div>
+</div>
+{% endif %}
+
+
+<!-- friends -->
+{% if site.friends %}
+<div class="panel sidebar-info">
+	<h5 style="margin-top:0px"><a>FRIENDS</a></h5>
+	<ul>
+		{% for friend in site.friends %}
+		<li style="padding-top:5px;padding-bottom:5px;float:none;min-height:25px"><a href="{{friend.url}}"><i class="{{friend.icon}}" aria-hidden="true"></i>{{friend.name}}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
