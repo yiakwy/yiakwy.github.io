@@ -694,8 +694,6 @@ If you use unbuffed channel instead, the programme becomes slow while go routine
 
 We conclude that channel in go is a message queue through wich messages are passed by it. The interesting part in this demo is that channel can be used to notify completion of tasks. More examples in terms of grpc C core will be added later.
 
-
-
 ##### execution context
 
 ##### schedualer, completion queue and thread model
