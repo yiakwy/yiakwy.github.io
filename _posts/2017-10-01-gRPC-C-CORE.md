@@ -242,17 +242,17 @@ class Browser2(object):
         # e.g
         for line in session.read():
             if line.count('_end_downloading') == 1:
-                #session.kill()
+                # session.kill()
                 # this work the process terminated immediately
-                #session.kill()
+                # session.kill()
                 # this doesn't work
                 # this mothod is not recommanded by PEP    
                 session.stdin.write('1\n')
                 # shoudl use flush other wise the process will block
                 session.stdin.flush()
                 # this work but I have to wait until the last minute
-                #[child_stdout, child_stderr] = session.communicate(input="1\n")
-                #print(child_stdout)
+                # [child_stdout, child_stderr] = session.communicate(input="1\n")
+                # print(child_stdout)
         
         
     def setup(self, command, bufsize=1024):
@@ -516,7 +516,7 @@ if (ep_rv < 0) { ... }
 
 ~~~
 
-*grpc_lfev_set_ready are what job dispatching codes are, notifying a thread to process a job. We will be back to it in section "scheduler, completion queue and thread model". Line 332 ~ 375 defines the method "polling_island_add_fds_locked" to add file descriptors\(*fd*s\) into epoll instance. If the associated reference reaches the maxium capacity allocated, grpc reallocs memory to hold newly added *fd*s. 
+*grpc_lfev_set_ready* are what job dispatching codes are, notifying a thread to process a job. We will be back to it in section "scheduler, completion queue and thread model". Line 332 ~ 375 defines the method "polling_island_add_fds_locked" to add file descriptors\(*fd*s\) into epoll instance. If the associated reference reaches the maxium capacity allocated, grpc reallocs memory to hold newly added *fd*s. 
 
 Other CURD methods accocaited with epoll instance defined in Line 332 ~ 553.\(pay attention to the version I am analyzing!\) followed by "polling_island_merge" defined in L651 ~ 683.
 
@@ -723,7 +723,7 @@ int server(int argc, char **argv) {
 	grpc_server_start(server);
 	
 	// register signals
-	signal(SIG{X}, sig{x}_handler);
+	signal(SIG{X}, sig{lower_case(X)}_handler);
 	...
 	While (true) {
 		...

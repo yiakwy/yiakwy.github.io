@@ -203,7 +203,7 @@
 		
 		template.innerHTML = '<div class="panel sidebar-info" style="margin-top:20px"><h5 style="margin-top:0px">Catalog</h5><ul id="catalog"></ul></div>'
 		if (isMobile() || window.innerWidth < 767) {
-			nav.append(template.content.firstChild)
+			nav.appendChild(template.content.firstChild)
 		}
 		var node = walk_dom(root, function(parent,
 										   children) {
