@@ -104,6 +104,8 @@
 				// for ios safari
 				var doc = document
 				doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
+				var page = doc.querySelector("div#fullpage")
+				page.classList.add("main")
 				/* doc.body.addEventListener("touchmove", function(evt) {
 					evt.preventDefault();
 				}, false) */
@@ -470,9 +472,6 @@
 			}
 		
 			_init()
-			var doc = document
-			var mainPage = doc.querySelector("div#fullpage")
-			mainPage.classList.add("main")
 		</script>
 	
        	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
