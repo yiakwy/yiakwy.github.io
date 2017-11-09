@@ -101,17 +101,11 @@
 		</script>
 		<script type="text/javascript">
 			function _init() {
-				window.addEventListener('load', function() {
-					var doc = document
-					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
-					var main_page = doc.querySelector("div#fullpage")
-					main_page.classList.add("start")
-				})
 				// for ios safari
 				var doc = document
 				doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
-				var main_page = doc.querySelector("div#fullpage")
-				main_page.classList.add("start")
+				var mainPage = doc.querySelector("div#fullpage")
+				mainPage.classList.add("start")
 				/* doc.body.addEventListener("touchmove", function(evt) {
 					evt.preventDefault();
 				}, false) */
