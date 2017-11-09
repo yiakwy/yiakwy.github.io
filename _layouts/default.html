@@ -285,9 +285,12 @@
 							doc.onreadystatechange = function () {
 								if (self.doc.readyState === "interactive" ) {
 									// adjustMovieStyle()
+									console.log("[adjustStyle]: interactive ... ")
 								} else 
 								if (self.doc.readyState === "complete" ) {
 									adjustMovieStyle()
+								} else {
+									console.log("[adjustStyle]: UNKNOWN.")
 								}
 							}
 						}
