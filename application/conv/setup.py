@@ -9,7 +9,7 @@ import os
 from distutils import sysconfig
 Makefile = sysconfig.get_makefile_filename()
 print("makefile is" + " " + Makefile)
-
+PY_SYS_PREFIX = sysconfig.get_python_lib()
 
 if sys.platform == 'darwin':
     vars = sysconfig.get_config_vars()
@@ -26,7 +26,7 @@ fft_module = Extension('fft',
                         "/usr/include/python2.7",
                         "/usr/local/include"],
         libraries = ["boost_python", "dl", "python2.7"],
-        library_dirs = ["/System/Library/Frameworks/Python.framework/Versions/2.7/lib",
+        library_dirs = [PY_SYS_PREFIX,#"/System/Library/Frameworks/Python.framework/Versions/2.7/lib",
                         "/usr/local/Cellar/boost-python157/1.57.0/lib/",
                         # "/usr/local/Cellar/boost157/1.57.0/lib/",
                         "/usr/local/lib",
@@ -34,6 +34,20 @@ fft_module = Extension('fft',
         sources = ['./src/fft_module.cpp'],
         extra_compile_args=['-std=c++11', '-stdlib=libstdc++', '-shared']) 
 #https://stackoverflow.com/questions/35006614/what-does-symbol-not-found-expected-in-flat-namespace-actually-mean
+
+matrix_array_module = Extension('array',
+        include_dirs = ["./include",
+                        "/usr/local/Cellar/boost157/1.57.0/include/",
+                        "/usr/include/python2.7",
+                        "/usr/local/include"],
+        libraries = ["boost_python", "dl", "python2.7"],
+        library_dirs = [PY_SYS_PREFIX,#"/System/Library/Frameworks/Python.framework/Versions/2.7/lib",
+                        "/usr/local/Cellar/boost-python157/1.57.0/lib/",
+                        # "/usr/local/Cellar/boost157/1.57.0/lib/",
+                        "/usr/local/lib",
+                        ],
+        sources = ['./src/array_module.cpp'],
+        extra_compile_args=['-std=c++11', '-stdlib=libstdc++', '-shared'])
 
 CLASSIFIERS = """
 Development Status :: 5 - Production/Stable
@@ -62,7 +76,7 @@ meta = dict(
 	author = 'iphtmOfwr',
 	author_email = 'lwang11@mtu.edu',
 	url = 'yiakwy.github.io',
-	ext_modules = [fft_module]				
+	ext_modules = [fft_module, matrix_array_module]			
 )
 
 if __name__ == "__main__":

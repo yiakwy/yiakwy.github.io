@@ -3,15 +3,11 @@ _site/
 lib/bootstrap-table/
 面试算法.xml
 课程设计.xml
-<<<<<<< HEAD
 
 *.caffemodel
 *.prototxt
 *.prototxt.txt
-frameworks_demos/sklearn/*.jpg
-frameworks_demos/sklearn/sklearn_lfw.ipynb
-frameworks_demos/sklearn/.ipynb_checkpoints/
-frameworks_demos/sklearn/lfw_fea.npy
+framework_demos/sklearn/*.jpg
+framework_demos/sklearn/lfw_fea.npy
+js/ES6/node_modules/
 *.mat
-=======
->>>>>>> 6662ec5618338c0191780643d971f6b75b29756a

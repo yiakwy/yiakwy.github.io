@@ -11,20 +11,20 @@ exec=./bin
 include=./include
 lib=./lib
 
-# sharedlib=$(PYLIBPATH)/fft.so#.dylib
-sharedlib=$(lib)/fft.so
+sharedlib=$(lib)/fft.so $(lib)/matrix_array.so
 PYLIBPATH=$(shell python-config --exec-prefix)/lib
 test=$(SRCS_DIR)/test.cpp
 app=$(test)
 
 # -L/usr/local/Cellar/boost157/1.57.0/lib
+# -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib
 LIBS=-lm -L/usr/local/Cellar/glog/0.3.4_1/lib \
 	 -L/usr/local/Cellar/boost/1.64.0_1/lib \
 	 -L/usr/local/Cellar/boost-python/1.64.0/lib \
 	 -L/usr/local/lib \
 	 -lglog \
 	 -lboost_python \
-	 -L/System/Library/Frameworks/Python.framework/Versions/2.7/lib \
+	 -L${PYLIBPATH} \
 	 -lpython2.7 \
 	 -lboost_python \
 	 -lboost_numpy
@@ -36,7 +36,7 @@ CPPFLAGS= -g -Wall -Wno-unused -Wno-write-strings \
 		  -I/usr/local/Cellar/glog/0.3.4_1/include/ \
 		  -I/usr/include/python2.7/ \
 		  -I/usr/local/include/
-
+CPPFLAGS += -I$(shell python -c "import numpy; print '-I' + numpy.get_include()")
 HEADERS=$(wildcard *.hpp) \
 		$(wildcard $(include)/*.hpp)
 ALLSRCS=$(wildcard *.cpp) \
@@ -66,7 +66,7 @@ buildshared: $(sharedlib)
 	@echo $(GREEN) [INFO] $(COLOR_OFF) "compile CPP " $< "to obj"
 $(sharedlib): $(SRCS)
 	$(CXX) -v $(CPPFLAGS) -I$(include) -std=c++11 -stdlib=libc++ $^ -shared $(LIBS) -o $@
-	sudo cp $@ /Library/Python/2.7/site-packages/
+	sudo cp $@ $(PYLIBPATH)/python2.7/site-packages/
 
 .PHONY: clean
 clean:

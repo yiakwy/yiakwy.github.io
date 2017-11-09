@@ -210,7 +210,7 @@ CanvasVideoPlayer.prototype.play = function() {
 	if (this.options.audio) {
 		// Resync audio and video
 		this.audio.currentTime = this.video.currentTime;
-		this.audio.play();
+		// this.audio.play();
 	}
 };
 

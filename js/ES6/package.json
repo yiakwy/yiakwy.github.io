@@ -1,0 +1,52 @@
+{
+  "name": "Yiblog",
+  "version": "0.1.0",
+  "description": "Visualization of YiBlog",
+  "main": "app.js",
+  "author": "Yiak",
+  "license": "MIT",
+  "keywords": [
+    "blog",
+    "Visualization",
+    "RPC",
+    "serverless"
+  ],
+  "scripts": {
+    "build": "node_modules/.bin/webpack -p",
+    "start": "node_modules/.bin/webpack-dev-server --watch-poll"
+  },
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.2",
+    "eslint": "^3.19.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-react": "^7.0.1",
+    "file-loader": "^0.11.1",
+    "html-webpack-plugin": "^2.28.0",
+    "image-webpack-loader": "^3.3.1",
+    "json-loader": "^0.5.4",
+    "node-libs-browser": "^1.0.0",
+    "node-sass": "^4.5.3",
+    "progress-bar-webpack-plugin": "^1.9.3",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "sass-loader": "^6.0.5",
+    "script-loader": "^0.6.1",
+    "style-loader": "^0.18.1",
+    "three": "~0.84.0",
+    "three-line-2d": "^1.1.6",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5",
+    "yaml-loader": "^0.4.0"
+  }
+}

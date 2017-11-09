@@ -104,6 +104,8 @@
 				window.addEventListener('load', function() {
 					var doc = document
 					doc.querySelector(".navbar-toggle").addEventListener("click", toggle) // for chrome
+					var main_page = doc.querySelector("div#fullpage")
+					main_page.classList.add("start")
 				})
 				// for ios safari
 				var doc = document
@@ -133,7 +135,11 @@
 					
 				}
 				*/
+				var start, elapse
+				start = Date.now();
 				mobileVideo()
+				elapse = Date.now() - start;
+				console.log("[mobileVideo] took " + elapse + " milliseconds")
 				// add events
 				var nodelist = doc.querySelectorAll("div.post li ol")
 					i = 0
@@ -276,18 +282,21 @@
 					}
 					
 					function adjustStyle() {
+						var start = Date.now(), elapse
 						if (doc.readyState === 'complete') {
 							adjustMovieStyle()
 						} else {
 							doc.onreadystatechange = function () {
 								if (self.doc.readyState === "interactive" ) {
-									adjustMovieStyle()
+									// adjustMovieStyle()
 								} else 
 								if (self.doc.readyState === "complete" ) {
 									adjustMovieStyle()
 								}
 							}
 						}
+						elapse = Date.now()
+						console.log("[adjustStyle] took " + elapse + " milliseconds.")
 					}
 					
 					// addto sidebar

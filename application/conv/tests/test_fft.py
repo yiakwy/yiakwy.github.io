@@ -1,5 +1,6 @@
 import sys
 sys.path.append("../build")
+sys.path.append("../lib")
 import fft
 from fft import *
 

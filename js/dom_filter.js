@@ -205,6 +205,7 @@
 		if (isMobile() || window.innerWidth < 767) {
 			nav.appendChild(template.content.firstChild)
 		}
+		var start = Date.now()
 		var node = walk_dom(root, function(parent,
 										   children) {
 			
@@ -233,6 +234,8 @@ template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id
 					selected.push(child)
 				}
 			}
+			var elapse = Date.now() - start;
+			console.log("[catalog] took " + elapse + " milliseconds ")
 			return selected
 		})
 	}
@@ -241,6 +244,7 @@ template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id
 		var doc = document,
 			roots = doc.querySelectorAll("div.post section>ol")
 		var root, i=0;
+		var start = Date.now();
 		// for (root of roots) {
 		for (; i < roots.length; i++) { root = roots[i]
 			var node = walk_dom(root, function(parent,
@@ -258,6 +262,8 @@ template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id
 					} else 
 					if (child.tagName == "LI") {selected.push(child)}
 				}
+				var elapse = Date.now() - start;
+				console.log("[add_click_me] took " + elapse.toString() + " milliseconds.")
 				return selected				
 			})
 		}
