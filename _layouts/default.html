@@ -110,6 +110,8 @@
 				// for ios safari
 				var doc = document
 				doc.querySelector(".navbar-toggle").addEventListener("click", toggle)
+				var main_page = doc.querySelector("div#fullpage")
+				main_page.classList.add("start")
 				/* doc.body.addEventListener("touchmove", function(evt) {
 					evt.preventDefault();
 				}, false) */
