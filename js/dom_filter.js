@@ -238,6 +238,22 @@ template.innerHTML = '<li style="float:none;padding:0px;"><a href="#' + child.id
 			console.log("[catalog] took " + elapse + " milliseconds ")
 			return selected
 		})
+		
+		// add scrolling
+		console.log("add scrolling...")
+		var	$nav = $(nav),
+			$window = $(window),
+			offset = $nav.offset(),
+			topmargin = 15;
+		$window.scroll(function(){
+			if ($window.scrollTop() > offset.top) {
+				$nav.stop().animate({
+					marginTop: $window.scrollTop() - offset.top + topmargin
+				})
+			} else {
+				$nav.stop().animate({marginTop:0})
+			}
+		})
 	}
 	
 	function add_click_me() {

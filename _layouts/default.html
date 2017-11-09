@@ -475,6 +475,22 @@
 			}
 		
 			_init()
+			
+		// add scrolling
+		var	nav = document.querySelector("ul.navbar"),
+			$nav = $(nav),
+			$window = $(window),
+			offset = $nav.offset(),
+			topmargin = 5;
+		$window.scroll(function(){
+			if ($window.scrollTop() > offset.top) {
+				$nav.stop().animate({
+					marginTop: -(($window.scrollTop() - offset.top) / 5 + topmargin)
+				})
+			} else {
+				$nav.stop().animate({marginTop:0})
+			}
+		})
 		</script>
 	
        	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
