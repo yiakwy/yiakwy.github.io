@@ -92,6 +92,12 @@ img {
 .sidebar-info li a:hover {
 	
 }
+.sidebar-insert {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: none;
+	min-height: 25px;
+}
 .formula {
 	padding-left: 1em;
 	padding-right: 1em;

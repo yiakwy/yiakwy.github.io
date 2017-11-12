@@ -134,8 +134,8 @@
 				var start, elapse
 				start = Date.now();
 				mobileVideo()
-				elapse = Date.now() - start;
-				console.log("[mobileVideo] took " + elapse + " milliseconds")
+				elapse = (Date.now() - start) / 1000;
+				console.log("[mobileVideo] took " + elapse + " seconds")
 				// add events
 				var nodelist = doc.querySelectorAll("div.post li ol")
 					i = 0
@@ -230,7 +230,9 @@
 								   pauseOnClick: false, 
 								   audio: true }
 								var pseuVideo = new CanvasVideoPlayer(config)
-								pseuVideo.play()
+								console.log("playing pseuVideo")
+								var promise = pseuVideo.play()
+								console.log("triggerd!")
 							})
 						promise.then(
 							function(ret) {
@@ -278,7 +280,7 @@
 					}
 					
 					function adjustStyle() {
-						var start = Date.now(), elapse
+						var start = Date.now(), elapsed
 						if (doc.readyState === 'complete') {
 							adjustMovieStyle()
 						} else {
@@ -294,8 +296,8 @@
 								}
 							}
 						}
-						elapse = Date.now()
-						console.log("[adjustStyle] took " + elapse + " milliseconds.")
+						elapsed = (Date.now() - start) / 1000
+						console.log("[adjustStyle] took " + elapsed + " seconds.")
 					}
 					
 					// addto sidebar
@@ -480,10 +482,10 @@
 		var	nav = document.querySelector("ul.navbar"),
 			$nav = $(nav),
 			$window = $(window),
-			offset = $nav.offset(),
+			offset = $nav.offset(), 
 			topmargin = 5;
 		$window.scroll(function(){
-			if ($window.scrollTop() > offset.top) {
+			if ($window.scrollTop() > offset.top && $nav.hasClass("collapsed")) {
 				$nav.stop().animate({
 					marginTop: -(($window.scrollTop() - offset.top) / 5 + topmargin)
 				})

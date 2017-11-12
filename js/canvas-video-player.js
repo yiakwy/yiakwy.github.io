@@ -260,7 +260,11 @@ CanvasVideoPlayer.prototype.loop = function() {
 
 	if (this.playing) {
 		this.animationFrame = requestAnimationFrame(function(){
+			try {
 			self.loop();
+			} catch (e) {
+			console.log(e)
+			}
 		});
 	}
 	else {
