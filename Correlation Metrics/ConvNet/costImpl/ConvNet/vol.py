@@ -24,6 +24,7 @@ class Vol:
         if hasattr(init_gen, "__len__"):
             self.w[:] = init_gen[:]
 
+    # C-Style uid computing routine
     def uid(self, argc, argv, dims):
         ret = 1
         i = 0

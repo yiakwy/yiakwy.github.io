@@ -37,29 +37,30 @@ class Layer(Node):
         # loop through samples
         for i in range(vol.batch_size):
             for w0 in range(0, self.out_nm_w): # col first
+                pad_left, pad_right = 0, 0
                 w1 = -self.pad + w0 * self.strip
                 w2 = w1 + kernel_w
-                if w1 < 0: w1 = 0
+                if w1 < 0: w1, pad_left= 0, -w1
                 if w2 < 0:
                     continue
                 if w2 > self.in_nm_w:
-                    pass
+                    pad_right = w2 - self.in_nm_w
                 for h0 in range(0, self.out_nm_h):
+                    pad_top, pad_bottom = 0, 0
                     h1 = -self.pad + h0 * self.strip
                     h2 = h1 + kernel_h
-                    if h1 < 0: h1 = 0
+                    if h1 < 0: h1, pad_top = 0, -h1
                     if h2 < 0:
                         continue
                     if h2 > self.in_nm_h:
-                        pass
+                        pad_bottom = h2 - self.in_nm_h
 
-                    col = X[i, :, h1 : h2, w1 : w2,].flatten()
-                    l0 = len(col)
-                    if l0 < l:
-                        if h2 >= self.in_nm_h + self.pad or w2 >= self.in_nm_w + self.pad:
-                            col = np.append(col, [0.0]*(l-l0))
-                        else:
-                            col = np.append([0.0]*(l-l0), col)
+                    kernel_conlv = X[i,:, h1:h2, w1:w2]
+                    col = np.pad(kernel_conlv, [(0,0), (pad_top, pad_bottom), (pad_left, pad_right)],
+                                 mode='constant',
+                                 constant_values=0).flatten()
+                    if len(col) != l:
+                        raise Exception("Wrong Padding")
 
                     ret[i,:,h0 * self.out_nm_w + w0] = col[:]
 
