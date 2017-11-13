@@ -11,3 +11,4 @@ framework_demos/sklearn/*.jpg
 framework_demos/sklearn/lfw_fea.npy
 js/ES6/node_modules/
 *.mat
+Correlation Metrics/ConvNet/cs231n/
