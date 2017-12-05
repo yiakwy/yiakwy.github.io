@@ -13,6 +13,10 @@ class Vol:
     def shape(self):
         return (self.batch_size,) + self.spatial_size
 
+    def copy(self):
+        # for cs231 tests grad_numeric_computation
+        return self.w.copy()
+
     def _init(self, batch_size, spatial_size, init_gen):
         if batch_size > 1:
             self.w = np.zeros((batch_size,)+spatial_size)
