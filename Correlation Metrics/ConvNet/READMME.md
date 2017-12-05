@@ -3,6 +3,16 @@ ConvNet
 
 ## Caffe Similar Achitecture in Pure Python
 
+bias = Vol(1, size1, init_gen=b)
+inp = Vol(2, size2, init_gen=X)
+convs = Vol(3, size3, init_gen=Theta)
+conv\_param = {'strip':2, 'pad':1}
+conv\_param['bias'] = bias
+
+layer = ConvNet(X.shape[1:], convs, \*\*conv\_param)
+vol\_output = layer.forward(inp)
+inp\_grad, filters\_grad, bias\_grad = layer.bp(vol\_output)
+
 ## Benchmark Test
 
 ```
