@@ -9,15 +9,18 @@ ConvNet
 bias = Vol(1, size1, init_gen=b)
 inp = Vol(2, size2, init_gen=X)
 convs = Vol(3, size3, init_gen=Theta)
-conv\_param = {'strip':2, 'pad':1}
-conv\_param['bias'] = bias
+conv_param = {'strip':2, 'pad':1}
+conv_param['bias'] = bias
 
-layer = ConvNet(X.shape[1:], convs, \*\*conv\_param)
-vol\_output = layer.forward(inp)
-inp\_grad, filters\_grad, bias\_grad = layer.bp(vol\_output)
+layer = ConvNet(X.shape[1:], convs, **conv_param)
+vol_output = layer.forward(inp)
+inp_grad, filters_grad, bias_grad = layer.bp(vol_output)
 ```
 
 ## Benchmark Test
+
+> The benchmark borrow techniques from Numeric Computing Mathematics and utilize functionaility
+provided by Stanford University
 
 ```
 /anaconda/bin/python "/Users/wangyi/GitHub/yiak.github.io/Correlation Metrics/ConvNet/tests/test_conv_net.py"
