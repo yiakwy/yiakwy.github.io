@@ -19,7 +19,7 @@ inp_grad, filters_grad, bias_grad = layer.bp(vol_output)
 
 ## Benchmark Test
 
-> The benchmark borrow techniques from Numeric Computing Mathematics and utilize functionaility
+> The benchmark borrows techniques from Numeric Computing Mathematics and utilizes utilities
 provided by Stanford University
 
 ```
