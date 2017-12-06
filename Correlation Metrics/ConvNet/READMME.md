@@ -3,7 +3,7 @@ ConvNet
 
 ## Caffe Similar Achitecture in Pure Python
 
-> A Usage Example
+> An Usage Example
 
 ```python
 bias = Vol(1, size1, init_gen=b)
