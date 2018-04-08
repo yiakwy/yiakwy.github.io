@@ -349,7 +349,7 @@ Inspired by that, in NOAR, each Non-linear components are computed from ML model
 </table>
 </div>
 
-To obtain the optimum value of g and $\<r_i, d_i^j, k_i^j\>$, we just rank the results according to g and return the corresponding $\<r_i, d_i^j, k_i^j\>$ triple. Topk algorithm\(I have a live exaple ready for use\) preferred to be used here because, theoretically, price is not categorical value and can be converted into infinite segments, as a result of which your model bank grows accompanied with transaction continues.
+To obtain the optimum value of g and $\<r_i, d_i^j, k_i^j\>$, we just rank the results according to g and return the corresponding $\<r_i, d_i^j, k_i^j\>$ triple. Topk algorithm\(I have a live example ready for use\) preferred to be used here because, theoretically, price is not categorical value and can be converted into infinite segments, as a result of which your model bank grows accompanied with transaction continues.
 
 要获得最优解$\<r_i, d_i^j, k_i^j\>$，我们需要对上面的表格进行排序。我们偏好使用Topk算法，因为理论上，价格非离散值，随着交易记录的积累，会被转换成无数个小区间。
 
