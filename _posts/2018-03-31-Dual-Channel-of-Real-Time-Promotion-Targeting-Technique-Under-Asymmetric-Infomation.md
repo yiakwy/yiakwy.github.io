@@ -2,7 +2,7 @@
 layout: post
 title: "Dual Channel of Real Time Promotion Targeting Strategy Under Asymmetric Infomation"
 date: 2018-03-31
-updated: 2018-04-06
+updated: 2018-04-09
 excerpt_separator: <!--more-->
 thumb_img: /images/money/coin.png
 ---
