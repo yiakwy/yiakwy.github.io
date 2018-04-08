@@ -303,7 +303,7 @@ Inspired by that, in NOAR, each Non-linear components are computed from ML model
 
 收到启发，在NORA里面，\(正好相反\)，每一个非线性单元，都由一个模型给出\(无所谓你用什么方法，都差不多\)，持续这个过程，直到所有非线性单元被模型替换掉。然后我们用凸点旋转类似的simplex算法，获得最优解。解的渐进复杂度和变量数量有关。
 
-[!Figure Rotating Calipers Algorihtm Relevant Post](http://www-cgrl.cs.mcgill.ca/~godfried/research/calipers.html)
+![[Figure Rotating Calipers Algorihtm Relevant Post](http://www-cgrl.cs.mcgill.ca/~godfried/research/calipers.html)](/images/money/calipers.png)
 
 <div style="overflow:auto">
 <table>
