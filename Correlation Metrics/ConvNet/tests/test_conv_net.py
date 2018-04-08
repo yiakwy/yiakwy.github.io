@@ -25,6 +25,7 @@ class MyTestResult(unittest.TextTestResult):
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
+        self.stream.write("Successful!\n\n\r")
 
     def addError(self, test, err):
         unittest.TestResult.addError(self, test, err)

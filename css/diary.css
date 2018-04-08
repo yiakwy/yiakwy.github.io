@@ -172,11 +172,17 @@ code {
 em {
 	color: green;
 	background: skyblue;
+	padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 0.8em;
 }
 
 strong {
-	color: white;
-	background: brown;
+    color: white;
+    background: rosybrown;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 0.8em;
 }
 
 body, button, input, select, textarea {

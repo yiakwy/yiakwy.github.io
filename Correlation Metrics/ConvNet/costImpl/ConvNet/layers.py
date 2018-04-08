@@ -80,6 +80,7 @@ class ConvLayer(Layer):
 
     def __init__(self, spatial_shape, convs, pad=0, strip=2,
                  lr=1.0,  bias=None, **kw):
+        # input Vol instance
         self.inp = None
         self.channel, self.in_nm_h, self.in_nm_w = spatial_shape
         # Please refer to this post for details of conv filter paramter definition
@@ -92,14 +93,11 @@ class ConvLayer(Layer):
 
         K, kernel_depth, kernel_h, kernel_w = convs.shape
         self.bias = bias # Vol
-        # check dim
 
-        self.P = None
-        if kernel_w == kernel_h:
-            self.p = kernel_w
+        self.out_nm_d = K
         self.out_nm_w = int(math.floor((self.in_nm_w + self.pad*2 - kernel_w) / self.strip + 1))
         self.out_nm_h = int(math.floor((self.in_nm_h + self.pad*2 - kernel_h) / self.strip + 1))
-
+        # output Vol instance
         self.out = None
 
     # using nested For-Loop to implement raw ConvNet forward.
@@ -176,7 +174,7 @@ class ConvLayer(Layer):
                     # grad (n, K, oh, ow) conlv flipped(f) (K, kernel_depth, kernel_h, kernel_w)
                     self.conlv(self.inp.grad, filters, convs.w, (k,i,j))
 
-        # partial derivative of bias
+        # partial derivatives of bias
         for d in range(K1):
             f = filters[:, d]
             self.bias.grad[d] = np.sum(f)
@@ -195,3 +193,24 @@ class ConvLayer(Layer):
                     target[:,k,i,j] += np.matmul(grad[:,:,h,w], convs[:, k, i-h*self.strip+self.pad, j-w*self.strip+self.pad])
                 except Exception as e:
                     raise(e)
+
+class FullyCnnLayer(Layer):pass
+class AtrousConvLayer(Layer):pass
+class BatchNormLayer(Layer):pass
+
+class ReluActivation(Layer):
+
+    def __init__(self, spatial_shape):
+        # input Vol instance
+        self.inp = None
+        self.channel, self.in_nm_h, self.in_nm_w = spatial_shape
+        self.LAYER_TYPE = 'relu'
+        self.out_nm_d, self.out_nm_h, self.out_nm_w = self.channel, self.in_nm_h, self.in_nm_w
+        # output Vol instance
+        self.out = None
+
+    def forward1(self, inp):
+        pass
+
+    def bp(self, top_layer):
+        pass
