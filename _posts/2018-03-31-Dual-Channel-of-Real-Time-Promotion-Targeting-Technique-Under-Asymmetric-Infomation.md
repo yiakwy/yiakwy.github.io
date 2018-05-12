@@ -2,7 +2,7 @@
 layout: post
 title: "Dual Channel of Real Time Promotion Targeting Strategy Under Asymmetric Infomation"
 date: 2018-03-31
-updated: 2018-04-09
+updated: 2018-05-13
 excerpt_separator: <!--more-->
 thumb_img: /images/money/coin.png
 ---
@@ -79,7 +79,7 @@ Their demands of some comodities are less affected by price or other benefits, a
 他们对商品的需求，较少地收到价格、或者其他实惠的影响。他们大部分VIPs或者会员。他们不适用于降低了他们总体利润贡献的市场促销。相反，根据会员权益给予他们奖励。尽管有时候，这种奖励比市场促销还大，但这完全可控。
 
 ### Actual Demand
-Their demands of some comodities exist but is negatively correlated by price. It was widely represetned by Price Elasticity Demand (PED) [Demand, Wikipedia](#bibliography). Nowadays, more sophiticated Statistic based Machine Learning algorithm or Non-Data-Distribution-Dependant (N3D) algorithms produce more accurate results.
+Their demands of some comodities exist but is negatively correlated by price. It was widely represetned by Price Elasticity of Demand (PED) [Demand, Wikipedia](#bibliography). Nowadays, more sophiticated Statistic based Machine Learning algorithm or Non-Data-Distribution-Dependant (N3D) algorithms produce more accurate results.
 
 他们对商品的需求是存在的，但是受价格影响，成负相关。过去人们会用价格弹性系数（PED）[Demand, Wikpedia](#bibliography)，来表示这种关系。现在，更加精巧的基于统计的机器学习算法，和非数据假设分布依赖（N3D）的算法，可以产生更加准确的结果。
 
@@ -163,7 +163,7 @@ All the other cases will be forwared to [Non-linear Optimization as Ranking](#no
 
 其他情况，将被转发到[非线性优化的排序形式](#noar)处理。这里填写了NOAR的大量业务逻辑，去计算一个豁免最优值。如果最优解不可能，这在某些情况下非常可能，那么我们将给出一个等待时间区间\(用于收集资源，重新评估\)。
 
-Finally, the systme make the final judge over the offer proposal or a timeout span. We want to decide that:
+Finally, the systme makes the final judge over the offer proposal or a timeout span. We want to decide that:
 
 1. time span or priority number assigned to the customer in case that a customer rejects the offer \(statistic optimal result does not mean accurate for this case \)
 2. If the demand is the acutal demand and the customer is in membership, the final offer will be the comibnation of the two: $max(mem\_offer,noar\_offer)$.
@@ -214,11 +214,15 @@ $R_i$是通过线下分类过程，线上快速查询，选出来的模型，有
 
 Another example from actual demand:
 
+> 你可能从未购买过一件商品。根据账期统计，大概3/10的人购买过它的人，会再次购买。人民购买的平均产品（算得）是G。因此，$R_i$ $\approx$ $0.3v\frac{G}{T} dt$
+
 另外一个例子是，对于真实需求的：
 
 > You frequently purcahse a product on Monday eventing. For some unknown reason, you occasionally open an app to check real time price. Here is what you might think about: if the price falls below your expected price, you are going to purchase it, otherwise you try to negotiate with the servers or just give up withouting waiting for the next dudction offer proposal. In this case an indicator function might be empolyed.
 
 Since $d_{i}^{j}$ affects intention people purchase a product, maximum of $f_i$ is classified as non-linear optimization problem. Of course $R$ and $I$ should be modeled in different process lines because they depend on different sampling data set. That will be solved by NOAR.
+
+> 你可能会频繁在周一晚购买一件商品，
 
 因为$d_{i}^{j}$影响人物购物意愿，最大化$f_i$被看做非线性优化。当然，他们由数据给出，$R$和$I$在不同的产品线上优化，因为他们依赖不同的采样数据。最后用NOAR来求解。
 
@@ -239,12 +243,12 @@ The good thing about above conditions is that AMM teams can setup multiple confi
 上述条件的好处是，敏捷市场管理团队，可以通过简单的操纵类似于Online Excel的应用程序，产生对应的配置文件，而不会修改底层的训练模型。
 
 ~~~c
-enum demand{Rigid, Actual, Latent};
+enum Demand{Rigid, Actual, Latent};
 extern errorno;
 
-int dispatch_lines(req) {
-	enum demand demand = req.demand;
-	if (demand === UNDEF) {
+int dispatch_lines(Request req) {
+	enum Demand demand = req.demand;
+	if (demand == UNDEF) {
 		errorno = INTERNAL_ERROR;
 		exit_proc("[proc_membership_line] demand is not defined.", errorno);
 	} 
@@ -267,6 +271,8 @@ int dispatch_lines(req) {
 	return 0;
 	
 }
+
+...
 
 ~~~
 
@@ -430,18 +436,19 @@ This should be mucher cheaper than AV research. Wish someday it comes into reali
 这可能比AV还简单。希望尽快成为现实。
 
 ## Acknowledgement
-Thanks for the all friends and mentors who support me along the way. The research was solely conducted by Lei (lwang11@mtu.edu) in 2016 - 2017 without holding interests in any agencies. It should not be used or implied to be used in any forms of IP including but not limited to social network media, softwares, without consent of Lei (lwang11@mtu.edu). All rights reserved. 
+Thanks for the all friends and mentors who support me along the way. The research was solely conducted by Lei (lwang11@mtu.edu) in 2016 - 2017 without holding interests in any agencies. It should not be used or implied to be used in any forms of IP including but not limited to social network media, software, without consent of Lei (lwang11@mtu.edu). All rights reserved.
+
+thanks for the Help from doctor (candidate) Hanzhang Qin & editor 留德华叫兽 (nickname from Chinese online discussion community Zhihu) on publishing. (updated on May 13th 2018)
 
 ## Bibliography
 
 1. XIAO,Jian, DAN Bin, ZHANG Xu-mei, Study on cooperation strategy between electronic channels and retailers in dual-channel supply chain , Chongqing University, Journal of Sysems Engineering, doi: 10.3969/j.issn.1000-5781.2009.06.006
 2. H. S. Ahn, I. Duenyas, R. Q. Zhang, Price competition between retailers and manufacturer-owned stores, University of California at Berkeley Working paper, 2002
-3. https://drive.google.com/open?id=0BxbR2jt9XyxtLWFVUkNZa0l1UzA
-4. http://www.businessdictionary.com/definition/latent-demand.html
-5. P. Li, Christopher J.C Burges and Qiang Wu, Learning to Rank Using Classification and Gradient Boosting, 2008, Micorsoft Research
-6. WHANG S. E., MOLINA H. G., Indexing Boolean Expression.[C]. Proceeding of VLDB，2009. 2(1).
-7. ZOBEL J., MOFFAT A., Iverted Files For Text Search Engines[J]. ACM Computing Surveys, 2006, 38(4)
-8. Natasha 2: Faster Non-Convex Optimization than SGD - How to Swing by Saddle Points, third-version, Zeyuan Allen-Zhu, August 28 2017, Micorsoft Research, Redmond, arXiv:1708.08694v3.
-9. http://www-cgrl.cs.mcgill.ca/~godfried/research/calipers.html
-10. http://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
+3. http://www.businessdictionary.com/definition/latent-demand.html
+4. P. Li, Christopher J.C Burges and Qiang Wu, Learning to Rank Using Classification and Gradient Boosting, 2008, Micorsoft Research
+5. WHANG S. E., MOLINA H. G., Indexing Boolean Expression.[C]. Proceeding of VLDB，2009. 2(1).
+6. ZOBEL J., MOFFAT A., Iverted Files For Text Search Engines[J]. ACM Computing Surveys, 2006, 38(4)
+7. Natasha 2: Faster Non-Convex Optimization than SGD - How to Swing by Saddle Points, third-version, Zeyuan Allen-Zhu, August 28 2017, Micorsoft Research, Redmond, arXiv:1708.08694v3.
+8. http://www-cgrl.cs.mcgill.ca/~godfried/research/calipers.html
+9. http://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features
 
