@@ -13,9 +13,12 @@ class Vol:
     def shape(self):
         return (self.batch_size,) + self.spatial_size
 
-    def copy(self):
-        # for cs231 tests grad_numeric_computation
-        return self.w.copy()
+    def copy(self, only='weights'):
+        if only is 'weights':
+            # for cs231 tests grad_numeric_computation
+            return self.w.copy()
+        else:
+            raise NotImplementedError("Not Implemented Yet!")
 
     def _init(self, batch_size, spatial_size, init_gen):
         if batch_size > 1:
@@ -46,3 +49,6 @@ class Vol:
 
         return ret
 
+    def reset_spatial_size(self, spatial_size, fill=None):
+        self.spatial_size = spatial_size
+        self._init(self.batch_size, spatial_size, init_gen=fill)

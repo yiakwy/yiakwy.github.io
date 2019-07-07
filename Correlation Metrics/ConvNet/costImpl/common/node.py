@@ -11,14 +11,18 @@ class Node(object):
         self.level_pos = None
 
     def __str__(self):
-        return str(self.data)
+        return "%s: \n%s\n" % (self.name, str(self.data))
 
     def add_child(self, child):
-        self.children.append(child)
+        if child not in self.children:
+            self.children.append(child)
+        if child.father is not self:
+            child.set_father(self)
         return self
 
     def add_children(self, children):
-        self.children = self.children.extend(children)
+        filtered_children = filter(lambda ch: True if ch not in self.children else False, children)
+        self.children = self.children.extend(filtered_children)
         return self
 
     def set_children(self, children):
@@ -27,7 +31,7 @@ class Node(object):
 
     def set_father(self, father):
         self.father = father
-        father.childer.add_child(self)
+        father.add_child(self)
         return self
 
     def set_level_pos(self, pos):

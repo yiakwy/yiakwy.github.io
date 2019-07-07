@@ -6,10 +6,10 @@ sys.path.insert(0, root)
 import unittest
 import logging
 from ConvNet.utils.log import LoggerAdaptor, configure_loggings
-_logger = logging.getLogger("ConvLayer")
+_logger = logging.getLogger("ConvNet")
 
 from ConvNet.cs231n.data_utils import get_CIFAR10_data
-from ConvNet.costImpl.ConvNet.layers import ConvLayer, FackedConvLayer
+from ConvNet.costImpl.ConvNet.layers import ConvLayer, FackedConvLayer, BatchNorm, ReluActivation
 from ConvNet.costImpl.ConvNet.vol import Vol
 import numpy as np
 
@@ -25,7 +25,7 @@ class MyTestResult(unittest.TextTestResult):
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
-        self.stream.write("Successful!\n\n\r")
+        self.stream.write("Successful with <%s.%s>!\n\n\r" % (test.__class__.__name__, test._testMethodName))
 
     def addError(self, test, err):
         unittest.TestResult.addError(self, test, err)
@@ -66,7 +66,7 @@ class ConvLayerTestCase(unittest.TestCase):
         layer = ConvLayer(x_shape[1:], convs, **conv_param)
         vol = layer.forward(inp)
         # the original data form cs321 has been trimmed.
-        # before that, 'layer.forward' passed the test.
+        # before that, 'layer.forward' passed the test with numeric 1e-10 accuracy.
         correct_out = np.array([[[[[-0.088, -0.110],
                                    [-0.184, -0.211]],
                                   [[ 0.210,  0.217],
@@ -164,6 +164,162 @@ class ConvLayerTestCase(unittest.TestCase):
         err = rel_error(bias_grad, db_numeric)
         self.logger.info('Difference: %s' % err)
         assert(err < 1.0e-6)
+
+
+class ReluActivationTestCase(unittest.TestCase):
+
+    logger = LoggerAdaptor("tests/test_conv_net.ReluActivationTestCase", _logger)
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    def test_bp_all(self):
+        import time
+
+        # check using numeric gradient
+        x = np.random.randn(2, 3, 8, 8)
+        w = np.random.randn(3, 3, 3, 3)
+        b = np.random.randn(3,)
+        top_diff = np.random.randn(2, 3, 8, 8)
+        conv_param = {'strip': 1, 'pad': 1}
+
+        b.resize(3,1)
+
+         # to fit cs231 numeric difference scheme
+        def forward_layer_by_arg1(x):
+            b.resize(3,1)
+            bias = Vol(1, (3,1), init_gen=b)
+            inp = Vol(2, (3,8,8), init_gen=x)
+            convs = Vol(3, (3,3,3), init_gen=w)
+            conv_param['bias'] = bias
+            conv1_numeric = ConvLayer((3,8,8), convs, **conv_param)(inp)
+            relu_numeric = ReluActivation()(conv1_numeric)
+            return relu_numeric
+
+         # check eval_numerical_gradient_array implementation
+        from ConvNet.cs231n.gradient_check import eval_numerical_gradient_array, eval_numerical_gradient
+
+        start = time.time()
+        dx_numeric = eval_numerical_gradient_array(forward_layer_by_arg1, x, top_diff)
+        elapsed = time.time() -start
+
+        self.logger.info("Finish numeric computation with elapsed time %s" % elapsed)
+
+        bias = Vol(1, (3,1), init_gen=b)
+        inp = Vol(2, (3,8,8), init_gen=x)
+        convs = Vol(3, (3,3,3), init_gen=w)
+        conv_param['bias'] = bias
+        # Keras alike layer stack syntax
+        conv_layer = ConvLayer((3,8,8), convs, **conv_param)
+        relu_layer = ReluActivation()(conv_layer)
+
+        # test backpropogation conv followed by a relu
+        vol = conv_layer(inp)
+        top_layer = FackedConvLayer(vol, None)
+        top_layer.inp.grad = top_diff
+        start = time.time()
+        inp_grad, filters_grad, bias_grad = relu_layer.bp_all(top_layer)
+        elapsed = time.time() - start
+
+        self.logger.info("Finish stacked layer (ConvLayer -> ReluActivation).bp_all computation with elapsed time %s" % elapsed)
+
+        self.logger.info('Testing layer.bp_all(top_layer) inp_grad')
+        err = rel_error(inp_grad, dx_numeric)
+        self.logger.info('Difference: %s' % err)
+        assert(err < 1.0e-8)
+
+
+class BatchNormTestCase(unittest.TestCase):
+
+    logger = LoggerAdaptor("tests/test_conv_net.BatchNormTestCase", _logger)
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    def test_forward(self):
+        Batch_Size = 200
+        D1, D2, D3 = 50, 60, 3
+
+        X = np.random.randn(Batch_Size, D1)
+        W1 = np.random.randn(D1, D2)
+        W2 = np.random.randn(D2, D3)
+        a = np.maximum(0, X.dot(W1)).dot(W2) # Batch_Size * D3
+
+        # gamma = 1, beta = 0
+        inp = Vol(Batch_Size, (D3,), init_gen=a)
+        layer = BatchNorm()
+        vol = layer.forward(inp)
+
+        mean = np.mean(vol.w, axis=0)
+        std = np.std(vol.w, axis=0)
+
+        assert(rel_error(mean, np.zeros(D3)) < 1e-6)
+        assert(rel_error(std, np.ones(D3)) < 1e-6)
+
+    def test_bp(self):
+        import time
+
+        Batch_Size, D = 4, 5
+        a1, a0 = 5, 12
+        X = a1 * np.random.randn(Batch_Size, D) + a0
+        Gamma = np.random.randn(1)
+        Beta = np.random.randn(1)
+        top_diff = np.random.randn(Batch_Size, D)
+
+        def forward_layer_by_arg1(x):
+            inp = Vol(Batch_Size, (D,), init_gen=x)
+            layer = BatchNorm(gamma=Gamma, beta=Beta)
+            return layer.forward(inp)
+
+        def forward_layer_by_arg2(gamma):
+            inp = Vol(Batch_Size, (D,), init_gen=X)
+            layer = BatchNorm(gamma=gamma, beta=Beta)
+            return layer.forward(inp)
+
+        def forward_layer_by_arg3(beta):
+            inp = Vol(Batch_Size, (D,), init_gen=X)
+            layer = BatchNorm(gamma=Gamma, beta=beta)
+            return layer.forward(inp)
+
+        # check eval_numerical_gradient_array implementation
+        from ConvNet.cs231n.gradient_check import eval_numerical_gradient_array, eval_numerical_gradient
+
+        start = time.time()
+        dx_numeric = eval_numerical_gradient_array(forward_layer_by_arg1, X, top_diff)
+        dw_numeric = eval_numerical_gradient_array(forward_layer_by_arg2, np.ones((D,)) * Gamma, top_diff)
+        db_numeric = eval_numerical_gradient_array(forward_layer_by_arg3, np.ones((D,)) * Beta, top_diff)
+        elapsed = time.time() - start
+
+        self.logger.info("Finish numeric computation with elapsed time %s" % elapsed)
+
+        inp = Vol(Batch_Size, (D,), init_gen=X)
+        layer = BatchNorm(gamma=Gamma, beta=Beta)
+        vol = layer.forward(inp)
+        top_layer = FackedConvLayer(vol, None)
+        top_layer.inp.grad = top_diff
+        start = time.time()
+        inp_grad, dW, db = layer.bp(top_layer)
+        elapsed = time.time() - start
+
+        self.logger.info("Finish BatchNorm.bp computation with elapsed time %s" % elapsed)
+
+        self.logger.info('Testing layer.bp(top_layer) inp_grad')
+        err = rel_error(inp_grad, dx_numeric)
+        self.logger.info('Difference: %s' % err)
+        assert(err < 1.0e-6)
+
+        self.logger.info('Testing layer.bp(top_layer) dW~Difference w.r.t. gamma')
+        err = rel_error(dW, dw_numeric)
+        self.logger.info('Difference: %s' % err)
+        assert(err < 1.0e-6)
+
+        self.logger.info('Testing layer.bp(top_layer) db~Difference w.r.t. beta')
+        err = rel_error(db, db_numeric)
+        self.logger.info('Difference: %s' % err)
+        assert(err < 1.0e-6)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format=u"%(asctime)s [%(levelname)s]:%(filename)s, %(name)s, in line %(lineno)s >> %(message)s".encode('utf-8'))

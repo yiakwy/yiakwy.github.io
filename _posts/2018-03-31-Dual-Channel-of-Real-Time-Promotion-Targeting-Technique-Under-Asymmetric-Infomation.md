@@ -438,7 +438,7 @@ This should be mucher cheaper than AV research. Wish someday it comes into reali
 ## Acknowledgement
 Thanks for the all friends and mentors who support me along the way. The research was solely conducted by Lei (lwang11@mtu.edu) in 2016 - 2017 without holding interests in any agencies. It should not be used or implied to be used in any forms of IP including but not limited to social network media, software, without consent of Lei (lwang11@mtu.edu). All rights reserved.
 
-thanks for the Help from doctor (candidate) Hanzhang Qin & editor 留德华叫兽 (nickname from Chinese online discussion community Zhihu) on publishing. (updated on May 13th 2018)
+Thanks for the Help from doctor (candidate) Hanzhang Qin & editor 留德华叫兽 (nickname from Chinese online discussion community Zhihu) on publishing. (updated on May 13th 2018)
 
 ## Bibliography
 
