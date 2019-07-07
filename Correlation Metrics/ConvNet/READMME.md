@@ -3,12 +3,12 @@ ConvNet
 
 ## Caffe Similar Achitecture in Pure Python for Scientific Research
 
-The project implements some of core component of neural network and provides
+The project implements some of core components of neural network and provides
 test programs from different angles.
 
-Before 2014, many researchers are interested high level optimization solution for neural netowrk, such as fully connected neural network.
+Before 2014, many researchers were interested in high level optimization solution for neural netowrk, such as fully connected neural network and convolutional neural network.
 
-As the neural netowrk envolves into a dynamic computing graph, different operators are proposed from 2015 to 2017
+As the neural netowrk envolves into a dynamic computing graph, different operators were proposed from 2015 to 2017
 
 Nowadays, more research work focuses on the construction of network with different backbones. This project gives us opportunities to rethink about core operators implemented in popular neural netowrk framework.
 
