@@ -75,6 +75,9 @@ class Layer(Node):
         super(Layer, self).__init__(name, (inp, Theta, (self.out_nm, self.in_nm+1)))
 
     def forward(self, inp):
+        if inp.batch_size == 1:
+            inp.w = inp.w[np.newaxis, ...]
+            inp.grad = inp.grad[np.newaxis, ...]
         return self._forward_call(inp)
 
     def forward1(self, inp):
@@ -94,7 +97,7 @@ class Layer(Node):
         :param inp:
         :return:
         """
-        raise NotImplementedError("Not Implemented. Should be implemented in subclass of Layer")
+        raise NotImplementedError("Not Implemented. Should be implemented in the subclass of Layer")
 
     def fn_call_forward_all(self, inp):
         if isinstance(inp, Layer):
@@ -155,6 +158,8 @@ class Layer(Node):
                 w1 = -self.pad + w0 * self.strip
                 w2 = w1 + kernel_w
                 if w1 < 0: w1, pad_left= 0, -w1
+                if w1 >= self.in_nm_w:
+                    continue
                 if w2 < 0:
                     continue
                 if w2 > self.in_nm_w:
@@ -164,6 +169,8 @@ class Layer(Node):
                     h1 = -self.pad + h0 * self.strip
                     h2 = h1 + kernel_h
                     if h1 < 0: h1, pad_top = 0, -h1
+                    if h1 >= self.in_nm_h:
+                        continue
                     if h2 < 0:
                         continue
                     if h2 > self.in_nm_h:
@@ -309,11 +316,11 @@ class ConvLayer(Layer):
         K0, kernel_depth, kernel_h, kernel_w = self.filters.shape
         n, K1, out_nm_h, out_nm_w = top_grad.shape
 
-        # Partial dirivatives of filters:
+        # Partial derivatives of filters:
         # A naive explanation:
         # for i in range(K1):
         #     f = top_grad[:,i]
-        #     # convol with inp
+        #     # convolute with inp:
         #     # (n, oh, ow) conv (n, kd*kh*kw, oh, ow) => (K, kd, kh, kw):
         #     for kw in range(kernel_w):
         #         for kh in range(kernel_h):
@@ -338,7 +345,7 @@ class ConvLayer(Layer):
 
         # partial derivatives of inp
         # opposite to forward , inp computed in flipped direction
-        # (n, channel, in_nm_h, in_nm_w) <= (n, K , oh, ow) conv flipped(filter) dot g(inp)
+        # (n, channel, in_nm_h, in_nm_w) <= (n, K , oh, ow) conv flipped(filter)
         self.inp.grad[:] = 0.0
         for k in range(self.channel):
             for i in range(self.in_nm_h):
@@ -390,7 +397,13 @@ class FullyCnnLayer(Layer):
     pass
 
 
-class AtrousConvLayer(Layer):pass
+class AtrousConvLayer(Layer):
+    """
+    AtrousConv (also called Dilate Convolution) correspond to the backpropogation algorithm with respect to filters or
+    gradient of them being applied to the input in a forward process.
+    """
+    pass
+
 
 class BatchNorm(Layer):
 
@@ -492,7 +505,7 @@ class BatchNorm(Layer):
         # see cs231n implementation for reference
         if self.algorithm is "RunningAverages":
             """
-            The running_mena and running_var are used in inference mode where we have no idea of what statistics should use from input.
+            The running_mean and running_var are used in inference mode where we have no idea of what statistics should be used from input.
             Hence we turn to running batch of data to gather statistic information.
             """
             self.running_mean = self.running_mean or np.zeros(spatial_size, dtype=X.dtype)
@@ -560,7 +573,7 @@ class ReluActivation(Layer):
         return self.out
 
     def bp(self, top_layer):
-        # bias_grad, partial derivatives of biases, no parmeters in this layer
+        # bias_grad, partial derivatives of biases, no parameters in this layer
         db = None
         # dW, no parameters in this layer
         dW = None
@@ -574,64 +587,233 @@ class ReluActivation(Layer):
 
 class MaxPooling(Layer):pass
 
+
 class UpSampling(Layer):
     """
     Upsampling is for resampling and interpolation of your input up to higher resolution. The terminology comes from Signal
-    Processing. In covolution neural network, since maxpooling is non invertible, upsampling is an approximation of
-    reverse operation of max pooling, which used commonly by the Feature Pyramid Netowrk (FPN) backbone.
+    Processing. In convolution neural network, since maxpooling is non invertible, upsampling is an approximation of
+    reverse operation of max pooling, which used commonly by the Feature Pyramid Network (FPN) backbone.
 
     FPN and ResNet50(101, 152, ...) form the foundation of the state of the art network architecture for features extraction
-     in the realm of objects detection.
+     in the realm of objects detection. FPN makes different scales of the same feature map and  composes two stages of layers
+     stack: bottom-up and top-down. It is top-down where we need `upsampling` from the smaller resolution feature map:
+
+        P_i = Add(Upsampling(P_{i+1}), Conv2D()(Ci)) 2<= i < 5
+        P_5 = Conv2D()(C_5)
 
     There are several implementation for that purpose:
 
-        Unpooling:
+        - Unpooling:
 
-        Deconvolution: The key idea is that we can perform the reverse of convolution and preserve the connectivity to obtain the original
-        input resolution. We have implemented convolution layer and we know the input data could be updated using transposed convolution.
+        - Deconvolution: The key idea is that we can perform the reverse of convolution and preserve the connectivity to obtain the original
+        input resolution. We have implemented convolution layer and we know that the input data could be updated using
+        `transposed convolution`[1] if stride is equal to 1 and `dilate`[2][3] for Bilinear Convolution Kernel[4][5].
 
-        BilinearInterpolation:
+        - BilinearInterpolation:
 
-        From [keras documentation](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974), we see that
-        upsampling repeats rows and columns data by size[0] and size[1]
+          From [keras documentation](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974), we see that
+          upsampling repeats rows and columns data by size[0] and size[1]
 
-    In this implementation, I provide you with additional methods and test codes used for unit test. I recommned you to
+    In this implementation, I provide you with additional methods and test codes used for unit tests. I also recommand you to
     read this article to understand it better:
-    - http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
+
+        - http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
 
     [Maximum Sampling Theorem](http://avisynth.nl/index.php/Resampling):
 
-            -
+            - The sampling rate of samples should be double the maximum of frequences.
 
     This implementation will compute best upsampling rates and automatically inference sampling factor.
 
+    [1]
+    [2] https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers
+    [3] https://github.com/yiakwy/conv_arithmetic
+    [4] https://dsp.stackexchange.com/questions/53200/bilinear-interpolation-implemented-by-convolution
+    [5] http://www.sfu.ca/~gchapman/e895/e895l11.pdf
     """
 
-    def __init__(self, size=(1,1), algorithm='BilinearInterpolation'):
-        pass
+    def __init__(self, factor=1, target_channels=None, algorithm='BilinearInterpolation', conlv_transpose=0):
+        """
 
-    # @todo : TODO
+        :param factor: inverse of the cmpr ratio, used in Deconlv algorithm
+        :param target_channels:
+        :param algorithm:
+        :return:
+        """
+        # used in BiliearInterpolation
+        self.factor = factor
+        # used Deconlv
+        self.stride = factor
+        self.target_channels = target_channels
+
+        # filters used for upsampling with transposed convolution algorithm
+        self.filters = None
+        self.pad = None
+        self.strip = self.stride
+        self.LAYER_TYPE="Upsampling"
+
+        # algorithms
+        self.algorithm = algorithm
+        self.conlv_transpose = conlv_transpose
+        # see discussion on implementation of deconvolution in https://github.com/tensorflow/tensorflow/issues/256#issuecomment-162257789
+        self.supported_conlv_transpose = {
+            "Rot90Conv": 0,
+            "DilatedConv":1, # https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers
+        }
+        self.supported_algorithms = {
+            "Conlv": (0,1),
+            "BilinearInterpolation": 2
+        }
+
+        # output Vol instance
+        self.out = None
+        # by default, the layer is eliminated from trainning process.
+        self.frazed = True
+
+        super(UpSampling, self).__init__(None, None, 1, 1, name='UpSampling')
+
     def Deconlv(self, inp):
+        self.inp = inp # update reference
+        n = inp.batch_size
+        self.channel, self.in_nm_h, self.in_nm_w = inp.spatial_size
 
         # adapted codes from http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
-        pass
+        def _get_kernel_size(stride):
+            """
+            :param stride: the stride of the transposed convolution
+            :return: kernel_size
+            """
+            return 2 * stride - stride % 2
+
+        def get_kernel_weights(kernel_size):
+            """
+            :param kernel_size: higher resolution size
+            :return: 2D bilinear convolution kernel
+            """
+            x_axis, y_axis = np.ogrid[:kernel_size, :kernel_size]
+            factor = int((kernel_size + 1) / 2)
+            centre = factor - 1 if kernel_size % 2 == 1 else factor - 0.5
+            return (1-np.abs(x_axis-centre)/float(factor)) * \
+                   (1-np.abs(y_axis-centre)/float(factor))
+
+        def get_upsample_kernels(stride, filters, channels):
+            kernel_size = _get_kernel_size(stride)
+            convs = np.zeros((filters, channels, kernel_size, kernel_size), dtype=np.float32)
+
+            kernel_weights = get_kernel_weights(kernel_size)
+
+            for i in xrange(filters):
+                kernel = np.repeat(kernel_weights[np.newaxis, ...], 3, 0)
+                convs[i, :] = kernel[:]
+
+            return convs
+
+        # compute filters
+        self.target_channels = self.target_channels or self.channel
+
+        # make this layer non-trainable, and compute the best sampling rates
+        convs = get_upsample_kernels(self.stride, self.target_channels, self.channel)
+
+        K, kernel_depth, kernel_h, kernel_w = convs.shape
+        self.filters = Vol(K, (kernel_depth, kernel_h, kernel_w), init_gen=convs)
+
+        # compute out_nm
+        self.out_nm_d = K
+        self.out_nm_w = self.in_nm_h * self.factor
+        self.out_nm_h = self.in_nm_w * self.factor
+
+        self.pad = int(((self.out_nm_h - 1) * self.strip + kernel_h - self.in_nm_h) / float(2))
+
+        res = np.zeros((n, K, self.out_nm_h, self.out_nm_w))
+        # transposed filters to row
+        if self.conlv_transpose == self.supported_conlv_transpose["Rot90Conv"]:
+            W_row = convs.transpose((0, 1, 3, 2)).reshape(K, kernel_depth * kernel_h * kernel_w) # -1
+
+            # img to col: (n, channel, in_nm_h, in_nm_w) => (n, kernel_depth * kernel_h * kernel_w, out_nm_h * out_nm_w)
+            X_col = self.img2col(inp)
+
+            # perform 2d transposed convolution
+            for i in range(n):
+                # (K, kd*kh*kw) mul (kd*kh*hw, oh*ow)
+                out = np.matmul(W_row, X_col[i,:])
+                # col2img
+                out.resize(K, self.out_nm_h, self.out_nm_w)
+                res[i,:] = out[:]
+
+        elif self.conlv_transpose == self.supported_conlv_transpose["DilatedConv"]:
+            # (n, channel, oh, ow) <= (n, K , in_nm_h, in_nm_w) conv flipped(convs)
+            X = inp.w
+            W = convs
+            for k in range(self.channel):
+                for i in range(self.out_nm_h):
+                    for j in range(self.out_nm_w):
+
+                        # (n, K, ih, iw) conlv flipped(f) (K, kernel_depth, kernel_h, kernel_w)
+                        self.conlv(res, X, W, (k,i,j))
+
+        else:
+            raise UnSupportedAlgorithm("%s is not supported!" % self.algorithm)
+
+        self.out = Vol(n, (K, self.out_nm_h, self.out_nm_w), init_gen=res)
+        return self.out
 
     # @todo : TODO
     def Unpooling(self, inp):
-
         pass
 
-    # @todo : TODO
     def BilinearInterpolation(self, inp):
+        self.inp = inp
+        n = inp.batch_size
+        self.channel, self.in_nm_h, self.in_nm_w = inp.spatial_size
+
+        # compute out_nm
+        self.out_nm_w = self.in_nm_h * self.factor
+        self.out_nm_h = self.in_nm_w * self.factor
 
         # adapted codes from https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974
         # see Keras.backend.resize_image for details
-        pass
+        X = inp.w
+        out = X
 
-    # @todo : TODO
+        out = np.repeat(out, self.factor, axis=-2)
+        out = np.repeat(out, self.factor, axis=-1)
+
+        self.out = Vol(n, (self.channel, self.out_nm_h, self.out_nm_w), init_gen=out)
+        return self.out
+
     def forward1(self, inp):
-        pass
+        self.inp = inp
+        if self.algorithm is "Conlv":
+            return self.Deconlv(inp)
+        elif self.algorithm is "BilinearInterpolation":
+            return self.BilinearInterpolation(inp)
+        else:
+            raise NotImplementedError("%s Not Implemented Yet!" % self.algorithm)
 
-    # frazed in trainning process
+    # frazed in trainning process, This will be excluded from backpropogation, compute derivatives with respect to the latest
+    # non-frazed layer
     def bp(self, inp):
         pass
+
+        # Transposed convolution
+    def conlv(self, target, grad, convs, index):
+        '''
+        Transposed Convolution
+
+        :param target: np.array, destination
+        :param grad: np.array, top_diff
+        :param convs: np.array, original convolution
+        :param index: tuple, destination index
+        :return:
+        '''
+        K0, kernel_depth, kernel_h, kernel_w = convs.shape
+        k,i,j = index
+        for h in range(self.in_nm_h):
+            for w in range(self.in_nm_w):
+                if i-h*self.strip+self.pad < 0 or i-h*self.strip+self.pad >= kernel_h or \
+                   j-w*self.strip+self.pad < 0 or j-w*self.strip+self.pad >= kernel_w:
+                    continue
+                try:
+                    target[:,k,i,j] += np.matmul(grad[:,:,h,w], convs[:, k, i-h*self.strip+self.pad, j-w*self.strip+self.pad])
+                except Exception as e:
+                    raise(e)

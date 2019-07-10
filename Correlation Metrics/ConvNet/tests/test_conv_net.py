@@ -9,7 +9,7 @@ from ConvNet.utils.log import LoggerAdaptor, configure_loggings
 _logger = logging.getLogger("ConvNet")
 
 from ConvNet.cs231n.data_utils import get_CIFAR10_data
-from ConvNet.costImpl.ConvNet.layers import ConvLayer, FackedConvLayer, BatchNorm, ReluActivation
+from ConvNet.costImpl.ConvNet.layers import ConvLayer, FackedConvLayer, BatchNorm, ReluActivation, UpSampling
 from ConvNet.costImpl.ConvNet.vol import Vol
 import numpy as np
 
@@ -320,7 +320,77 @@ class BatchNormTestCase(unittest.TestCase):
         self.logger.info('Difference: %s' % err)
         assert(err < 1.0e-6)
 
+class UpSamplingTestCase(unittest.TestCase):
+
+    logger = LoggerAdaptor("tests/test_conv_net.UpSamplingTestCase", _logger)
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    def test_forward(self):
+        # see http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
+        # make a 3 by 3 test image
+        imsize = 3
+        x_axis, y_axis = np.ogrid[:imsize, :imsize]
+        # repeat along channels 3 times
+        img = np.repeat((x_axis+y_axis)[..., np.newaxis], 3, 2) / float(imsize + imsize)
+
+        import cv2
+        # from skimage import io
+        import matplotlib
+        import matplotlib.pyplot as plt
+
+        def display(im):
+            figsize = (9, 9)
+            _, ax = plt.subplots(1, figsize=figsize)
+            height, width = im.shape[:2]
+            size = (width, height)
+            ax.set_ylim(height + 2, -2)
+            ax.set_xlim(-2, width + 2)
+            # ax.axis('off')
+            if np.max(im) < 1.0:
+                # ax.imshow(im)
+                pass
+            else:
+                # ax.imshow(im.astype(np.uint8))
+                pass
+            ax.imshow(im)
+            plt.show()
+
+        display(img)
+        # io.imshow(img, interpolation='none')
+
+        # constructed sample layer
+        # algorithm:
+        #  - BilinearInterpolation
+        #  - Conlv
+        # conlv_transpose:
+        #  - DilatedConv
+        #  - Rot90Conv
+        sampled = UpSampling(factor=3, algorithm="BilinearInterpolation", conlv_transpose=0)
+
+        # constructed input volume
+        inp = Vol(1, img.shape, init_gen=img.transpose([2,0,1]))
+
+        # upsampling
+        vol = sampled.forward(inp)
+
+        sampled_img = vol.w.transpose([1,2,0])
+        display(sampled_img)
+
+        # assert computed value with standard libraries by extracting comparing image data.
+
+        pass
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format=u"%(asctime)s [%(levelname)s]:%(filename)s, %(name)s, in line %(lineno)s >> %(message)s".encode('utf-8'))
-    unittest.main(testRunner=MyTestRunner)
+    TEST_ALL = False
+    if TEST_ALL:
+        unittest.main(testRunner=MyTestRunner)
+    else:
+        suite = unittest.TestSuite()
+        suite.addTest(UpSamplingTestCase("test_forward"))
+        runner = MyTestRunner()
+        runner.run(suite)
