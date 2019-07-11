@@ -31,7 +31,7 @@ inp_grad, filters_grad, bias_grad = layer.bp(vol_output)
 > The benchmark borrows techniques from Numeric Computing Mathematics and utilizes utilities
 provided by Stanford University
 
-```
+```text
 /anaconda/bin/python /Applications/PyCharm.app/Contents/helpers/pydev/pydevd.py --multiproc --client 127.0.0.1 --port 49974 --file "/Users/wangyi/GitHub/yiak.github.io/Correlation Metrics/ConvNet/tests/test_conv_net.py"
 /anaconda/lib/python2.7/site-packages/IPython/utils/traitlets.py:5: UserWarning: IPython.utils.traitlets has moved to a top-level traitlets package.
   warn("IPython.utils.traitlets has moved to a top-level traitlets package.")
@@ -88,7 +88,7 @@ Process finished with exit code 0
 
     FPN and ResNet50(101, 152, ...) form the foundation of the state of the art in the network architecture for features extraction in the realm of objects detection. FPN makes different scales of the same feature map and composes two stages of layers stacking method: bottom-up and top-down. It is top-down where we need `upsampling` from the smaller resolution feature map:
 
-```txt
+```text
         P_i = Add(Upsampling(P_{i+1}), Conv2D()(Ci)) 2<= i < 5
         P_5 = Conv2D()(C_5)
 ```
