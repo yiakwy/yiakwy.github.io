@@ -650,7 +650,7 @@ class UpSampling(Layer):
     [5] http://www.sfu.ca/~gchapman/e895/e895l11.pdf
     """
 
-    def __init__(self, factor=1, target_channels=None, algorithm='BilinearInterpolation', conlv_transpose=0):
+    def __init__(self, factor=1, target_channels=None, algorithm='BilinearInterpolation', conlv_transpose=1):
         """
 
         :param factor: inverse of the cmpr ratio, used in Deconlv algorithm

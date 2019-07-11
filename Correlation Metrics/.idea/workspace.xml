@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="56a47371-f73f-4535-8adb-f5076384e685" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" afterPath="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" afterPath="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" />
     </list>
     <ignored path="Correlation Metrics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,8 +32,8 @@
             <file leaf-file-name="layers.py" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.3325792" vertical-offset="11538" max-vertical-offset="12705">
-                    <caret line="779" column="0" selection-start-line="779" selection-start-column="0" selection-end-line="779" selection-end-column="0" />
+                  <state vertical-scroll-proportion="0.84162897" vertical-offset="9693" max-vertical-offset="12705">
+                    <caret line="671" column="0" selection-start-line="671" selection-start-column="0" selection-end-line="671" selection-end-column="0" />
                     <folding>
                       <element signature="e#1084#1114#0" expanded="true" />
                     </folding>
@@ -123,8 +122,8 @@
         <option value="$PROJECT_DIR$/ConvNet/costImpl/common/device.py" />
         <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/vol.py" />
         <option value="$PROJECT_DIR$/ConvNet/costImpl/common/graph.py" />
-        <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
         <option value="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" />
+        <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
       </list>
     </option>
   </component>
@@ -498,7 +497,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1438" height="873" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -955,21 +954,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3325792" vertical-offset="11538" max-vertical-offset="12705">
-          <caret line="779" column="0" selection-start-line="779" selection-start-column="0" selection-end-line="779" selection-end-column="0" />
-          <folding>
-            <element signature="e#1084#1114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ConvNet/tests/test_conv_net.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37062937" vertical-offset="5616" max-vertical-offset="6045">
           <caret line="385" column="0" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.84162897" vertical-offset="9693" max-vertical-offset="12705">
+          <caret line="671" column="0" selection-start-line="671" selection-start-column="0" selection-end-line="671" selection-end-column="0" />
+          <folding>
+            <element signature="e#1084#1114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
