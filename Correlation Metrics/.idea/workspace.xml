@@ -4,7 +4,6 @@
     <list default="true" id="56a47371-f73f-4535-8adb-f5076384e685" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" afterPath="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" afterPath="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Correlation Metrics.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -18,13 +17,35 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Correlation Metrics$tests.coverage" NAME="tests Coverage Results" MODIFIED="1562735813271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConvNet/costImpl" />
+    <SUITE FILE_PATH="coverage/Correlation Metrics$tests.coverage" NAME="tests Coverage Results" MODIFIED="1562812880530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ConvNet/costImpl" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
+  </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="layers.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state vertical-scroll-proportion="13.77828" vertical-offset="0" max-vertical-offset="12675">
+                    <caret line="406" column="7" selection-start-line="406" selection-start-column="7" selection-end-line="406" selection-end-column="7" />
+                    <folding>
+                      <element signature="e#1084#1114#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -35,8 +56,8 @@
       <file leaf-file-name="test_conv_net.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ConvNet/tests/test_conv_net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37062937" vertical-offset="5586" max-vertical-offset="6015">
-              <caret line="383" column="0" selection-start-line="383" selection-start-column="0" selection-end-line="383" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.4545455" vertical-offset="5151" max-vertical-offset="6045">
+              <caret line="385" column="12" selection-start-line="385" selection-start-column="12" selection-end-line="385" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -102,8 +123,8 @@
         <option value="$PROJECT_DIR$/ConvNet/costImpl/common/device.py" />
         <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/vol.py" />
         <option value="$PROJECT_DIR$/ConvNet/costImpl/common/graph.py" />
-        <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
         <option value="$PROJECT_DIR$/ConvNet/tests/test_conv_net.py" />
+        <option value="$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py" />
       </list>
     </option>
   </component>
@@ -111,8 +132,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="145" />
-    <option name="y" value="27" />
+    <option name="x" value="2" />
+    <option name="y" value="23" />
     <option name="width" value="1438" />
     <option name="height" value="873" />
   </component>
@@ -476,13 +497,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="145" y="27" width="1438" height="873" extended-state="6" />
-    <editor active="false" />
+    <frame x="2" y="23" width="1438" height="873" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39820743" sideWeight="0.8673611" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39820743" sideWeight="0.8673611" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39925373" sideWeight="0.13263889" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -545,22 +566,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py</url>
-          <line>756</line>
+          <line>777</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py</url>
-          <line>183</line>
+          <line>190</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py</url>
-          <line>818</line>
+          <line>839</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/ConvNet/tests/test_conv_net.py</url>
-          <line>383</line>
+          <line>385</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
@@ -578,9 +599,9 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="vol.w.shape" language="Python" />
-        <watch expression="self.out.w.shape" language="Python" />
-        <watch expression="out.shape" language="Python" />
+        <watch expression="res.shape" language="Python" />
+        <watch expression="inp.w" language="Python" />
+        <watch expression="X_col" language="Python" />
       </configuration>
     </watches-manager>
   </component>
@@ -941,8 +962,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ConvNet/costImpl/ConvNet/layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.9447982" vertical-offset="10328" max-vertical-offset="12360">
-          <caret line="781" column="0" selection-start-line="781" selection-start-column="0" selection-end-line="781" selection-end-column="0" />
+        <state vertical-scroll-proportion="13.77828" vertical-offset="0" max-vertical-offset="12675">
+          <caret line="406" column="7" selection-start-line="406" selection-start-column="7" selection-end-line="406" selection-end-column="7" />
           <folding>
             <element signature="e#1084#1114#0" expanded="true" />
           </folding>
@@ -951,8 +972,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ConvNet/tests/test_conv_net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37062937" vertical-offset="5586" max-vertical-offset="6015">
-          <caret line="383" column="0" selection-start-line="383" selection-start-column="0" selection-end-line="383" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.4545455" vertical-offset="5151" max-vertical-offset="6045">
+          <caret line="385" column="12" selection-start-line="385" selection-start-column="12" selection-end-line="385" selection-end-column="12" />
           <folding />
         </state>
       </provider>

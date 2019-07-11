@@ -151,6 +151,13 @@ class Layer(Node):
         l = kernel_depth*kernel_h*kernel_w
         size1 = (vol.batch_size, self.channel * kernel_h * kernel_w, self.out_nm_h * self.out_nm_w)
         ret = np.zeros(size1)
+
+        pad_default_val = 0
+        try:
+            pad_default_val = self.padding_default_val
+        except:
+            pass
+
         # loop through samples
         for i in range(vol.batch_size):
             for w0 in range(0, self.out_nm_w): # col first
@@ -179,7 +186,7 @@ class Layer(Node):
                     kernel_conlv = X[i,:, h1:h2, w1:w2]
                     col = np.pad(kernel_conlv, [(0,0), (pad_top, pad_bottom), (pad_left, pad_right)],
                                  mode='constant',
-                                 constant_values=0).flatten()
+                                 constant_values=pad_default_val).flatten() # row-major (C-style) order
                     if len(col) != l:
                         raise Exception("Wrong Padding")
 
@@ -230,6 +237,10 @@ class ConvLayer(Layer):
         self.out_nm_d = K
         self.out_nm_w = int(math.floor((self.in_nm_w + self.pad*2 - kernel_w) / self.strip + 1))
         self.out_nm_h = int(math.floor((self.in_nm_h + self.pad*2 - kernel_h) / self.strip + 1))
+
+        # padding defaults to 0
+        self.padding_default_val = 0
+
         # output Vol instance
         self.out = None
 
@@ -594,25 +605,27 @@ class UpSampling(Layer):
     Processing. In convolution neural network, since maxpooling is non invertible, upsampling is an approximation of
     reverse operation of max pooling, which used commonly by the Feature Pyramid Network (FPN) backbone.
 
-    FPN and ResNet50(101, 152, ...) form the foundation of the state of the art network architecture for features extraction
-     in the realm of objects detection. FPN makes different scales of the same feature map and  composes two stages of layers
-     stack: bottom-up and top-down. It is top-down where we need `upsampling` from the smaller resolution feature map:
+    FPN and ResNet50(101, 152, ...) form the foundation of the state of the art in the network architecture for features extraction
+     in the realm of objects detection. FPN makes different scales of the same feature map and composes two stages of layers
+     stacking method: bottom-up and top-down. It is top-down where we need `upsampling` from the smaller resolution feature map:
 
         P_i = Add(Upsampling(P_{i+1}), Conv2D()(Ci)) 2<= i < 5
         P_5 = Conv2D()(C_5)
 
     There are several implementation for that purpose:
 
-        - Unpooling:
+        - Unpooling: Unlike MaxPooling, Unpooling repeats nearest neighbor. From [keras documentation](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974),
+        we see that upsampling repeats rows and columns data by `factor`. As we can see from our tests, the operation loses details
+        in the bigger resampled feature map.
 
         - Deconvolution: The key idea is that we can perform the reverse of convolution and preserve the connectivity to obtain the original
         input resolution. We have implemented convolution layer and we know that the input data could be updated using
         `transposed convolution`[1] if stride is equal to 1 and `dilate`[2][3] for Bilinear Convolution Kernel[4][5].
 
-        - BilinearInterpolation:
+        - BilinearInterpolation: see [scikit-image implementation](https://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rescale),
+        it uses interpolation to upsample feature maps, and performs well both in details and overall effects.
 
-          From [keras documentation](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974), we see that
-          upsampling repeats rows and columns data by size[0] and size[1]
+
 
     In this implementation, I provide you with additional methods and test codes used for unit tests. I also recommand you to
     read this article to understand it better:
@@ -623,9 +636,14 @@ class UpSampling(Layer):
 
             - The sampling rate of samples should be double the maximum of frequences.
 
-    This implementation will compute best upsampling rates and automatically inference sampling factor.
+    This implementation will compute best upsampling rates and automatically inference sampling factor. The original upsampling factor
+    corresponds to sampling frequency. By Maximum Sampling Theorem, we could derive a cheap size for convolution kernel maintaining
+    the maximum information of original signals or feature maps.
 
-    [1]
+    The terminology of factor may come from the [scikit-image implementaiton](https://github.com/scikit-image/scikit-image/blob/master/skimage/transform/_warps.py#L187),
+    is the compression rate from an unsampled over its downsampled feature map.
+
+    [1] https://www.tensorflow.org/api_docs/python/tf/nn/conv2d_transpose
     [2] https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers
     [3] https://github.com/yiakwy/conv_arithmetic
     [4] https://dsp.stackexchange.com/questions/53200/bilinear-interpolation-implemented-by-convolution
@@ -670,6 +688,9 @@ class UpSampling(Layer):
         # by default, the layer is eliminated from trainning process.
         self.frazed = True
 
+        # padding defaults
+        self.padding_default_val = 1.0
+
         super(UpSampling, self).__init__(None, None, 1, 1, name='UpSampling')
 
     def Deconlv(self, inp):
@@ -677,7 +698,7 @@ class UpSampling(Layer):
         n = inp.batch_size
         self.channel, self.in_nm_h, self.in_nm_w = inp.spatial_size
 
-        # adapted codes from http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
+        # adapted codes of tensorflow implementation from http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
         def _get_kernel_size(stride):
             """
             :param stride: the stride of the transposed convolution
@@ -795,7 +816,7 @@ class UpSampling(Layer):
     def bp(self, inp):
         pass
 
-        # Transposed convolution
+    # Transposed convolution
     def conlv(self, target, grad, convs, index):
         '''
         Transposed Convolution

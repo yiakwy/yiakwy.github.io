@@ -329,7 +329,7 @@ class UpSamplingTestCase(unittest.TestCase):
         pass
 
     def test_forward(self):
-        # see http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
+        # see tensorflow implementation example: http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
         # make a 3 by 3 test image
         imsize = 3
         x_axis, y_axis = np.ogrid[:imsize, :imsize]
@@ -361,6 +361,8 @@ class UpSamplingTestCase(unittest.TestCase):
         display(img)
         # io.imshow(img, interpolation='none')
 
+        # check image upsamling with popular library: Scikit-Image
+
         # constructed sample layer
         # algorithm:
         #  - BilinearInterpolation
@@ -368,7 +370,7 @@ class UpSamplingTestCase(unittest.TestCase):
         # conlv_transpose:
         #  - DilatedConv
         #  - Rot90Conv
-        sampled = UpSampling(factor=3, algorithm="BilinearInterpolation", conlv_transpose=0)
+        sampled = UpSampling(factor=3, algorithm="Conlv", conlv_transpose=1)
 
         # constructed input volume
         inp = Vol(1, img.shape, init_gen=img.transpose([2,0,1]))
