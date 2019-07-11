@@ -744,8 +744,6 @@ class UpSampling(Layer):
         self.out_nm_w = self.in_nm_h * self.factor
         self.out_nm_h = self.in_nm_w * self.factor
 
-        self.pad = int(((self.in_nm_h - 1) * self.strip + kernel_h - self.out_nm_h) / float(2))
-
         res = np.zeros((n, K, self.out_nm_h, self.out_nm_w))
         # transposed filters to row
         if self.conlv_transpose == self.supported_conlv_transpose["Rot90Conv"]:
@@ -764,6 +762,7 @@ class UpSampling(Layer):
                 res[i,:] = out[:]
 
         elif self.conlv_transpose == self.supported_conlv_transpose["DilatedConv"]:
+            self.pad = int(((self.in_nm_h - 1) * self.strip + kernel_h - self.out_nm_h) / float(2))
             # (n, channel, oh, ow) <= (n, K , in_nm_h, in_nm_w) conv flipped(convs)
             X = inp.w
             W = convs

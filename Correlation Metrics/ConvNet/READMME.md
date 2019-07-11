@@ -79,3 +79,59 @@ OK
 
 Process finished with exit code 0
 ```
+
+## Sepical Operator Investigation
+
+### Upsampling
+
+    Upsampling is for resampling and interpolation of your input up to higher resolution. The terminology comes from Signal Processing. In convolution neural network, since maxpooling is non invertible, upsampling is an approximation of reverse operation of max pooling, which used commonly by the Feature Pyramid Network (FPN) backbone.
+
+    FPN and ResNet50(101, 152, ...) form the foundation of the state of the art in the network architecture for features extraction in the realm of objects detection. FPN makes different scales of the same feature map and composes two stages of layers stacking method: bottom-up and top-down. It is top-down where we need `upsampling` from the smaller resolution feature map:
+
+```txt
+        P_i = Add(Upsampling(P_{i+1}), Conv2D()(Ci)) 2<= i < 5
+        P_5 = Conv2D()(C_5)
+```
+
+    There are several implementation for that purpose:
+
+    - Unpooling: Unlike MaxPooling, Unpooling repeats nearest neighbor. From [keras documentation](https://github.com/keras-team/keras/blob/master/keras/layers/convolutional.py#L1974), we see that upsampling repeats rows and columns data by `factor`. As we can see from our tests, the operation loses details in the bigger resampled feature map.
+
+![Original](static/images/ori_img.png)
+
+![Unpooling](static/images/Bilinear_Upsampling_resize.png)
+
+    - Deconvolution: The key idea is that we can perform the reverse of convolution and preserve the connectivity to obtain the original
+        input resolution. We have implemented convolution layer and we know that the input data could be updated using
+        `transposed convolution`[1] if stride is close to 1 and `dilate`[2][3] for Bilinear Convolution Kernel[4][5].
+
+![Original](static/images/ori_img.png)
+
+![Dilated Convolution](static/images/zero_padding_Conv2dTranspose_Upsampling.png)
+
+        I compared it with commonly implementation by applying transpose of the bilinear kernel convolution
+
+![Rot90Conv](static/images/zero_padding_Rot90Conv_upsampling.png)
+
+    - BilinearInterpolation: see [scikit-image implementation](https://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rescale), it uses interpolation to upsample feature maps, and performs well both in details and overall effects.
+
+    In this implementation, I provide you with additional methods and test codes used for unit tests. I also recommand you to read this article to understand it better:
+
+    - http://warmspringwinds.github.io/tensorflow/tf-slim/2016/11/22/upsampling-and-image-segmentation-with-tensorflow-and-tf-slim/
+
+    [Maximum Sampling Theorem](http://avisynth.nl/index.php/Resampling):
+
+    - The sampling rate of samples should be double the maximum of frequences.
+
+    This implementation will compute best upsampling rates and automatically inference sampling factor. The original upsampling factor
+    corresponds to sampling frequency. By Maximum Sampling Theorem, we could derive a cheap size for convolution kernel maintaining
+    the maximum information of original signals or feature maps.
+
+    The terminology of factor may come from the [scikit-image implementaiton](https://github.com/scikit-image/scikit-image/blob/master/skimage/transform/_warps.py#L187),
+    is the compression rate from an unsampled over its downsampled feature map.
+
+    \[1\] https://www.tensorflow.org/api_docs/python/tf/nn/conv2d_transpose
+    \[2\] https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers
+    \[3\] https://github.com/yiakwy/conv_arithmetic
+    \[4\] https://dsp.stackexchange.com/questions/53200/bilinear-interpolation-implemented-by-convolution
+    \[5\] http://www.sfu.ca/~gchapman/e895/e895l11.pdf
