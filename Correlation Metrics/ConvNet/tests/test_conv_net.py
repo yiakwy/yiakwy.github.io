@@ -370,7 +370,7 @@ class UpSamplingTestCase(unittest.TestCase):
         # conlv_transpose:
         #  - DilatedConv
         #  - Rot90Conv
-        sampled = UpSampling(factor=3, algorithm="Conlv", conlv_transpose=1)
+        sampled = UpSampling(factor=3, algorithm="Conlv", conlv_transpose=0)
 
         # constructed input volume
         inp = Vol(1, img.shape, init_gen=img.transpose([2,0,1]))
@@ -381,7 +381,7 @@ class UpSamplingTestCase(unittest.TestCase):
         sampled_img = vol.w.transpose([1,2,0])
         display(sampled_img)
 
-        # assert computed value with standard libraries by extracting comparing image data.
+        # assert computed values with standard libraries by extracting comparing image data.
 
         pass
 

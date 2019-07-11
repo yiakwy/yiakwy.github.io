@@ -689,7 +689,7 @@ class UpSampling(Layer):
         self.frazed = True
 
         # padding defaults
-        self.padding_default_val = 1.0
+        self.padding_default_val = 0.0
 
         super(UpSampling, self).__init__(None, None, 1, 1, name='UpSampling')
 
@@ -740,14 +740,16 @@ class UpSampling(Layer):
 
         # compute out_nm
         self.out_nm_d = K
+        # see tf.layers.conv2d_transpose, when  padding='SAME'
         self.out_nm_w = self.in_nm_h * self.factor
         self.out_nm_h = self.in_nm_w * self.factor
 
-        self.pad = int(((self.out_nm_h - 1) * self.strip + kernel_h - self.in_nm_h) / float(2))
+        self.pad = int(((self.in_nm_h - 1) * self.strip + kernel_h - self.out_nm_h) / float(2))
 
         res = np.zeros((n, K, self.out_nm_h, self.out_nm_w))
         # transposed filters to row
         if self.conlv_transpose == self.supported_conlv_transpose["Rot90Conv"]:
+            self.pad = int(((self.out_nm_h - 1) * self.strip + kernel_h - self.in_nm_h) / float(2))
             W_row = convs.transpose((0, 1, 3, 2)).reshape(K, kernel_depth * kernel_h * kernel_w) # -1
 
             # img to col: (n, channel, in_nm_h, in_nm_w) => (n, kernel_depth * kernel_h * kernel_w, out_nm_h * out_nm_w)
